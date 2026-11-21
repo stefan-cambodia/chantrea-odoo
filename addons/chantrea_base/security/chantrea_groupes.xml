@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Deux profils internes. Les modules maison suivants (tickets,
+        interventions, parc) leur ajoutent les droits de leurs applications.
+    -->
+    <record id="privilege_chantrea" model="res.groups.privilege">
+        <field name="name">Chantrea Systems</field>
+        <field name="sequence">1</field>
+        <field name="category_id" ref="base.module_category_services"/>
+    </record>
+
+    <record id="groupe_technicien" model="res.groups">
+        <field name="name">Technician</field>
+        <field name="comment">Tickets, interventions, timesheets, projects and stock moves. No invoicing.</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="privilege_chantrea"/>
+        <field name="implied_ids" eval="[
+            (4, ref('base.group_user')),
+            (4, ref('project.group_project_user')),
+            (4, ref('hr_timesheet.group_hr_timesheet_user')),
+            (4, ref('stock.group_stock_user')),
+            (4, ref('sales_team.group_sale_salesman')),
+        ]"/>
+    </record>
+
+    <record id="groupe_direction" model="res.groups">
+        <field name="name">Management</field>
+        <field name="comment">Everything a technician can do, plus sales, purchases, invoicing and accounting settings.</field>
+        <field name="sequence">20</field>
+        <field name="privilege_id" ref="privilege_chantrea"/>
+        <field name="implied_ids" eval="[
+            (4, ref('groupe_technicien')),
+            (4, ref('project.group_project_manager')),
+            (4, ref('hr_timesheet.group_timesheet_manager')),
+            (4, ref('stock.group_stock_manager')),
+            (4, ref('sales_team.group_sale_manager')),
+            (4, ref('purchase.group_purchase_manager')),
+            (4, ref('account.group_account_manager')),
+        ]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

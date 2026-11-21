@@ -1,0 +1,27 @@
+{
+    "name": "Chantrea Systems – Base",
+    "summary": "Société, langues (fr/en/km), devises USD/KHR, portail, droits d'accès",
+    "version": "19.0.1.0.0",
+    "category": "Hidden",
+    "author": "Chantrea Systems",
+    "license": "LGPL-3",
+    "depends": [
+        "account",
+        "l10n_kh",
+        "auth_totp_mail",
+        "auth_signup",
+        "portal",
+        "contacts",
+        "sale_management",
+        "purchase",
+        "stock",
+        "project",
+        "hr_timesheet",
+    ],
+    "data": [
+        "security/chantrea_groupes.xml",
+        "data/parametres.xml",
+    ],
+    "post_init_hook": "post_init_hook",
+    "installable": True,
+}

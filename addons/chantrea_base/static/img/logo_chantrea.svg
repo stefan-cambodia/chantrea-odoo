@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 8 154 154" width="340" height="340">
+<!-- Logo « pingouin dans le croissant », repris du site chantrea (couleurs du mode clair), fond transparent. -->
+<mask id="m"><rect width="170" height="170" fill="#fff"/><circle cx="112" cy="62" r="64" fill="#000"/></mask>
+<circle cx="85" cy="85" r="76" fill="#1f6b3c" mask="url(#m)"/>
+<g transform="translate(100 98) scale(.62)">
+<ellipse cx="0" cy="10" rx="30" ry="42" fill="#0f1412" stroke="#0f1412" stroke-width="5"/><circle cx="0" cy="-30" r="22" fill="#0f1412" stroke="#0f1412" stroke-width="5"/>
+<ellipse cx="0" cy="12" rx="22" ry="32" fill="#0f1412"/><ellipse cx="0" cy="18" rx="19" ry="28" fill="#f3efe6"/>
+<circle cx="-8" cy="-34" r="5" fill="#f3efe6"/><circle cx="8" cy="-34" r="5" fill="#f3efe6"/>
+<circle cx="-7" cy="-33" r="2.4" fill="#0f1412"/><circle cx="9" cy="-33" r="2.4" fill="#0f1412"/>
+<ellipse cx="0" cy="-23" rx="9" ry="5" fill="#d9a441"/><ellipse cx="-14" cy="52" rx="13" ry="6" fill="#d9a441"/><ellipse cx="14" cy="52" rx="13" ry="6" fill="#d9a441"/>
+</g>
+</svg>

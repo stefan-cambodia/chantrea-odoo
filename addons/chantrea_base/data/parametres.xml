@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- noupdate : appliqués à l'installation seulement ; un réglage changé
+         ensuite dans l'interface n'est pas écrasé par une mise à jour. -->
+
+    <!-- Double authentification obligatoire pour les utilisateurs internes. -->
+    <function model="ir.config_parameter" name="set_param"
+              eval="('auth_totp.policy', 'employee_required')"/>
+
+    <!-- Espace client : accès uniquement sur invitation (pas d'inscription libre). -->
+    <function model="ir.config_parameter" name="set_param"
+              eval="('auth_signup.invitation_scope', 'b2b')"/>
+
+    <!-- Le moteur PDF (wkhtmltopdf) charge les styles depuis Odoo : il doit passer
+         par l'adresse interne du réseau Docker, pas par l'adresse publique HTTPS. -->
+    <function model="ir.config_parameter" name="set_param"
+              eval="('report.url', 'http://odoo:8069')"/>
+
+    <!-- Les clients peuvent réinitialiser eux-mêmes leur mot de passe. -->
+    <function model="ir.config_parameter" name="set_param"
+              eval="('auth_signup.reset_password', 'True')"/>
+</odoo>
