@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Facture client et avoir, khmer + anglais. Variante : facture de TVA ou commerciale. -->
+    <template id="document_facture_kh">
+        <t t-call="chantrea_kh_facture.mise_en_page_kh">
+            <t t-set="doc" t-value="o"/>
+            <t t-set="v" t-value="o._chantrea_valeurs_impression()"/>
+            <t t-set="avec_detail_tva" t-value="o.chantrea_type_facture == 'tva'"/>
+            <div class="page" t-translation="off">
+                <div class="ck-titre">
+                    <t t-if="o.move_type == 'out_refund'">
+                        <span class="km">លិខិតឥណទាន</span><span class="en">CREDIT NOTE</span>
+                    </t>
+                    <t t-elif="o.chantrea_type_facture == 'tva'">
+                        <span class="km">វិក្កយបត្រអាករ</span><span class="en">TAX INVOICE</span>
+                    </t>
+                    <t t-else="">
+                        <span class="km">វិក្កយបត្រពាណិជ្ជកម្ម</span><span class="en">COMMERCIAL INVOICE</span>
+                    </t>
+                    <div t-if="o.state == 'draft'" class="ck-etat">
+                        <span class="km-inline">សេចក្តីព្រាង</span> / <span class="en-inline">DRAFT</span>
+                    </div>
+                    <div t-if="o.state == 'cancel'" class="ck-etat">
+                        <span class="km-inline">បានលុបចោល</span> / <span class="en-inline">CANCELLED</span>
+                    </div>
+                </div>
+
+                <table class="ck-cartouche">
+                    <tr>
+                        <td class="ck-cartouche-client">
+                            <t t-call="chantrea_kh_facture.bloc_client">
+                                <t t-set="client" t-value="o.partner_id"/>
+                            </t>
+                        </td>
+                        <td class="ck-cartouche-doc">
+                            <table class="ck-champs">
+                                <tr>
+                                    <th>
+                                        <t t-if="o.move_type == 'out_refund'"><span class="km">លេខលិខិតឥណទាន</span><span class="en">Credit note No.</span></t>
+                                        <t t-else=""><span class="km">លេខរៀងវិក្កយបត្រ</span><span class="en">Invoice No.</span></t>
+                                    </th>
+                                    <td><strong t-out="o.name if o.name and o.name != '/' else '—'"/></td>
+                                </tr>
+                                <tr>
+                                    <th><span class="km">កាលបរិច្ឆេទ</span><span class="en">Date</span></th>
+                                    <td t-out="o.invoice_date.strftime('%d/%m/%Y') if o.invoice_date else '—'"/>
+                                </tr>
+                                <tr t-if="o.invoice_date_due and o.move_type == 'out_invoice'">
+                                    <th><span class="km">ថ្ងៃផុតកំណត់ទូទាត់</span><span class="en">Due date</span></th>
+                                    <td t-out="o.invoice_date_due.strftime('%d/%m/%Y')"/>
+                                </tr>
+                                <tr t-if="o.reversed_entry_id">
+                                    <th><span class="km">វិក្កយបត្រដើម</span><span class="en">Original invoice</span></th>
+                                    <td t-out="o.reversed_entry_id.name"/>
+                                </tr>
+                                <tr t-if="o.invoice_origin">
+                                    <th><span class="km">ឯកសារយោង</span><span class="en">Reference</span></th>
+                                    <td t-out="o.invoice_origin"/>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <t t-set="lignes" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+                <t t-set="produits" t-value="lignes.filtered(lambda l: l.display_type == 'product')"/>
+                <t t-set="avec_remise" t-value="any(produits.mapped('discount'))"/>
+                <table class="ck-lignes">
+                    <thead>
+                        <tr>
+                            <th class="ck-no"><span class="km">ល.រ</span><span class="en">No.</span></th>
+                            <th><span class="km">បរិយាយមុខទំនិញ</span><span class="en">Description</span></th>
+                            <th class="ck-num"><span class="km">បរិមាណ</span><span class="en">Quantity</span></th>
+                            <th class="ck-num"><span class="km">ថ្លៃឯកតា</span><span class="en">Unit price</span></th>
+                            <th t-if="avec_remise" class="ck-num"><span class="km">បញ្ចុះតម្លៃ %</span><span class="en">Discount %</span></th>
+                            <th class="ck-num"><span class="km">ថ្លៃទំនិញ</span><span class="en">Amount</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="lignes" t-as="l">
+                            <tr t-if="l.display_type == 'product'">
+                                <td class="ck-no" t-out="produits.ids.index(l.id) + 1"/>
+                                <td t-out="l.name"/>
+                                <td class="ck-num"><span t-field="l.quantity"/> <span t-field="l.product_uom_id"/></td>
+                                <td class="ck-num"><span t-field="l.price_unit"/></td>
+                                <td t-if="avec_remise" class="ck-num"><span t-if="l.discount" t-field="l.discount"/></td>
+                                <td class="ck-num"><span t-field="l.price_subtotal"/></td>
+                            </tr>
+                            <tr t-elif="l.display_type in ('line_section', 'line_subsection')" class="ck-section">
+                                <td t-att-colspan="6 if avec_remise else 5" t-out="l.name"/>
+                            </tr>
+                            <tr t-elif="l.display_type == 'line_note'" class="ck-note">
+                                <td t-att-colspan="6 if avec_remise else 5" t-out="l.name"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div class="ck-bas">
+                    <t t-call="chantrea_kh_facture.bloc_totaux"/>
+                </div>
+
+                <div t-if="o.move_type == 'out_invoice' and o.payment_reference" class="ck-paiement">
+                    <span class="km-inline">សេចក្តីយោងការទូទាត់</span> / <span class="en-inline">Payment reference</span> :
+                    <strong t-out="o.payment_reference"/>
+                    <t t-if="o.partner_bank_id">
+                        — <span class="km-inline">គណនីធនាគារ</span> / <span class="en-inline">Bank account</span> :
+                        <span t-out="o.partner_bank_id.bank_id.name"/> <span t-out="o.partner_bank_id.acc_number"/>
+                    </t>
+                </div>
+                <div t-if="not is_html_empty(o.narration)" class="ck-conditions" t-field="o.narration"/>
+
+                <table class="ck-signatures">
+                    <tr>
+                        <td><span class="km">ហត្ថលេខា និងឈ្មោះអ្នកទិញ</span><span class="en">Customer's signature and name</span></td>
+                        <td><span class="km">ហត្ថលេខា និងឈ្មោះអ្នកលក់</span><span class="en">Seller's signature and name</span></td>
+                    </tr>
+                </table>
+                <div class="ck-mention">
+                    <span class="km">ចំណាំ៖ ច្បាប់ដើមសម្រាប់អ្នកទិញ ច្បាប់ចម្លងសម្រាប់អ្នកលក់</span>
+                    <span class="en">Note: original for the customer, copy for the seller</span>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

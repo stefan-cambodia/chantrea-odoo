@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Éléments communs aux devis et factures cambodgiens.
+
+    Convention : chaque libellé imprimé est une paire
+        <span class="km">texte khmer</span><span class="en">English text</span>
+    Le khmer est au-dessus, l'anglais juste en dessous. Ces paires sont
+    extraites par scripts/relecture_km.py pour la relecture par un locuteur natif.
+    t-translation="off" : ces textes ne sont jamais traduits automatiquement.
+-->
+<odoo>
+    <!-- Mise en page : en-tête vendeur bilingue, pied de page numéroté. -->
+    <template id="mise_en_page_kh">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-set="company" t-value="o.company_id.sudo()"/>
+        <div class="header o_chantrea_kh" t-translation="off">
+            <table class="ck-entete">
+                <tr>
+                    <td class="ck-logo">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    </td>
+                    <td class="ck-vendeur">
+                        <div t-if="company.chantrea_nom_km" class="ck-nom-km" t-out="company.chantrea_nom_km"/>
+                        <div class="ck-nom" t-out="company.name"/>
+                        <div class="ck-ligne">
+                            <span class="km-inline">លេខអត្តសញ្ញាណកម្ម អតប</span> / <span class="en-inline">VATTIN</span> :
+                            <strong t-out="company.vat or '—'"/>
+                        </div>
+                        <div class="ck-ligne" t-out="company.partner_id._chantrea_adresse_ligne()"/>
+                        <div class="ck-ligne">
+                            <t t-if="company.phone"><span t-out="company.phone"/></t>
+                            <t t-if="company.phone and company.email"> · </t>
+                            <t t-if="company.email"><span t-out="company.email"/></t>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="article o_chantrea_kh" t-translation="off"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-out="0"/>
+        </div>
+        <div class="footer o_chantrea_kh" t-translation="off">
+            <table class="ck-pied">
+                <tr>
+                    <td t-out="o.name if o.name and o.name != '/' else ''"/>
+                    <td class="text-end" t-if="report_type == 'pdf'">
+                        <span class="km-inline">ទំព័រ</span> / Page <span class="page"/> / <span class="topage"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+    <!-- Bloc client (partie gauche du cartouche). Paramètre : client (res.partner). -->
+    <template id="bloc_client">
+        <t t-set="societe_cliente" t-value="client.commercial_partner_id"/>
+        <table class="ck-champs" t-translation="off">
+            <tr>
+                <th><span class="km">ឈ្មោះក្រុមហ៊ុន ឬ អតិថិជន</span><span class="en">Company or customer name</span></th>
+                <td>
+                    <strong t-out="societe_cliente.name"/>
+                    <div t-if="client != societe_cliente" t-out="client.name"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="km">អាសយដ្ឋាន</span><span class="en">Address</span></th>
+                <td t-out="client._chantrea_adresse_ligne() or societe_cliente._chantrea_adresse_ligne()"/>
+            </tr>
+            <tr t-if="client.phone or societe_cliente.phone">
+                <th><span class="km">ទូរស័ព្ទលេខ</span><span class="en">Telephone No.</span></th>
+                <td t-out="client.phone or societe_cliente.phone"/>
+            </tr>
+            <tr>
+                <th><span class="km">លេខអត្តសញ្ញាណកម្ម អតប</span><span class="en">VATTIN</span></th>
+                <td t-out="societe_cliente.vat or '—'"/>
+            </tr>
+        </table>
+    </template>
+
+    <!-- Totaux en USD et en KHR, taux et date. Paramètres : doc, v (_chantrea_valeurs_impression), avec_detail_tva -->
+    <template id="bloc_totaux">
+        <t t-set="m" t-value="v['montants']"/>
+        <t t-set="khr" t-value="doc.env.ref('base.KHR')"/>
+        <t t-set="usd" t-value="doc.env.ref('base.USD')"/>
+        <table class="ck-totaux" t-translation="off">
+            <tr>
+                <th><span class="km">សរុប</span><span class="en">Sub-total</span></th>
+                <td><span t-field="doc.amount_untaxed"/></td>
+            </tr>
+            <t t-foreach="doc.tax_totals['subtotals']" t-as="sous_total">
+                <tr t-foreach="sous_total['tax_groups']" t-as="groupe">
+                    <th><span class="km">អាករ</span><span class="en" t-out="groupe['group_name']"/></th>
+                    <td><span t-out="groupe['tax_amount_currency']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></td>
+                </tr>
+            </t>
+            <tr class="ck-grand-total">
+                <th><span class="km">សរុបរួម</span><span class="en">Grand total</span></th>
+                <td><span t-field="doc.amount_total"/></td>
+            </tr>
+
+            <t t-if="m and doc.currency_id == usd">
+                <tr t-if="avec_detail_tva" class="ck-riel">
+                    <th><span class="km">សរុបមិនរួមអាករ ជាប្រាក់រៀល</span><span class="en">Sub-total in riels</span></th>
+                    <td><span t-out="m['ht_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
+                </tr>
+                <tr t-if="avec_detail_tva" class="ck-riel">
+                    <th><span class="km">អាករ ជាប្រាក់រៀល</span><span class="en">Tax in riels</span></th>
+                    <td><span t-out="m['tva_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
+                </tr>
+                <tr class="ck-grand-total ck-riel">
+                    <th><span class="km">សរុបរួមជាប្រាក់រៀល</span><span class="en">Grand total in riels</span></th>
+                    <td><span t-out="m['total_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
+                </tr>
+            </t>
+            <t t-if="m and doc.currency_id == khr">
+                <tr class="ck-grand-total ck-riel">
+                    <th><span class="km">សរុបរួមជាប្រាក់ដុល្លារអាមេរិក</span><span class="en">Grand total in US dollars</span></th>
+                    <td><span t-out="m['total_usd']" t-options="{'widget': 'monetary', 'display_currency': usd}"/></td>
+                </tr>
+            </t>
+        </table>
+
+        <div class="ck-taux" t-if="m" t-translation="off">
+            <span class="km-inline">អត្រាប្តូរប្រាក់</span> / <span class="en-inline">Exchange rate</span> :
+            <strong>1 USD = <span t-out="v['taux']" t-options="{'widget': 'float', 'precision': 0 if v['taux'] == int(v['taux']) else 2}"/> KHR</strong>
+            — <t t-out="v['date'].strftime('%d/%m/%Y')"/>
+            <t t-if="v['source'] == 'gdt'">— <span class="km-inline">អគ្គនាយកដ្ឋានពន្ធដារ</span> (<span class="en-inline">GDT</span>)</t>
+            <t t-elif="v['source'] == 'nbc'">— <span class="km-inline">ធនាគារជាតិនៃកម្ពុជា</span> (<span class="en-inline">NBC</span>)</t>
+            <t t-else="">— <span class="km-inline">បញ្ចូលដោយដៃ</span> (<span class="en-inline">manual entry</span>)</t>
+            <div t-if="v['provisoire']" class="ck-provisoire">
+                <span class="km">អត្រាបណ្ដោះអាសន្ន សម្រាប់ជាព័ត៌មានប៉ុណ្ណោះ</span><span class="en">Provisional rate, for information only</span>
+            </div>
+        </div>
+        <div class="ck-taux ck-alerte" t-if="not m and doc.currency_id in (usd | khr)" t-translation="off">
+            <span class="km">មិនទាន់មានអត្រាប្តូរប្រាក់ផ្លូវការ</span><span class="en">Official exchange rate not yet available</span>
+        </div>
+    </template>
+
+    <!-- Choix du modèle bilingue à l'impression (facture, devis, pro forma). -->
+    <template id="report_invoice" inherit_id="account.report_invoice">
+        <xpath expr="//t[@t-call='account.report_invoice_document']" position="after">
+            <t t-elif="o._get_name_invoice_report() == 'chantrea_kh_facture.document_facture_kh'"
+               t-call="chantrea_kh_facture.document_facture_kh" t-lang="'en_US'"/>
+        </xpath>
+    </template>
+
+    <template id="report_saleorder_raw" inherit_id="sale.report_saleorder_raw">
+        <xpath expr="//t[@t-call='sale.report_saleorder_document']" position="attributes">
+            <attribute name="t-call">chantrea_kh_facture.document_devis_kh</attribute>
+            <attribute name="t-lang">'en_US'</attribute>
+        </xpath>
+    </template>
+
+    <template id="report_saleorder_pro_forma" inherit_id="sale.report_saleorder_pro_forma">
+        <xpath expr="//t[@t-call='sale.report_saleorder_document']" position="attributes">
+            <attribute name="t-call">chantrea_kh_facture.document_devis_kh</attribute>
+            <attribute name="t-lang">'en_US'</attribute>
+        </xpath>
+    </template>
+</odoo>

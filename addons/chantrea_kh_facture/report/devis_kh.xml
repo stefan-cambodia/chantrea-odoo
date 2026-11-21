@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Devis, bon de commande et facture pro forma, khmer + anglais. -->
+    <template id="document_devis_kh">
+        <t t-call="chantrea_kh_facture.mise_en_page_kh">
+            <t t-set="o" t-value="doc"/>
+            <t t-set="v" t-value="doc._chantrea_valeurs_impression()"/>
+            <t t-set="avec_detail_tva" t-value="False"/>
+            <div class="page" t-translation="off">
+                <div class="ck-titre">
+                    <t t-if="is_pro_forma">
+                        <span class="km">វិក្កយបត្របណ្ដោះអាសន្ន</span><span class="en">PRO-FORMA INVOICE</span>
+                    </t>
+                    <t t-elif="doc.state == 'sale'">
+                        <span class="km">ប័ណ្ណបញ្ជាទិញ</span><span class="en">SALES ORDER</span>
+                    </t>
+                    <t t-else="">
+                        <span class="km">សម្រង់តម្លៃ</span><span class="en">QUOTATION</span>
+                    </t>
+                    <div t-if="doc.state == 'cancel'" class="ck-etat">
+                        <span class="km-inline">បានលុបចោល</span> / <span class="en-inline">CANCELLED</span>
+                    </div>
+                </div>
+
+                <table class="ck-cartouche">
+                    <tr>
+                        <td class="ck-cartouche-client">
+                            <t t-call="chantrea_kh_facture.bloc_client">
+                                <t t-set="client" t-value="doc.partner_id"/>
+                            </t>
+                        </td>
+                        <td class="ck-cartouche-doc">
+                            <table class="ck-champs">
+                                <tr>
+                                    <th>
+                                        <t t-if="doc.state == 'sale'"><span class="km">លេខប័ណ្ណបញ្ជាទិញ</span><span class="en">Order No.</span></t>
+                                        <t t-else=""><span class="km">លេខសម្រង់តម្លៃ</span><span class="en">Quotation No.</span></t>
+                                    </th>
+                                    <td><strong t-out="doc.name"/></td>
+                                </tr>
+                                <tr>
+                                    <th><span class="km">កាលបរិច្ឆេទ</span><span class="en">Date</span></th>
+                                    <td t-out="context_timestamp(doc.date_order).strftime('%d/%m/%Y')"/>
+                                </tr>
+                                <tr t-if="doc.validity_date and doc.state in ('draft', 'sent')">
+                                    <th><span class="km">មានសុពលភាពរហូតដល់</span><span class="en">Valid until</span></th>
+                                    <td t-out="doc.validity_date.strftime('%d/%m/%Y')"/>
+                                </tr>
+                                <tr t-if="doc.client_order_ref">
+                                    <th><span class="km">ឯកសារយោង</span><span class="en">Reference</span></th>
+                                    <td t-out="doc.client_order_ref"/>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <t t-set="lignes" t-value="doc._get_order_lines_to_report()"/>
+                <t t-set="produits" t-value="lignes.filtered(lambda l: not l.display_type)"/>
+                <t t-set="avec_remise" t-value="any(produits.mapped('discount'))"/>
+                <table class="ck-lignes">
+                    <thead>
+                        <tr>
+                            <th class="ck-no"><span class="km">ល.រ</span><span class="en">No.</span></th>
+                            <th><span class="km">បរិយាយមុខទំនិញ</span><span class="en">Description</span></th>
+                            <th class="ck-num"><span class="km">បរិមាណ</span><span class="en">Quantity</span></th>
+                            <th class="ck-num"><span class="km">ថ្លៃឯកតា</span><span class="en">Unit price</span></th>
+                            <th t-if="avec_remise" class="ck-num"><span class="km">បញ្ចុះតម្លៃ %</span><span class="en">Discount %</span></th>
+                            <th class="ck-num"><span class="km">ថ្លៃទំនិញ</span><span class="en">Amount</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="lignes" t-as="l">
+                            <tr t-if="not l.display_type">
+                                <td class="ck-no" t-out="produits.ids.index(l.id) + 1"/>
+                                <td t-out="l.name"/>
+                                <td class="ck-num"><span t-field="l.product_uom_qty"/> <span t-field="l.product_uom_id"/></td>
+                                <td class="ck-num"><span t-field="l.price_unit"/></td>
+                                <td t-if="avec_remise" class="ck-num"><span t-if="l.discount" t-field="l.discount"/></td>
+                                <td class="ck-num"><span t-field="l.price_subtotal"/></td>
+                            </tr>
+                            <tr t-elif="l.display_type in ('line_section', 'line_subsection')" class="ck-section">
+                                <td t-att-colspan="6 if avec_remise else 5" t-out="l.name"/>
+                            </tr>
+                            <tr t-elif="l.display_type == 'line_note'" class="ck-note">
+                                <td t-att-colspan="6 if avec_remise else 5" t-out="l.name"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <div class="ck-bas">
+                    <t t-call="chantrea_kh_facture.bloc_totaux"/>
+                </div>
+
+                <div t-if="not is_html_empty(doc.note)" class="ck-conditions" t-field="doc.note"/>
+
+                <table class="ck-signatures">
+                    <tr>
+                        <td><span class="km">ហត្ថលេខា ឈ្មោះ និងកាលបរិច្ឆេទ អ្នកទិញ (យល់ព្រម)</span><span class="en">Customer's signature, name and date (accepted)</span></td>
+                        <td><span class="km">ហត្ថលេខា និងឈ្មោះអ្នកលក់</span><span class="en">Seller's signature and name</span></td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

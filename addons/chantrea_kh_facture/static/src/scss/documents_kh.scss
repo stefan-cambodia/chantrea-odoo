@@ -1,0 +1,94 @@
+// Devis et factures cambodgiens : khmer au-dessus, anglais en dessous.
+// Couleurs de la charte Chantrea Systems (site chantrea, mode « chrome »).
+$ck-vert: #1f6b3c;
+$ck-or: #d9a441;
+$ck-encre: #0f1412;
+$ck-gris: #5e574d;
+$ck-creme: #f3efe6;
+$ck-filet: #d6cdb9;
+
+// wkhtmltopdf ne gère pas flexbox : mise en page en tableaux uniquement.
+.o_chantrea_kh {
+    font-family: "Noto Sans Khmer", "Noto Sans", sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: $ck-encre;
+
+    table { width: 100%; border-collapse: collapse; }
+    th { font-weight: normal; text-align: left; }
+    // Les feuilles de style d'Odoo tracent des bordures sur toutes les cellules :
+    // on les retire, puis chaque tableau définit les siennes ci-dessous.
+    // (wkhtmltopdf dessine aussi celles de tbody/thead/tr avec Bootstrap 5.)
+    table, tbody, thead, tfoot, tr, td, th { border: 0 none !important; }
+
+    // Paire de libellés empilés.
+    .km { display: block; font-weight: 700; }
+    .en { display: block; font-size: 0.82em; color: $ck-gris; line-height: 1.2; }
+    // Paire de libellés sur une ligne.
+    .km-inline { font-weight: 700; }
+    .en-inline { color: $ck-gris; }
+
+    // En-tête vendeur
+    .ck-entete td { border-bottom: 2px solid $ck-vert !important; }
+    .ck-entete td { vertical-align: middle; padding-bottom: 6px; }
+    .ck-logo { width: 30%; }
+    .ck-logo img { max-height: 62px; max-width: 200px; }
+    .ck-vendeur { text-align: right; font-size: 8.5pt; }
+    .ck-nom-km { font-size: 13pt; font-weight: 700; color: $ck-vert; }
+    .ck-nom { font-size: 12pt; font-weight: 700; color: $ck-vert; }
+    .ck-ligne { color: $ck-gris; }
+
+    // Titre du document
+    .ck-titre { text-align: center; margin: 6px 0 14px; }
+    .ck-titre .km { font-size: 17pt; color: $ck-vert; line-height: 1.6; }
+    .ck-titre .en { font-size: 11pt; font-weight: 700; letter-spacing: 0.12em; color: $ck-encre; }
+    .ck-etat { margin-top: 4px; color: #b3261e; font-weight: 700; }
+
+    // Cartouche client / document
+    .ck-cartouche { margin-bottom: 12px; }
+    .ck-cartouche > tbody > tr > td, .ck-cartouche > tr > td { vertical-align: top; }
+    .ck-cartouche-client { width: 58%; padding-right: 16px; }
+    .ck-champs th { width: 42%; padding: 3px 6px 3px 0; vertical-align: top; }
+    .ck-champs th, .ck-champs td { border-bottom: 1px dotted $ck-filet !important; }
+    .ck-champs td { padding: 3px 0; vertical-align: top; }
+
+    // Lignes
+    .ck-lignes thead th {
+        background: $ck-vert; color: #fff; padding: 4px 6px; vertical-align: bottom;
+        border: 1px solid $ck-vert !important;
+    }
+    .ck-lignes thead .en { color: #e9f3ea; }
+    .ck-lignes td { padding: 4px 6px; border: 1px solid $ck-filet !important; vertical-align: top; }
+    .ck-lignes tbody tr { page-break-inside: avoid; }
+    .ck-no { width: 7%; text-align: center; }
+    .ck-num { text-align: right; white-space: nowrap; }
+    .ck-lignes thead .ck-num { text-align: right; }
+    .ck-section td { background: $ck-creme; font-weight: 700; }
+    .ck-note td { font-style: italic; color: $ck-gris; }
+
+    // Totaux
+    .ck-bas { margin-top: 10px; page-break-inside: avoid; }
+    .ck-totaux { width: 55%; margin-left: 45%; }
+    .ck-totaux th { padding: 3px 8px; border-bottom: 1px solid $ck-filet !important; }
+    .ck-totaux td { padding: 3px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid $ck-filet !important; vertical-align: bottom; }
+    .ck-grand-total th, .ck-grand-total td { background: $ck-creme; font-weight: 700; font-size: 10.5pt; border-bottom: 2px solid $ck-vert !important; }
+    .ck-riel th { border-left: 3px solid $ck-or !important; }
+    .ck-taux { width: 55%; margin-left: 45%; margin-top: 6px; padding: 5px 8px; font-size: 8.5pt; background: #fbf8f1; border: 1px solid $ck-filet; }
+    .ck-provisoire { margin-top: 3px; color: #8a5a00; }
+    .ck-alerte { color: #b3261e; }
+
+    .ck-paiement { margin-top: 14px; font-size: 9pt; }
+    .ck-conditions { margin-top: 10px; font-size: 8.5pt; color: $ck-gris; }
+
+    // Signatures
+    .ck-signatures { margin-top: 28px; page-break-inside: avoid; }
+    .ck-signatures td { width: 50%; text-align: center; vertical-align: top; padding: 60px 20px 0; }
+    .ck-signatures td > .km { border-top: 1px solid $ck-encre; padding-top: 4px; }
+    .ck-mention { margin-top: 14px; text-align: center; font-size: 8pt; }
+    .ck-mention .km { font-weight: normal; }
+
+    // Pied de page
+    .ck-pied { font-size: 8pt; color: $ck-gris; }
+    .ck-pied td { border-top: 1px solid $ck-filet !important; }
+    .ck-pied td { padding-top: 3px; }
+}
