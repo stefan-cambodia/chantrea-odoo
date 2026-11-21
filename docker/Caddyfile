@@ -1,0 +1,24 @@
+# Proxy HTTPS devant Odoo.
+# DOMAINE vient de .env : « localhost » en local (certificat interne de Caddy),
+# le vrai nom de domaine sur le serveur (certificat Let's Encrypt automatique).
+{$DOMAINE} {
+	encode zstd gzip
+
+	# Le gestionnaire de bases n'est jamais exposé sur Internet
+	# (déjà désactivé par list_db = False ; double protection).
+	@gestion_bases path /web/database*
+	respond @gestion_bases 404
+
+	# Notifications temps réel (bus / websocket) : processus gevent d'Odoo.
+	@websocket path /websocket*
+	reverse_proxy @websocket odoo:8072
+
+	reverse_proxy odoo:8069
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+}

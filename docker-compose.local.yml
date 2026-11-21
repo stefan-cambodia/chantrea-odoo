@@ -1,0 +1,17 @@
+# Ajouts pour le poste de développement UNIQUEMENT (jamais sur le serveur).
+services:
+  odoo:
+    volumes:
+      # Code monté en direct : pas besoin de reconstruire l'image à chaque modification.
+      - ./addons:/opt/chantrea/addons:ro
+      - ./oca:/opt/chantrea/oca:ro
+    environment:
+      ADMIN_LOCAL_PASSWORD: ${ADMIN_LOCAL_PASSWORD:-}
+
+  # Boîte aux lettres de test : tous les courriels envoyés par Odoo y arrivent.
+  # Interface : http://localhost:8025
+  mailpit:
+    image: axllent/mailpit@sha256:23a2ef85bc50853ab3093645d1d64679afd8887e89da5e48a88940c172591a4e
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025"
