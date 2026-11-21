@@ -1,0 +1,20 @@
+[submodule "oca/helpdesk"]
+	path = oca/helpdesk
+	url = https://github.com/OCA/helpdesk.git
+	branch = 19.0
+[submodule "oca/contract"]
+	path = oca/contract
+	url = https://github.com/OCA/contract.git
+	branch = 19.0
+[submodule "oca/field-service"]
+	path = oca/field-service
+	url = https://github.com/OCA/field-service.git
+	branch = 19.0
+[submodule "oca/timesheet"]
+	path = oca/timesheet
+	url = https://github.com/OCA/timesheet.git
+	branch = 19.0
+[submodule "oca/sign"]
+	path = oca/sign
+	url = https://github.com/OCA/sign.git
+	branch = 19.0
