@@ -29,3 +29,7 @@ fieldservice_portal
 fieldservice_sign
 fieldservice_account
 fieldservice_stock
+
+# Modules maison (addons/)
+chantrea_base
+chantrea_kh_facture

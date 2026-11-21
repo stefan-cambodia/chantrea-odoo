@@ -31,8 +31,7 @@ run odoo shell -d "$DB" --no-http < scripts/lib/config_initiale.py
 echo "==> 3/4 Installation des modules"
 MODULES=$(grep -vE '^\s*(#|$)' scripts/modules.txt | paste -sd, -)
 run odoo -d "$DB" -i "$MODULES" --stop-after-init --no-http
-# l10n_kh impose le KHR : on remet l'USD tant qu'aucune écriture n'existe.
-run odoo shell -d "$DB" --no-http < scripts/lib/config_apres_installation.py
+run odoo shell -d "$DB" --no-http --log-level=warn < scripts/lib/recuperer_taux.py
 
 echo "==> 4/4 Démarrage"
 docker compose up -d
