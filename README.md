@@ -30,8 +30,15 @@ scripts/init_local.sh
 ```
 
 Le script construit l'image, crée la base `chantrea` en français, règle la société
-(Cambodge, USD, riel actif), installe tous les modules et affiche leur état.
+(Cambodge, USD, riel actif), installe tous les modules (dont les modules maison),
+récupère le taux officiel USD/KHR et affiche l'état des modules.
 Il refuse de tourner si la base existe déjà.
+
+Données de démonstration (poste local uniquement, refusé si `DOMAINE` n'est pas `localhost`) :
+
+```bash
+scripts/donnees_demo.sh     # clients, produits, 2 factures et 1 devis « DÉMO » + PDF dans demo-pdf/
+```
 
 - Odoo : <https://localhost:8443> (identifiant `admin`, mot de passe `ADMIN_LOCAL_PASSWORD`).
   Le certificat local est émis par Caddy : le navigateur affiche un avertissement la première fois.
@@ -71,6 +78,40 @@ scripts/mettre_a_jour.sh chantrea_parc,chantrea_portail
 ```
 
 Faire une sauvegarde avant toute mise à jour sur le serveur.
+
+## Tests automatiques
+
+```bash
+scripts/tests.sh            # base de test neuve « chantrea_test » (installation complète, ~5 min)
+scripts/tests.sh --rapide   # réutilise la base de test (mise à jour des modules maison seulement)
+```
+
+Les tests tournent dans une base séparée, jamais dans la base de travail.
+
+## Factures cambodgiennes et taux USD/KHR
+
+- Devis et factures sont imprimés en khmer, l'anglais juste en dessous, avec le total en USD
+  **et** en KHR. Le taux, sa date et sa source sont imprimés et mémorisés sur la facture
+  au moment de la validation ; ils ne changent plus ensuite.
+- Deux variantes, une seule numérotation (`INV/000001`, sans remise à zéro annuelle ;
+  avoirs : `RINV/000001`) : **facture de TVA** (numéro de TVA du client obligatoire) et
+  **facture commerciale**. Le type est proposé selon le client et modifiable sur le brouillon.
+- Taux officiel : une tâche planifiée le récupère chaque jour à 10 h (Phnom Penh) sur le site
+  du GDT (ou de la Banque nationale, selon le réglage Facturation › Configuration › Paramètres).
+  En cas d'échec, rien n'est inventé : le dernier taux publié reste en vigueur et une alerte
+  est envoyée par courriel. Pas d'alerte le week-end (pas de publication).
+- Saisie manuelle : Facturation › Configuration › Taux USD/KHR, ou sur la facture brouillon
+  (onglet Cambodge). Sans aucun taux, une facture ne peut pas être validée.
+
+## Relecture du khmer
+
+Tous les textes khmers visibles par les clients sont listés dans
+[docs/RELECTURE_KM.md](docs/RELECTURE_KM.md), à faire relire par un locuteur natif.
+Après correction, noter le texte comme relu dans `docs/relecture-km-statut.json` puis :
+
+```bash
+python3 scripts/relecture_km.py
+```
 
 ## Sauvegarder / restaurer
 

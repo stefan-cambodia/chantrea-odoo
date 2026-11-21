@@ -60,9 +60,9 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 
 ## Modules maison
 
-| Module | Licence prévue | Étape |
-|---|---|---|
-| chantrea_base | LGPL-3 | 2 |
-| chantrea_kh_facture | LGPL-3 | 2 |
-| chantrea_parc | AGPL-3 (dépend de fieldservice) | 5 |
-| chantrea_portail | AGPL-3 (dépend de modules OCA) | 7 |
+| Module | Licence | Étape | État |
+|---|---|---|---|
+| chantrea_base | LGPL-3 | 2 | installé, testé |
+| chantrea_kh_facture | LGPL-3 | 2 | installé, testé |
+| chantrea_parc | AGPL-3 (dépend de fieldservice) | 5 | à faire |
+| chantrea_portail | AGPL-3 (dépend de modules OCA) | 7 | à faire |
