@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.chantrea_kh_facture</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                <field name="chantrea_type_facture"
+                       invisible="move_type not in ('out_invoice', 'out_refund')"
+                       required="move_type in ('out_invoice', 'out_refund')"
+                       readonly="state != 'draft'"/>
+            </xpath>
+            <xpath expr="//page[@id='other_tab']" position="before">
+                <page id="chantrea_cambodge" name="chantrea_cambodge" string="Cambodia"
+                      invisible="move_type not in ('out_invoice', 'out_refund')">
+                    <group>
+                        <group string="Exchange rate">
+                            <div class="text-muted" colspan="2" invisible="state != 'draft' or chantrea_taux_khr">
+                                The official rate in force on the invoice date is fixed when the invoice is confirmed. To use another rate, enter it here.
+                            </div>
+                            <field name="chantrea_taux_khr" readonly="state != 'draft'"/>
+                            <field name="chantrea_taux_date" readonly="state != 'draft'"
+                                   required="chantrea_taux_khr and state == 'draft'"/>
+                            <field name="chantrea_taux_source" readonly="1" force_save="1"/>
+                        </group>
+                        <group string="Amounts in riels" invisible="not chantrea_taux_khr">
+                            <field name="chantrea_devise_khr_id" invisible="1"/>
+                            <field name="chantrea_devise_usd_id" invisible="1"/>
+                            <field name="chantrea_ht_khr"/>
+                            <field name="chantrea_tva_khr"/>
+                            <field name="chantrea_total_khr"/>
+                            <field name="chantrea_total_usd"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

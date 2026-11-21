@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.chantrea_kh_facture</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='main_currency_setting_container']" position="inside">
+                <setting id="chantrea_taux_khr" string="Official USD/KHR rate" company_dependent="1"
+                         help="Retrieved every day at 10:00 (Phnom Penh). On failure the last published rate stays in force and an alert is sent.">
+                    <div class="content-group">
+                        <div class="row mt-2">
+                            <label for="chantrea_taux_source" class="col-lg-4 o_light_label"/>
+                            <field name="chantrea_taux_source"/>
+                        </div>
+                        <div class="row">
+                            <label for="chantrea_taux_alerte_user_id" class="col-lg-4 o_light_label"/>
+                            <field name="chantrea_taux_alerte_user_id" options="{'no_create': True}"/>
+                        </div>
+                        <div class="mt-2">
+                            <button name="action_chantrea_recuperer_taux" type="object"
+                                    string="Retrieve the rate now" class="btn-link" icon="oi-arrow-right"/>
+                            <button name="%(chantrea_kh_facture.action_taux_khr)d" type="action"
+                                    string="USD/KHR rates" class="btn-link" icon="oi-arrow-right"/>
+                        </div>
+                    </div>
+                </setting>
+                <setting id="chantrea_nom_km" string="Company name in Khmer" company_dependent="1"
+                         help="Printed on quotations and invoices. Leave empty until the company is registered.">
+                    <field name="chantrea_nom_km"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vue_taux_khr_liste" model="ir.ui.view">
+        <field name="name">res.currency.rate.list.chantrea</field>
+        <field name="model">res.currency.rate</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <list string="USD/KHR rates" editable="top" default_order="name desc">
+                <!-- Une valeur officielle (GDT/BNC) ne se modifie pas : on ajoute une ligne manuelle. -->
+                <field name="name" string="Date" readonly="chantrea_source in ('gdt', 'nbc')"/>
+                <field name="company_rate" string="KHR for 1 USD" digits="[12, 2]"
+                       readonly="chantrea_source in ('gdt', 'nbc')"/>
+                <field name="chantrea_source" readonly="1" force_save="1"/>
+                <field name="chantrea_releve_le" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_taux_khr" model="ir.actions.act_window">
+        <field name="name">USD/KHR rates</field>
+        <field name="res_model">res.currency.rate</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="vue_taux_khr_liste"/>
+        <field name="domain" eval="[('currency_id', '=', ref('base.KHR'))]"/>
+        <field name="context" eval="{'default_currency_id': ref('base.KHR'), 'default_chantrea_source': 'manuel'}"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No USD/KHR rate yet</p>
+            <p>The official rate is retrieved every day. You can also enter it here by hand (a line added here has the source « Manual entry »).</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_taux_khr" name="USD/KHR rates"
+              parent="account.account_invoicing_menu"
+              action="action_taux_khr" sequence="90"
+              groups="account.group_account_manager"/>
+</odoo>

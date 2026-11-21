@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Chaque jour à 10 h, heure de Phnom Penh (03:00 UTC). -->
+    <record id="cron_taux_du_jour" model="ir.cron">
+        <field name="name">Chantrea: official USD/KHR rate of the day</field>
+        <field name="model_id" ref="base.model_res_currency_rate"/>
+        <field name="state">code</field>
+        <field name="code">model._chantrea_cron_taux_du_jour()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 03:00:00')"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
