@@ -1,0 +1,31 @@
+# Modules à installer, un par ligne (les dépendances suivent automatiquement).
+# Lu par scripts/init_local.sh et scripts/verifier_modules.py.
+
+# Odoo 19 Community
+contacts
+crm
+sale_management
+account
+l10n_kh
+project
+hr_timesheet
+purchase
+stock
+portal
+
+# OCA helpdesk (19.0)
+helpdesk_mgmt
+helpdesk_mgmt_timesheet
+helpdesk_mgmt_sale
+helpdesk_mgmt_fieldservice
+
+# OCA contract (19.0)
+contract
+contract_sale
+
+# OCA field-service (19.0)
+fieldservice
+fieldservice_portal
+fieldservice_sign
+fieldservice_account
+fieldservice_stock
