@@ -1,0 +1,22 @@
+# Secrets : jamais dans le dépôt
+.env
+*.env
+!.env.example
+*.key
+*.pem
+
+# Sauvegardes locales
+sauvegardes/
+*.dump
+*.sql.gz
+*.tar.gz
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
