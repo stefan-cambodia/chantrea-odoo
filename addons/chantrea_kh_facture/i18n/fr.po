@@ -1,0 +1,400 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* chantrea_kh_facture
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261112\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-21 21:57+0000\n"
+"PO-Revision-Date: 2026-11-21 21:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_config_settings.py:0
+msgid ""
+"%(count)s new rate(s) recorded. Rate in force: %(rate)s KHR (%(date)s)."
+msgstr "%(count)s nouveau(x) taux enregistré(s). Taux en vigueur : %(rate)s KHR (%(date)s)."
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid ""
+"%(origine)s shows a rate (%(rate)s) dated %(date)s, which is in the future: "
+"ignored."
+msgstr "%(origine)s affiche un taux (%(rate)s) daté du %(date)s, donc dans le futur : ignoré."
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/account_move.py:0
+msgid ""
+"A VAT invoice requires the customer's VAT number (VATTIN).\n"
+"Enter it on the customer « %(partner)s », or choose « Commercial invoice »."
+msgstr "Une facture de TVA exige le numéro de TVA (VATTIN) du client.\nSaisissez-le sur le client « %(partner)s », ou choisissez « Facture commerciale »."
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.view_move_form
+msgid "Amounts in riels"
+msgstr "Montants en riels"
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.view_move_form
+msgid "Cambodia"
+msgstr "Cambodge"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_type_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_type_facture
+msgid "Cambodian invoice type"
+msgstr "Type de facture (Cambodge)"
+
+#. module: chantrea_kh_facture
+#: model:ir.actions.server,name:chantrea_kh_facture.cron_taux_du_jour_ir_actions_server
+msgid "Chantrea: official USD/KHR rate of the day"
+msgstr "Chantrea : taux officiel USD/KHR du jour"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/account_move.py:0
+msgid "Choose the Cambodian invoice type (VAT or commercial) for %(name)s."
+msgstr "Choisissez le type de facture (TVA ou commerciale) pour %(name)s."
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__account_move__chantrea_type_facture__commerciale
+msgid "Commercial invoice"
+msgstr "Facture commerciale"
+
+#. module: chantrea_kh_facture
+#: model:ir.model,name:chantrea_kh_facture.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_company__chantrea_nom_km
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_config_settings__chantrea_nom_km
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.res_config_settings_view_form
+msgid "Company name in Khmer"
+msgstr "Nom de la société en khmer"
+
+#. module: chantrea_kh_facture
+#: model:ir.model,name:chantrea_kh_facture.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: chantrea_kh_facture
+#: model:ir.model,name:chantrea_kh_facture.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid "Could not read the rate from %(origine)s: %(error)s"
+msgstr "Impossible de lire le taux sur %(origine)s : %(error)s"
+
+#. module: chantrea_kh_facture
+#: model:ir.model,name:chantrea_kh_facture.model_res_currency_rate
+msgid "Currency Rate"
+msgstr "Taux de change"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/account_move.py:0
+msgid "Customer invoices must be in US dollars or riels (%(name)s)."
+msgstr "Les factures clients doivent être en dollars US ou en riels (%(name)s)."
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.vue_taux_khr_liste
+msgid "Date"
+msgstr "Date"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__display_name
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_company__display_name
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_currency_rate__display_name
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_partner__display_name
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.view_move_form
+msgid "Exchange rate"
+msgstr "Taux de change"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_company__chantrea_taux_alerte_user_id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_config_settings__chantrea_taux_alerte_user_id
+msgid "Exchange rate alerts sent to"
+msgstr "Alertes de taux envoyées à"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__account_move__chantrea_taux_source__gdt
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__res_currency_rate__chantrea_source__gdt
+msgid "GDT"
+msgstr "GDT"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__res_company__chantrea_taux_source__gdt
+msgid "GDT (General Department of Taxation)"
+msgstr "GDT (Direction générale des impôts)"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_company__id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_config_settings__id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_currency_rate__id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_partner__id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_sale_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: chantrea_kh_facture
+#: model:ir.model,name:chantrea_kh_facture.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.vue_taux_khr_liste
+msgid "KHR for 1 USD"
+msgstr "KHR pour 1 USD"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__account_move__chantrea_taux_source__manuel
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__res_currency_rate__chantrea_source__manuel
+msgid "Manual entry"
+msgstr "Saisie manuelle"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__account_move__chantrea_taux_source__nbc
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__res_currency_rate__chantrea_source__nbc
+msgid "NBC"
+msgstr "BNC"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__res_company__chantrea_taux_source__nbc
+msgid "NBC (National Bank of Cambodia)"
+msgstr "BNC (Banque nationale du Cambodge)"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/account_move.py:0
+msgid "No USD/KHR exchange rate is recorded on or before %(date)s."
+msgstr "Aucun taux USD/KHR n'est enregistré au %(date)s ou avant."
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/account_move.py:0
+msgid ""
+"No USD/KHR exchange rate is recorded on or before %(date)s: the invoice cannot be confirmed.\n"
+"Enter the official rate in Invoicing › Configuration › USD/KHR rates, or on the invoice itself (Cambodia tab)."
+msgstr "Aucun taux USD/KHR n'est enregistré au %(date)s ou avant : la facture ne peut pas être validée.\nSaisissez le taux officiel dans Facturation › Configuration › Taux USD/KHR, ou sur la facture elle-même (onglet Cambodge)."
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid ""
+"No USD/KHR rate is recorded at all: customer invoices cannot be confirmed "
+"until a rate is entered manually."
+msgstr "Aucun taux USD/KHR n'est enregistré : les factures clients ne pourront pas être validées tant qu'un taux n'est pas saisi à la main."
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.actions.act_window,help:chantrea_kh_facture.action_taux_khr
+msgid "No USD/KHR rate yet"
+msgstr "Aucun taux USD/KHR pour l'instant"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid ""
+"No rate for today (%(today)s). The last published rate stays in force: "
+"%(rate)s KHR for 1 USD, dated %(date)s."
+msgstr "Pas de taux pour aujourd'hui (%(today)s). Le dernier taux publié reste en vigueur : %(rate)s KHR pour 1 USD, du %(date)s."
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.res_config_settings_view_form
+msgid "Official USD/KHR rate"
+msgstr "Taux officiel USD/KHR"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_company__chantrea_taux_source
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_config_settings__chantrea_taux_source
+msgid "Official USD/KHR rate source"
+msgstr "Source du taux officiel USD/KHR"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,help:chantrea_kh_facture.field_res_company__chantrea_nom_km
+#: model:ir.model.fields,help:chantrea_kh_facture.field_res_config_settings__chantrea_nom_km
+msgid ""
+"Printed above the Latin name on quotations and invoices. Leave empty until "
+"it is registered."
+msgstr "Imprimé au-dessus du nom en alphabet latin sur les devis et factures. Laisser vide tant qu'il n'est pas enregistré."
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.res_config_settings_view_form
+msgid ""
+"Printed on quotations and invoices. Leave empty until the company is "
+"registered."
+msgstr "Imprimé sur les devis et factures. Laisser vide tant que la société n'est pas immatriculée."
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_taux_date
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_taux_date
+msgid "Rate date"
+msgstr "Date du taux"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid "Rate of %(date)s rejected: %(error)s"
+msgstr "Taux du %(date)s rejeté : %(error)s"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_taux_source
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_taux_source
+msgid "Rate source"
+msgstr "Source du taux"
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.res_config_settings_view_form
+msgid "Retrieve the rate now"
+msgstr "Récupérer le taux maintenant"
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.res_config_settings_view_form
+msgid ""
+"Retrieved every day at 10:00 (Phnom Penh). On failure the last published "
+"rate stays in force and an alert is sent."
+msgstr "Récupéré chaque jour à 10 h (heure de Phnom Penh). En cas d'échec, le dernier taux publié reste en vigueur et une alerte est envoyée."
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_currency_rate__chantrea_releve_le
+msgid "Retrieved on"
+msgstr "Relevé le"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_devise_khr_id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_devise_khr_id
+msgid "Riel currency"
+msgstr "Devise riel"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,help:chantrea_kh_facture.field_account_bank_statement_line__chantrea_taux_khr
+#: model:ir.model.fields,help:chantrea_kh_facture.field_account_move__chantrea_taux_khr
+msgid ""
+"Riels for 1 US dollar. Fixed when the invoice is confirmed, from the "
+"official rate in force on the invoice date. Can be entered by hand on a "
+"draft."
+msgstr "Riels pour 1 dollar US. Fixé à la validation de la facture, d'après le taux officiel en vigueur à la date de facture. Peut être saisi à la main sur un brouillon."
+
+#. module: chantrea_kh_facture
+#: model:ir.model,name:chantrea_kh_facture.model_sale_order
+msgid "Sales Order"
+msgstr "Commande client"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_res_currency_rate__chantrea_source
+msgid "Source"
+msgstr "Source"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid "The daily USD/KHR exchange rate task needs your attention:"
+msgstr "La tâche quotidienne du taux de change USD/KHR demande votre attention :"
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.view_move_form
+msgid ""
+"The official rate in force on the invoice date is fixed when the invoice is "
+"confirmed. To use another rate, enter it here."
+msgstr "Le taux officiel en vigueur à la date de facture est fixé à la validation. Pour utiliser un autre taux, saisissez-le ici."
+
+#. module: chantrea_kh_facture
+#: model_terms:ir.actions.act_window,help:chantrea_kh_facture.action_taux_khr
+msgid ""
+"The official rate is retrieved every day. You can also enter it here by hand"
+" (a line added here has the source « Manual entry »)."
+msgstr "Le taux officiel est récupéré chaque jour. Vous pouvez aussi le saisir ici à la main (une ligne ajoutée ici a pour source « Saisie manuelle »)."
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid "To enter a rate manually: Invoicing › Configuration › USD/KHR rates."
+msgstr "Pour saisir un taux à la main : Facturation › Configuration › Taux USD/KHR."
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_total_khr
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_total_khr
+msgid "Total (KHR)"
+msgstr "Total (KHR)"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_total_usd
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_total_usd
+msgid "Total (USD)"
+msgstr "Total (USD)"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_devise_usd_id
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_devise_usd_id
+msgid "US dollar currency"
+msgstr "Devise dollar US"
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_config_settings.py:0
+msgid "USD/KHR exchange rate"
+msgstr "Taux de change USD/KHR"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_taux_khr
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_taux_khr
+msgid "USD/KHR rate"
+msgstr "Taux USD/KHR"
+
+#. module: chantrea_kh_facture
+#: model:ir.actions.act_window,name:chantrea_kh_facture.action_taux_khr
+#: model:ir.ui.menu,name:chantrea_kh_facture.menu_taux_khr
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:chantrea_kh_facture.vue_taux_khr_liste
+msgid "USD/KHR rates"
+msgstr "Taux USD/KHR"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_ht_khr
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_ht_khr
+msgid "Untaxed amount (KHR)"
+msgstr "Montant HT (KHR)"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_bank_statement_line__chantrea_tva_khr
+#: model:ir.model.fields,field_description:chantrea_kh_facture.field_account_move__chantrea_tva_khr
+msgid "VAT (KHR)"
+msgstr "TVA (KHR)"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields.selection,name:chantrea_kh_facture.selection__account_move__chantrea_type_facture__tva
+msgid "VAT invoice"
+msgstr "Facture de TVA"
+
+#. module: chantrea_kh_facture
+#: model:ir.model.fields,help:chantrea_kh_facture.field_account_bank_statement_line__chantrea_type_facture
+#: model:ir.model.fields,help:chantrea_kh_facture.field_account_move__chantrea_type_facture
+msgid ""
+"VAT invoice: the customer's VAT number (VATTIN) is required.\n"
+"Commercial invoice: for customers not registered for VAT."
+msgstr "Facture de TVA : le numéro de TVA (VATTIN) du client est obligatoire.\nFacture commerciale : pour les clients non assujettis à la TVA."
+
+#. module: chantrea_kh_facture
+#. odoo-python
+#: code:addons/chantrea_kh_facture/models/res_currency_rate.py:0
+msgid "[Odoo] USD/KHR exchange rate: action needed"
+msgstr "[Odoo] Taux de change USD/KHR : action nécessaire"
