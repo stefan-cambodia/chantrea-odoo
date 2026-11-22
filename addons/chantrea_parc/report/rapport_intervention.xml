@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Rapport d'intervention, khmer au-dessus et anglais en dessous (même mise en page
+    que les devis et factures : chantrea_kh_facture.mise_en_page_kh).
+    Contenu montré au client : demande, travaux réalisés, équipements, signature.
+    JAMAIS : instructions internes au technicien (todo), notes internes du parc.
+-->
+<odoo>
+    <template id="document_intervention_kh">
+        <t t-call="chantrea_kh_facture.mise_en_page_kh">
+            <t t-set="o" t-value="doc"/>
+            <div class="page" t-translation="off">
+                <div class="ck-titre">
+                    <span class="km">របាយការណ៍សេវាកម្មនៅទីតាំង</span><span class="en">ON-SITE SERVICE REPORT</span>
+                    <div t-if="not doc.stage_id.is_closed" class="ck-etat">
+                        <span class="km-inline">មិនទាន់បញ្ចប់</span> / <span class="en-inline">NOT COMPLETED</span>
+                    </div>
+                </div>
+
+                <table class="ck-cartouche">
+                    <tr>
+                        <td class="ck-cartouche-client">
+                            <t t-call="chantrea_kh_facture.bloc_client">
+                                <t t-set="client" t-value="doc._chantrea_client() or doc.location_id.partner_id"/>
+                            </t>
+                        </td>
+                        <td class="ck-cartouche-doc">
+                            <table class="ck-champs">
+                                <tr>
+                                    <th><span class="km">លេខរបាយការណ៍</span><span class="en">Report No.</span></th>
+                                    <td><strong t-out="doc.name"/></td>
+                                </tr>
+                                <tr>
+                                    <th><span class="km">ទីតាំង</span><span class="en">Site</span></th>
+                                    <td t-out="doc.location_id.name"/>
+                                </tr>
+                                <tr t-if="doc.date_start">
+                                    <th><span class="km">មកដល់</span><span class="en">Arrival</span></th>
+                                    <td t-out="doc._chantrea_heure_locale(doc.date_start)"/>
+                                </tr>
+                                <tr t-if="doc.date_end">
+                                    <th><span class="km">បញ្ចប់</span><span class="en">End</span></th>
+                                    <td t-out="doc._chantrea_heure_locale(doc.date_end)"/>
+                                </tr>
+                                <tr t-if="doc.person_id">
+                                    <th><span class="km">អ្នកបច្ចេកទេស</span><span class="en">Technician</span></th>
+                                    <td t-out="doc.person_id.name"/>
+                                </tr>
+                                <tr t-if="doc.ticket_id">
+                                    <th><span class="km">សំណើជំនួយ</span><span class="en">Ticket</span></th>
+                                    <td t-out="doc.ticket_id.number"/>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <t t-if="doc.equipment_ids">
+                    <h4 class="ck-section-titre"><span class="km">ឧបករណ៍ពាក់ព័ន្ធ</span><span class="en">Equipment concerned</span></h4>
+                    <table class="ck-lignes">
+                        <thead>
+                            <tr>
+                                <th><span class="km">ឧបករណ៍</span><span class="en">Equipment</span></th>
+                                <th><span class="km">ម៉ាក និងម៉ូដែល</span><span class="en">Brand and model</span></th>
+                                <th><span class="km">លេខស៊េរី</span><span class="en">Serial number</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.equipment_ids" t-as="e">
+                                <td t-out="e.name"/>
+                                <td t-out="' '.join([v for v in (e.chantrea_marque, e.chantrea_modele) if v])"/>
+                                <td t-out="e.chantrea_numero_serie"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <div t-if="not is_html_empty(doc.description)" class="ck-bloc-texte">
+                    <h4 class="ck-section-titre"><span class="km">ការងារដែលបានស្នើ</span><span class="en">Work requested</span></h4>
+                    <div t-field="doc.description"/>
+                </div>
+                <div class="ck-bloc-texte">
+                    <h4 class="ck-section-titre"><span class="km">ការងារដែលបានធ្វើ</span><span class="en">Work done</span></h4>
+                    <div t-if="not is_html_empty(doc.resolution)" t-field="doc.resolution"/>
+                    <div t-else="" class="ck-ligne">—</div>
+                </div>
+
+                <table class="ck-signatures ck-avec-image">
+                    <tr>
+                        <td>
+                            <div class="ck-signature-image">
+                                <img t-if="doc.signature" t-att-src="image_data_uri(doc.signature)" alt="Signature"/>
+                            </div>
+                            <span class="km">ហត្ថលេខាអតិថិជន</span><span class="en">Customer's signature</span>
+                            <div t-if="doc.signed_by" class="ck-ligne">
+                                <t t-out="doc.signed_by"/>
+                                <t t-if="doc.signed_on"> — <t t-out="doc._chantrea_heure_locale(doc.signed_on)"/></t>
+                            </div>
+                            <div t-if="not doc.signature" class="ck-ligne">
+                                <span class="km-inline">មិនទាន់ចុះហត្ថលេខា</span> / <span class="en-inline">Not signed yet</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ck-signature-image"/>
+                            <span class="km">អ្នកបច្ចេកទេស</span><span class="en">Technician</span>
+                            <div class="ck-ligne" t-out="doc.person_id.name or ''"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <!-- Le rapport d'intervention OCA utilise le modèle bilingue. -->
+    <template id="report_fsm_order" inherit_id="fieldservice.report_fsm_order">
+        <xpath expr="//t[@t-call='fieldservice.report_fsm_order_document']" position="attributes">
+            <attribute name="t-call">chantrea_parc.document_intervention_kh</attribute>
+            <attribute name="t-lang">'en_US'</attribute>
+        </xpath>
+    </template>
+
+    <record id="fieldservice.action_report_fsm_order" model="ir.actions.report">
+        <field name="paperformat_id" ref="chantrea_kh_facture.format_a4_kh"/>
+    </record>
+</odoo>

@@ -87,6 +87,15 @@ $ck-filet: #d6cdb9;
     .ck-mention { margin-top: 14px; text-align: center; font-size: 8pt; }
     .ck-mention .km { font-weight: normal; }
 
+    // Rapport d'intervention : titres de section, textes, signature en image
+    .ck-section-titre { margin: 14px 0 6px; font-size: 10pt; }
+    .ck-section-titre .km { color: $ck-vert; }
+    .ck-bloc-texte { page-break-inside: avoid; }
+    .ck-avec-image td { padding-top: 10px; }
+    .ck-avec-image td > .km { border-top: 0 none; padding-top: 0; }
+    .ck-signature-image { height: 78px; border-bottom: 1px solid $ck-encre; margin-bottom: 4px; }
+    .ck-signature-image img { max-height: 74px; max-width: 100%; }
+
     // Pied de page
     .ck-pied { font-size: 8pt; color: $ck-gris; }
     .ck-pied td { border-top: 1px solid $ck-filet !important; }

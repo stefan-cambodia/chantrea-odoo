@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Page d'une intervention dans l'espace client : travaux réalisés, équipements,
+         signature et rapport PDF à télécharger (jamais les instructions internes). -->
+    <template id="portal_fieldservice_order_page" inherit_id="fieldservice_portal.portal_fieldservice_order_page">
+        <xpath expr="//div[hasclass('card-header')]/h1" position="after">
+            <a class="btn btn-secondary" t-att-href="'/my/fsm_order/%s/rapport' % fsm_order.id">
+                <i class="fa fa-download"/> Download the report (PDF)
+            </a>
+        </xpath>
+        <xpath expr="//t[@t-if='fsm_order.description']" position="after">
+            <div class="row mt8">
+                <div class="col-md-12">
+                    <h4 class="page-header">Work done</h4>
+                    <t t-if="not is_html_empty(fsm_order.resolution)" t-out="fsm_order.resolution"/>
+                    <p t-else="" class="text-muted">Not filled in yet.</p>
+                </div>
+            </div>
+            <div t-if="fsm_order.equipment_ids" class="row mt8">
+                <div class="col-md-12">
+                    <h4 class="page-header">Equipment concerned</h4>
+                    <ul>
+                        <li t-foreach="fsm_order.equipment_ids" t-as="e">
+                            <a t-att-href="'/my/equipment/%s' % e.id" t-out="e.name"/>
+                            <span class="text-muted" t-if="e.chantrea_numero_serie"> · <t t-out="e.chantrea_numero_serie"/></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt8">
+                <div class="col-md-12">
+                    <h4 class="page-header">Customer signature</h4>
+                    <t t-if="fsm_order.signature">
+                        <img t-att-src="image_data_uri(fsm_order.signature)" alt="Signature" style="max-height: 90px;"/>
+                        <p>Signed by <strong t-out="fsm_order.signed_by"/>
+                            <t t-if="fsm_order.signed_on"> — <span t-field="fsm_order.signed_on"/></t></p>
+                    </t>
+                    <p t-else="" class="text-muted">Not signed yet.</p>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

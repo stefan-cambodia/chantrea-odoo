@@ -39,6 +39,19 @@ class ChantreaParcPortail(CustomerPortal):
         })
         return request.render("chantrea_parc.portal_my_equipments", values)
 
+    @http.route(["/my/fsm_order/<int:order_id>/rapport"], type="http", auth="user", website=True)
+    def portal_rapport_intervention(self, order_id, **kw):
+        """Rapport d'intervention PDF (bilingue, signé) : accès contrôlé par la règle
+        Portail des interventions (fieldservice_portal)."""
+        intervention = request.env["fsm.order"].browse(order_id)
+        try:
+            intervention.check_access("read")
+            intervention.ensure_one()
+        except (AccessError, MissingError, ValueError):
+            return request.redirect("/my")
+        return self._show_report(model=intervention.sudo(), report_type="pdf",
+                                 report_ref="fieldservice.action_report_fsm_order", download=True)
+
     @http.route(["/my/equipment/<int:equipment_id>"], type="http", auth="user", website=True)
     def portal_my_equipment(self, equipment_id, **kw):
         try:
