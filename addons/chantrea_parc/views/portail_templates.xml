@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Matériel du client dans son espace. Champs affichés : catégorie, marque, modèle,
+    numéro de série, site, dates d'achat et de fin de garantie, contrat, tickets et
+    interventions. JAMAIS : notes internes, fournisseur, responsable.
+-->
+<odoo>
+    <template id="portal_my_home_parc" name="Equipment" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/chantrea_parc/static/src/img/parc.svg'"/>
+                <t t-set="title">Your equipment</t>
+                <t t-set="url" t-value="'/my/equipments'"/>
+                <t t-set="text">Servers, network, workstations and licences, with their warranty</t>
+                <t t-set="placeholder_count" t-value="'equipment_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_breadcrumbs_parc" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'equipment' and not equipement" class="breadcrumb-item active">Equipment</li>
+            <li t-if="page_name == 'equipment' and equipement" class="breadcrumb-item">
+                <a href="/my/equipments">Equipment</a>
+            </li>
+            <li t-if="page_name == 'equipment' and equipement" class="breadcrumb-item active" t-out="equipement.name"/>
+        </xpath>
+    </template>
+
+    <!-- Badge d'état de la garantie (paramètre : e). -->
+    <template id="badge_garantie">
+        <span t-if="e.chantrea_etat_garantie == 'valide'" class="badge rounded-pill text-bg-success">Under warranty</span>
+        <span t-elif="e.chantrea_etat_garantie == 'bientot'" class="badge rounded-pill text-bg-warning">Warranty ends soon</span>
+        <span t-elif="e.chantrea_etat_garantie == 'expiree'" class="badge rounded-pill text-bg-danger">Warranty expired</span>
+        <span t-else="" class="badge rounded-pill text-bg-light">Warranty unknown</span>
+    </template>
+
+    <template id="portal_my_equipments" name="My equipment">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Equipment</t>
+            </t>
+            <div t-if="not equipements" class="alert alert-info">No equipment recorded yet.</div>
+            <t t-if="equipements" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Category</th>
+                        <th>Brand and model</th>
+                        <th>Serial number</th>
+                        <th>Site</th>
+                        <th class="text-end">Warranty end</th>
+                        <th class="text-end">Warranty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="equipements" t-as="e">
+                        <td><a t-att-href="'/my/equipment/%s' % e.id" t-out="e.name"/></td>
+                        <td><span t-field="e.chantrea_categorie"/></td>
+                        <td><t t-out="' '.join([v for v in (e.chantrea_marque, e.chantrea_modele) if v])"/></td>
+                        <td t-out="e.chantrea_numero_serie"/>
+                        <td t-out="e.location_id.name"/>
+                        <td class="text-end"><t t-if="e.chantrea_fin_garantie" t-out="e.chantrea_fin_garantie.strftime('%d/%m/%Y')"/></td>
+                        <td class="text-end"><t t-call="chantrea_parc.badge_garantie"/></td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_equipment" name="My equipment detail">
+        <t t-call="portal.portal_layout">
+            <t t-set="e" t-value="equipement"/>
+            <div class="card mt-3">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <h4 class="mb-0" t-out="e.name"/>
+                    <t t-call="chantrea_parc.badge_garantie"/>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <dl class="col-md-6 row mb-0">
+                            <dt class="col-5">Category</dt><dd class="col-7"><span t-field="e.chantrea_categorie"/></dd>
+                            <dt class="col-5">Brand</dt><dd class="col-7" t-out="e.chantrea_marque or '—'"/>
+                            <dt class="col-5">Model</dt><dd class="col-7" t-out="e.chantrea_modele or '—'"/>
+                            <dt class="col-5">Serial number</dt><dd class="col-7" t-out="e.chantrea_numero_serie or '—'"/>
+                        </dl>
+                        <dl class="col-md-6 row mb-0">
+                            <dt class="col-5">Site</dt><dd class="col-7" t-out="e.location_id.name or '—'"/>
+                            <dt class="col-5">Purchase date</dt>
+                            <dd class="col-7" t-out="e.chantrea_date_achat and e.chantrea_date_achat.strftime('%d/%m/%Y') or '—'"/>
+                            <dt class="col-5">Warranty end</dt>
+                            <dd class="col-7" t-out="e.chantrea_fin_garantie and e.chantrea_fin_garantie.strftime('%d/%m/%Y') or '—'"/>
+                            <dt class="col-5">Contract</dt>
+                            <dd class="col-7">
+                                <a t-if="e.chantrea_contrat_id" t-att-href="'/my/contracts/%s' % e.chantrea_contrat_id.id" t-out="e.chantrea_contrat_id.name"/>
+                                <t t-else="">—</t>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="mt-4">Tickets</h5>
+            <p t-if="not tickets" class="text-muted">No ticket for this equipment.</p>
+            <ul t-if="tickets" class="list-group">
+                <li t-foreach="tickets" t-as="t" class="list-group-item d-flex justify-content-between">
+                    <a t-att-href="'/my/ticket/%s' % t.id"><t t-out="t.number"/> · <t t-out="t.name"/></a>
+                    <span class="text-muted" t-out="t.stage_id.name"/>
+                </li>
+            </ul>
+
+            <h5 class="mt-4">Interventions</h5>
+            <p t-if="not interventions" class="text-muted">No intervention for this equipment.</p>
+            <ul t-if="interventions" class="list-group mb-4">
+                <li t-foreach="interventions" t-as="o" class="list-group-item d-flex justify-content-between">
+                    <a t-att-href="'/my/fsm_order/%s' % o.id" t-out="o.name"/>
+                    <span class="text-muted">
+                        <t t-if="o.scheduled_date_start" t-out="o.scheduled_date_start" t-options="{'widget': 'date'}"/>
+                        · <t t-out="o.stage_id.name"/>
+                    </span>
+                </li>
+            </ul>
+        </t>
+    </template>
+</odoo>

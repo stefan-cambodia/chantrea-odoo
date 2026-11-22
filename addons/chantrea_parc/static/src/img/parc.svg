@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+<!-- Icône « parc matériel » de l'espace client : serveur, aux couleurs de la charte. -->
+<rect x="8" y="8" width="32" height="12" rx="2.5" fill="#1f6b3c"/>
+<rect x="8" y="24" width="32" height="12" rx="2.5" fill="#1f6b3c"/>
+<circle cx="14" cy="14" r="2" fill="#d9a441"/><circle cx="14" cy="30" r="2" fill="#d9a441"/>
+<rect x="20" y="13" width="14" height="2" rx="1" fill="#f3efe6"/><rect x="20" y="29" width="14" height="2" rx="1" fill="#f3efe6"/>
+<rect x="22" y="36" width="4" height="4" fill="#1f6b3c"/><rect x="14" y="40" width="20" height="2.5" rx="1.2" fill="#0f1412"/>
+</svg>
