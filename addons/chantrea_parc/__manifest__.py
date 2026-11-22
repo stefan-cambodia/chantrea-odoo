@@ -1,6 +1,6 @@
 {
     "name": "Chantrea Systems – Parc matériel",
-    "summary": "Parc matériel des clients : fiches, garanties, liens tickets et interventions, vue client",
+    "summary": "Parc matériel des clients et interventions sur site signées",
     "version": "19.0.1.0.0",
     "category": "Services/Field Service",
     "author": "Chantrea Systems",
@@ -8,7 +8,10 @@
     "license": "AGPL-3",
     "depends": [
         "chantrea_base",
+        "chantrea_kh_facture",
         "fieldservice",
+        "fieldservice_portal",
+        "fieldservice_sign",
         "helpdesk_mgmt_fieldservice",
         "contract",
         "portal",
@@ -18,9 +21,12 @@
         "security/ir.model.access.csv",
         "security/regles.xml",
         "data/garantie.xml",
+        "data/interventions.xml",
+        "report/rapport_intervention.xml",
         "views/fsm_equipment_views.xml",
         "views/helpdesk_ticket_views.xml",
         "views/portail_templates.xml",
+        "views/portail_interventions.xml",
     ],
     "installable": True,
 }

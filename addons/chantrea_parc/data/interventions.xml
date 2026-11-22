@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Signature du client sur place (tablette ou téléphone du technicien),
+         obligatoire pour terminer une intervention. La signature de documents à
+         distance (sign_oca) reste désactivée : elle demande un modèle de document. -->
+    <record id="base.main_company" model="res.company">
+        <field name="fsm_signature_capture" eval="True"/>
+        <field name="fsm_require_signature_to_complete" eval="True"/>
+        <field name="fsm_document_signing" eval="False"/>
+    </record>
+
+    <!-- Les boutons « Signer » de l'OCA n'apparaissent que si l'étape en cours
+         demande une signature ; seule l'étape « Terminé » le faisait, alors que la
+         signature est exigée AVANT de terminer. On rend la signature possible dès
+         l'étape « Nouveau ». -->
+    <record id="fieldservice.fsm_stage_new" model="fsm.stage">
+        <field name="require_signature" eval="True"/>
+    </record>
+</odoo>
