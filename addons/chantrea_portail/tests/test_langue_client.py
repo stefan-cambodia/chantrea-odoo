@@ -24,6 +24,25 @@ class TestLangueClient(HttpCase):
         self.assertIn('"bundle_params": {"lang": "en_US"}', page)
         self.assertIn("Log in", page)
 
+    def test_page_de_connexion_dans_la_langue_de_l_adresse(self):
+        """Sans le module « website », Odoo la servait toujours en anglais."""
+        khmer = self.url_open("/km/web/login").text
+        self.assertRegex(khmer, r'<html[^>]*\blang="km-KH"')
+        self.assertIn("ចូលគណនី", khmer)
+        francais = self.url_open("/fr/web/login").text
+        self.assertRegex(francais, r'<html[^>]*\blang="fr-FR"')
+        self.assertIn("Se connecter", francais)
+
+    def test_mot_de_passe_errone_reste_dans_la_langue_du_client(self):
+        page = self.url_open("/km/web/login").text
+        self.assertEqual(self.opener.cookies.get("frontend_lang"), "km_KH")
+        jeton = re.search(r'name="csrf_token" value="([^"]+)"', page).group(1)
+        # Le formulaire d'Odoo envoie toujours vers /web/login, sans la langue dans l'adresse.
+        reponse = self.url_open("/web/login", data={"login": "sokha-test", "password": "pas-le-bon", "csrf_token": jeton})
+        self.assertRegex(reponse.text, r'<html[^>]*\blang="km-KH"')
+        self.assertIn("ឈ្មោះចូល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ", reponse.text)
+        self.assertNotIn("Wrong login/password", reponse.text)
+
     def test_client_khmer_arrive_en_khmer(self):
         page = self.url_open("/web/login").text
         jeton = re.search(r'name="csrf_token" value="([^"]+)"', page).group(1)
