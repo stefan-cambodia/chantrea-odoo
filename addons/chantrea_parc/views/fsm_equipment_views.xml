@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fsm_equipment_form_view" model="ir.ui.view">
+        <field name="name">fsm.equipment.form.chantrea_parc</field>
+        <field name="model">fsm.equipment</field>
+        <field name="inherit_id" ref="fieldservice.fsm_equipment_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/label[@for='name']" position="before">
+                <div class="alert alert-warning mb-3" role="alert">
+                    <strong>Never store passwords, IP addresses or access credentials in Odoo.</strong> Keep them in the password manager. Odoo refuses to save a record that seems to contain them.
+                </div>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_chantrea_voir_tickets" type="object" class="oe_stat_button" icon="fa-life-ring">
+                        <field name="chantrea_ticket_count" widget="statinfo" string="Tickets"/>
+                    </button>
+                    <button name="action_chantrea_voir_interventions" type="object" class="oe_stat_button" icon="fa-wrench">
+                        <field name="chantrea_intervention_count" widget="statinfo" string="Interventions"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//group[@id='main']" position="before">
+                <group id="chantrea_fiche">
+                    <group string="Equipment">
+                        <field name="chantrea_client_id" required="1"
+                               context="{'res_partner_search_mode': 'customer', 'default_is_company': True}"/>
+                        <field name="location_id" string="Site"/>
+                        <field name="chantrea_categorie"/>
+                        <field name="chantrea_marque"/>
+                        <field name="chantrea_modele"/>
+                        <field name="chantrea_numero_serie"/>
+                    </group>
+                    <group string="Purchase and warranty">
+                        <field name="chantrea_fournisseur_id" context="{'res_partner_search_mode': 'supplier'}"/>
+                        <field name="chantrea_date_achat"/>
+                        <field name="chantrea_fin_garantie"/>
+                        <field name="chantrea_etat_garantie" widget="badge"
+                               decoration-success="chantrea_etat_garantie == 'valide'"
+                               decoration-warning="chantrea_etat_garantie == 'bientot'"
+                               decoration-danger="chantrea_etat_garantie == 'expiree'"/>
+                        <field name="chantrea_contrat_id"/>
+                        <field name="chantrea_responsable_id"/>
+                    </group>
+                </group>
+            </xpath>
+            <!-- Le site est déjà dans « Équipement » : le champ OCA reste dans l'onglet emplacement. -->
+            <xpath expr="//group[@id='main-left']/field[@name='location_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[field[@name='notes']]" position="attributes">
+                <attribute name="string">Internal notes</attribute>
+            </xpath>
+            <xpath expr="//field[@name='notes']" position="before">
+                <div class="text-muted mb-2">Never visible by the customer. No passwords, IP addresses or credentials.</div>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Tickets" name="chantrea_tickets">
+                    <field name="chantrea_ticket_ids" context="{'default_partner_id': chantrea_client_id}">
+                        <list>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="stage_id"/>
+                            <field name="create_date"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fsm_equipment_list_view" model="ir.ui.view">
+        <field name="name">fsm.equipment.list.chantrea_parc</field>
+        <field name="model">fsm.equipment</field>
+        <field name="inherit_id" ref="fieldservice.fsm_equipment_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="chantrea_client_id"/>
+                <field name="chantrea_categorie"/>
+                <field name="chantrea_marque" optional="show"/>
+                <field name="chantrea_modele" optional="show"/>
+                <field name="chantrea_numero_serie" optional="show"/>
+                <field name="chantrea_fin_garantie" optional="show"/>
+                <field name="chantrea_etat_garantie" widget="badge" optional="show"
+                       decoration-success="chantrea_etat_garantie == 'valide'"
+                       decoration-warning="chantrea_etat_garantie == 'bientot'"
+                       decoration-danger="chantrea_etat_garantie == 'expiree'"/>
+            </xpath>
+            <xpath expr="//field[@name='person_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='current_location_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fsm_equipment_search_view" model="ir.ui.view">
+        <field name="name">fsm.equipment.search.chantrea_parc</field>
+        <field name="model">fsm.equipment</field>
+        <field name="inherit_id" ref="fieldservice.fsm_equipment_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="chantrea_client_id"/>
+                <field name="chantrea_numero_serie"/>
+                <field name="chantrea_marque"/>
+                <field name="chantrea_modele"/>
+            </xpath>
+            <xpath expr="//group" position="before">
+                <filter name="garantie_bientot" string="Warranty ends within 60 days"
+                        domain="[('chantrea_etat_garantie', '=', 'bientot')]"/>
+                <filter name="garantie_expiree" string="Warranty expired"
+                        domain="[('chantrea_etat_garantie', '=', 'expiree')]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter name="par_client" string="Customer" context="{'group_by': 'chantrea_client_id'}"/>
+                <filter name="par_categorie" string="Category" context="{'group_by': 'chantrea_categorie'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

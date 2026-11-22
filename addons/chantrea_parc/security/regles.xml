@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Le client voit, en lecture seule, le matériel de SA société uniquement.
+         Les notes internes et le fournisseur sont réservés aux utilisateurs internes
+         (attribut groups des champs) : illisibles même par l'API. -->
+    <record id="regle_equipement_portail" model="ir.rule">
+        <field name="name">Chantrea : matériel de la société du client</field>
+        <field name="model_id" ref="fieldservice.model_fsm_equipment"/>
+        <field name="domain_force">[('chantrea_client_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <!-- Droits « interventions et parc » des profils internes de chantrea_base. -->
+    <record id="chantrea_base.groupe_technicien" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('fieldservice.group_fsm_user')), (4, ref('fieldservice.group_fsm_equipment'))]"/>
+    </record>
+    <record id="chantrea_base.groupe_direction" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('fieldservice.group_fsm_manager'))]"/>
+    </record>
+</odoo>
