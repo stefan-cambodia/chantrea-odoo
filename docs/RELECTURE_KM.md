@@ -8,7 +8,7 @@ noter le texte comme relu dans `docs/relecture-km-statut.json`
 Tous les textes ci-dessous ont été traduits par Claude depuis l'anglais.
 Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en dessous.
 
-**0 / 57 textes relus.**
+**0 / 61 textes relus.**
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
@@ -59,11 +59,15 @@ Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en
 | ⏳ à relire | បញ្ចូលដោយដៃ | manual entry | chantrea_kh_facture |
 | ⏳ à relire | អត្រាបណ្ដោះអាសន្ន សម្រាប់ជាព័ត៌មានប៉ុណ្ណោះ | Provisional rate, for information only | chantrea_kh_facture |
 | ⏳ à relire | មិនទាន់មានអត្រាប្តូរប្រាក់ផ្លូវការ | Official exchange rate not yet available | chantrea_kh_facture |
+| ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
 | ⏳ à relire | សួស្តី Dara , យើងបានទទួលសំណើរបស់លោកអ្នក Printer out of order ក្រោមលេខ HT00001 ហើយ។ អ្នកបច្ចេកទេសនឹងឆ្លើយតបទៅលោកអ្នកឆាប់ៗនេះ។ លោកអ្នកអាចតាមដានសំណើនេះ និងឆ្លើយតបនៅក្នុងតំបន់អតិថិជនរបស់លោកអ្នក។ មើលសំណើរបស់ខ្ញុំ Chantrea Systems | Hello Dara , We have received your request Printer out of order under number HT00001 . A technician will get back to you as soon as possible. You can follow this request and reply to it in your customer area. View my request Chantrea Systems | chantrea_portail |
 | ⏳ à relire | ការបម្រុងទុក និងទិន្នន័យ | Backup and data | chantrea_portail |
 | ⏳ à relire | ផ្នែកជំនួយ Chantrea Systems | Chantrea Systems support | chantrea_portail |
+| ⏳ à relire | ឈ្មោះសំរាប់បង្ហាញ | Display Name | chantrea_portail |
 | ⏳ à relire | អ៊ីមែល និងគណនីអ្នកប្រើប្រាស់ | Email and user accounts | chantrea_portail |
 | ⏳ à relire | ផ្នែករឹង និងឧបករណ៍ | Hardware and devices | chantrea_portail |
+| ⏳ à relire | ការចុះទិន្នានុប្បរត្ត | Journal Entry | chantrea_portail |
+| ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ | Monthly IT maintenance plan | chantrea_portail |
 | ⏳ à relire | បណ្ដាញ អ៊ីនធឺណិត និង Wi-Fi | Network, Internet and Wi-Fi | chantrea_portail |
 | ⏳ à relire | សំណើផ្សេងទៀត | Other request | chantrea_portail |
 | ⏳ à relire | សុវត្ថិភាព និងមេរោគ | Security and viruses | chantrea_portail |

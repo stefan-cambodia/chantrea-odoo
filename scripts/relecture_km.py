@@ -51,6 +51,16 @@ def textes_des_gabarits():
             else:
                 en = "?"
             yield km, en, fichier.relative_to(RACINE)
+        # Textes khmers écrits directement dans les données (ex. libellé bilingue
+        # « English / ខ្មែរ » d'une ligne de contrat, recopié sur les factures).
+        for m in CHAMP_DONNEES.finditer(contenu):
+            valeur = nettoyer(m.group(1))
+            if KHMER.search(valeur):
+                en, _, km = valeur.partition(" / ")
+                yield (km or valeur), (en if km else "(libellé bilingue)"), fichier.relative_to(RACINE)
+
+
+CHAMP_DONNEES = re.compile(r'<field name="[^"]+">([^<]+)</field>')
 
 
 def textes_des_po():

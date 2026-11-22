@@ -2,8 +2,9 @@
 # Exécuté par scripts/donnees_demo.sh dans « odoo shell ». Peut être relancé :
 # les enregistrements déjà créés sont réutilisés.
 # Tous les noms contiennent « DÉMO » ; les numéros de TVA sont visiblement fictifs.
-import base64
 import os
+
+from odoo import fields
 
 SORTIE = "/sortie"
 company = env.company
@@ -116,6 +117,23 @@ for societe, nom, courriel, langue, sujet, categorie in [
         "category_id": env.ref(categorie).id, "team_id": env.ref("chantrea_portail.equipe_assistance").id})
     acces.append((courriel, langue, societe.name))
 
+# --- Contrat de maintenance mensuel (première facture créée en brouillon) -------
+# Démarre le 16/11/2026 : le GDT a publié un taux ce jour-là, la facture peut donc
+# être validée dans la démo sans saisir de taux.
+Contrat = env["contract.contract"]
+contrat = Contrat.search([("name", "=", "Maintenance mensuelle (DÉMO)")])
+if not contrat:
+    brouillon = Contrat.new({
+        "name": "Maintenance mensuelle (DÉMO)", "partner_id": hotel.id,
+        "contract_template_id": env.ref("chantrea_portail.modele_contrat_maintenance_mensuelle").id,
+        "user_id": env.ref("base.user_admin").id})
+    brouillon._onchange_contract_template_id()
+    contrat = Contrat.create(brouillon._convert_to_write(brouillon._cache))
+    contrat.contract_line_ids.write({"price_unit": 120.0, "date_start": "2026-11-16",
+                                     "recurring_next_date": "2026-11-16"})
+    Contrat.cron_recurring_create_invoice(date_ref=fields.Date.to_date("2026-11-16"))
+facture_contrat = contrat._get_related_invoices()[:1]
+
 env.cr.commit()
 
 # --- PDF -------------------------------------------------------------------
@@ -124,6 +142,7 @@ for nom, rapport, docs in [
     ("facture_tva", "account.account_invoices", f_tva),
     ("facture_commerciale", "account.account_invoices", f_com),
     ("devis", "sale.action_report_saleorder", devis),
+    ("facture_contrat_brouillon", "account.account_invoices", facture_contrat),
 ]:
     pdf, _type = Rapport._render_qweb_pdf(rapport, docs.ids)
     chemin = os.path.join(SORTIE, f"{nom}.pdf")
@@ -136,6 +155,8 @@ for m in (f_tva | f_com):
           f"taux {m.chantrea_taux_khr:g} du {m.chantrea_taux_date} ({m.chantrea_taux_source})  "
           f"= {m.chantrea_total_khr:,.0f} KHR")
 print(f"{devis.name:12} devis        {devis.amount_total:>9.2f} USD")
+print(f"Contrat « {contrat.name} » : facture {facture_contrat.state} du {facture_contrat.invoice_date}, "
+      f"{facture_contrat.amount_total:.2f} USD, activité : {facture_contrat.activity_ids.summary}")
 print("PDF écrits dans", SORTIE)
 for courriel, langue, societe in acces:
     print(f"Accès client : {courriel} ({langue}, {societe}) — mot de passe : DEMO_CLIENT_PASSWORD de .env")

@@ -119,6 +119,18 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
   `DEMO_CLIENT_PASSWORD` dans `.env`.
 - Défauts trouvés dans les modules OCA et corrigés par héritage : [docs/CORRECTIFS_OCA.md](docs/CORRECTIFS_OCA.md).
 
+## Contrats de maintenance
+
+- Créer un contrat : Facturation › Clients › Contrats › Nouveau, choisir le modèle
+  « Monthly IT maintenance » (mensuel, facturé en début de période), puis fixer le prix
+  de la ligne et la date de début. Le libellé de ligne est bilingue anglais / khmer ;
+  `#START#` et `#END#` deviennent les dates de la période.
+- Chaque jour, la tâche planifiée du module OCA crée les factures arrivées à échéance,
+  **en brouillon**, avec une activité « Valider la facture mensuelle » pour le responsable
+  du contrat. Valider la facture fixe le taux USD/KHR et marque l'activité comme faite.
+- Échéance = date de facture, sauf conditions de paiement définies sur le contrat.
+- Le client voit les contrats de sa société dans son espace (`/my/contracts`).
+
 ## Relecture du khmer
 
 Tous les textes khmers visibles par les clients sont listés dans
