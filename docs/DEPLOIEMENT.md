@@ -144,9 +144,8 @@ git clone --recurse-submodules --branch main git@github.com:stefan-cambodia/chan
 cd /opt/chantrea-odoo
 ```
 
-Le serveur suit la branche `main`. Le travail est sur `developpement` : il faut d'abord la
-fusionner dans `main` (c'est votre décision ; demandez-le-moi ou faites-le par une « pull request »
-sur GitHub).
+Le serveur suit la branche `main`. Les changements se préparent sur `developpement` et ne passent
+dans `main` que sur votre décision (demandez-le-moi, ou faites une « pull request » sur GitHub).
 
 ## 4. Régler `.env`
 
