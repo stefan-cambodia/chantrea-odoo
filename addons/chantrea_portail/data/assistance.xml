@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Configuration de l'assistance. noupdate : modifiable ensuite dans l'interface
+    sans être écrasé par une mise à jour du module.
+    Les noms visibles par le client (catégories) sont traduits en fr / km (i18n/).
+-->
+<odoo noupdate="1">
+    <!-- Projet qui reçoit le temps passé sur les tickets. -->
+    <record id="projet_assistance" model="project.project">
+        <field name="name">Support</field>
+        <field name="allow_timesheets" eval="True"/>
+        <field name="privacy_visibility">followers</field>
+    </record>
+
+    <record id="equipe_assistance" model="helpdesk.ticket.team">
+        <field name="name">Chantrea Systems support</field>
+        <field name="show_in_portal" eval="True"/>
+        <field name="allow_timesheet" eval="True"/>
+        <field name="default_project_id" ref="projet_assistance"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- Catégories proposées au client quand il ouvre un ticket. -->
+    <record id="categorie_materiel" model="helpdesk.ticket.category">
+        <field name="name">Hardware and devices</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="categorie_reseau" model="helpdesk.ticket.category">
+        <field name="name">Network, Internet and Wi-Fi</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="categorie_logiciel" model="helpdesk.ticket.category">
+        <field name="name">Software and applications</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="categorie_messagerie" model="helpdesk.ticket.category">
+        <field name="name">Email and user accounts</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="categorie_sauvegarde" model="helpdesk.ticket.category">
+        <field name="name">Backup and data</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="categorie_securite" model="helpdesk.ticket.category">
+        <field name="name">Security and viruses</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="categorie_autre" model="helpdesk.ticket.category">
+        <field name="name">Other request</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <!-- Langue par défaut des nouveaux contacts ET des pages publiques de l'espace
+         client (connexion, mot de passe oublié) : l'anglais, langue la plus partagée
+         par les clients (khmer, anglais, français). Le sélecteur de langue reste
+         disponible ; un client connecté retrouve la langue de son compte. -->
+    <function model="ir.default" name="set" eval="('res.partner', 'lang', 'en_US')"/>
+
+    <!-- Formulaire client : catégorie obligatoire, pas de choix d'équipe (une seule). -->
+    <record id="base.main_company" model="res.company">
+        <field name="helpdesk_mgmt_portal_select_category" eval="True"/>
+        <field name="helpdesk_mgmt_portal_category_id_required" eval="True"/>
+        <field name="helpdesk_mgmt_portal_select_team" eval="False"/>
+    </record>
+</odoo>

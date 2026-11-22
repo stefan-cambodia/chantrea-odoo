@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Droits « assistance » des profils internes définis dans chantrea_base. -->
+    <record id="chantrea_base.groupe_technicien" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('helpdesk_mgmt.group_helpdesk_user'))]"/>
+    </record>
+    <record id="chantrea_base.groupe_direction" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('helpdesk_mgmt.group_helpdesk_manager'))]"/>
+    </record>
+</odoo>

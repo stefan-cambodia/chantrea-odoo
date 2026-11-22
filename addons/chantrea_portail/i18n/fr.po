@@ -1,0 +1,96 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* chantrea_portail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261112\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-22 02:29+0000\n"
+"PO-Revision-Date: 2026-11-22 02:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: chantrea_portail
+#: model:mail.template,body_html:chantrea_portail.modele_accuse_reception_ticket
+msgid ""
+"<div style=\"font-family: 'Noto Sans Khmer', 'Noto Sans', Arial, sans-serif; font-size: 14px; color: #0f1412; line-height: 1.6;\">\n"
+"    <p>Hello <t t-out=\"object.partner_id.name or object.partner_name or ''\">Dara</t>,</p>\n"
+"    <p>We have received your request <strong t-out=\"object.name or ''\">Printer out of order</strong> under number <strong t-out=\"object.number or ''\">HT00001</strong>.</p>\n"
+"    <p>A technician will get back to you as soon as possible. You can follow this request and reply to it in your customer area.</p>\n"
+"    <p style=\"margin: 20px 0;\">\n"
+"        <a t-att-href=\"object.get_base_url() + object.get_portal_url()\" style=\"background-color: #1f6b3c; color: #ffffff; padding: 10px 18px; border-radius: 6px; text-decoration: none;\">View my request</a>\n"
+"    </p>\n"
+"    <p>Chantrea Systems</p>\n"
+"</div>\n"
+"        "
+msgstr "<div style=\"font-family: 'Noto Sans Khmer', 'Noto Sans', Arial, sans-serif; font-size: 14px; color: #0f1412; line-height: 1.6;\">\n    <p>Bonjour <t t-out=\"object.partner_id.name or object.partner_name or ''\">Dara</t>,</p>\n    <p>Nous avons bien reçu votre demande <strong t-out=\"object.name or ''\">Printer out of order</strong> sous le numéro <strong t-out=\"object.number or ''\">HT00001</strong>.</p>\n    <p>Un technicien vous répondra dans les meilleurs délais. Vous pouvez suivre cette demande et y répondre depuis votre espace client.</p>\n    <p style=\"margin: 20px 0;\">\n        <a t-att-href=\"object.get_base_url() + object.get_portal_url()\" style=\"background-color: #1f6b3c; color: #ffffff; padding: 10px 18px; border-radius: 6px; text-decoration: none;\">Voir ma demande</a>\n    </p>\n    <p>Chantrea Systems</p>\n</div>\n        "
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_sauvegarde
+msgid "Backup and data"
+msgstr "Sauvegarde et données"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.team,name:chantrea_portail.equipe_assistance
+msgid "Chantrea Systems support"
+msgstr "Assistance Chantrea Systems"
+
+#. module: chantrea_portail
+#: model:mail.template,name:chantrea_portail.modele_accuse_reception_ticket
+msgid "Chantrea: ticket received"
+msgstr "Chantrea : ticket reçu"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_messagerie
+msgid "Email and user accounts"
+msgstr "Messagerie et comptes utilisateurs"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_materiel
+msgid "Hardware and devices"
+msgstr "Matériel et appareils"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_reseau
+msgid "Network, Internet and Wi-Fi"
+msgstr "Réseau, Internet et Wi-Fi"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_autre
+msgid "Other request"
+msgstr "Autre demande"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_securite
+msgid "Security and viruses"
+msgstr "Sécurité et virus"
+
+#. module: chantrea_portail
+#: model:helpdesk.ticket.category,name:chantrea_portail.categorie_logiciel
+msgid "Software and applications"
+msgstr "Logiciels et applications"
+
+#. module: chantrea_portail
+#: model:project.project,name:chantrea_portail.projet_assistance
+msgid "Support"
+msgstr "Assistance"
+
+#. module: chantrea_portail
+#: model:project.project,label_tasks:chantrea_portail.projet_assistance
+msgid "Tasks"
+msgstr "Tâches"
+
+#. module: chantrea_portail
+#: model:project.project,label_tickets:chantrea_portail.projet_assistance
+msgid "Tickets"
+msgstr "Tickets"
+
+#. module: chantrea_portail
+#: model:mail.template,subject:chantrea_portail.modele_accuse_reception_ticket
+msgid "Your request {{ object.number }} has been received"
+msgstr "Votre demande {{ object.number }} a bien été reçue"
