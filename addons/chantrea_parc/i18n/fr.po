@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261112\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 03:55+0000\n"
-"PO-Revision-Date: 2026-11-22 03:55+0000\n"
+"POT-Creation-Date: 2026-11-22 04:23+0000\n"
+"PO-Revision-Date: 2026-11-22 04:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,11 @@ msgstr "Alerte à 30 jours envoyée"
 #: model:ir.model.fields,field_description:chantrea_parc.field_fsm_equipment__chantrea_alerte_60
 msgid "60-day alert sent"
 msgstr "Alerte à 60 jours envoyée"
+
+#. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "<i class=\"fa fa-download\"/> Download the report (PDF)"
+msgstr "<i class=\"fa fa-download\"/> Télécharger le rapport (PDF)"
 
 #. module: chantrea_parc
 #: model_terms:ir.ui.view,arch_db:chantrea_parc.fsm_equipment_form_view
@@ -77,6 +82,11 @@ msgid "Customer"
 msgstr "Client"
 
 #. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Customer signature"
+msgstr "Signature du client"
+
+#. module: chantrea_parc
 #. odoo-python
 #: code:addons/chantrea_parc/models/fsm_equipment.py:0
 msgid "Customer: %(customer)s. Offer a renewal or a replacement."
@@ -102,6 +112,11 @@ msgid "Equipment"
 msgstr "Équipement"
 
 #. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Equipment concerned"
+msgstr "Équipements concernés"
+
+#. module: chantrea_parc
 #: model:ir.model.fields.selection,name:chantrea_parc.selection__fsm_equipment__chantrea_etat_garantie__expiree
 msgid "Expired"
 msgstr "Expirée"
@@ -110,6 +125,11 @@ msgstr "Expirée"
 #: model:ir.model,name:chantrea_parc.model_fsm_equipment
 msgid "Field Service Equipment"
 msgstr "Équipement de service sur site"
+
+#. module: chantrea_parc
+#: model:ir.model,name:chantrea_parc.model_fsm_order
+msgid "Field Service Order"
+msgstr "Commande de service sur site"
 
 #. module: chantrea_parc
 #: model:ir.model.fields,field_description:chantrea_parc.field_fsm_equipment__chantrea_intervention_count
@@ -134,9 +154,15 @@ msgstr "Ticket d'assistance"
 
 #. module: chantrea_parc
 #: model:ir.model.fields,field_description:chantrea_parc.field_fsm_equipment__id
+#: model:ir.model.fields,field_description:chantrea_parc.field_fsm_order__id
 #: model:ir.model.fields,field_description:chantrea_parc.field_helpdesk_ticket__id
 msgid "ID"
 msgstr "ID"
+
+#. module: chantrea_parc
+#: model:ir.model.fields,field_description:chantrea_parc.field_fsm_order__todo
+msgid "Instructions"
+msgstr "Instructions"
 
 #. module: chantrea_parc
 #: model:ir.model.fields,field_description:chantrea_parc.field_fsm_equipment__notes
@@ -183,6 +209,21 @@ msgid "No ticket for this equipment."
 msgstr "Aucun ticket pour cet équipement."
 
 #. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Not filled in yet."
+msgstr "Pas encore renseigné."
+
+#. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Not signed yet."
+msgstr "Pas encore signé."
+
+#. module: chantrea_parc
+#: model:ir.model.fields,field_description:chantrea_parc.field_fsm_order__display_name
+msgid "Order"
+msgstr "Commande"
+
+#. module: chantrea_parc
 #: model_terms:ir.ui.view,arch_db:chantrea_parc.fsm_equipment_form_view
 msgid "Purchase and warranty"
 msgstr "Achat et garantie"
@@ -219,6 +260,16 @@ msgstr "Serveur"
 #: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_my_home_parc
 msgid "Servers, network, workstations and licences, with their warranty"
 msgstr "Serveurs, réseau, postes et licences, avec leur garantie"
+
+#. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Signature"
+msgstr "Signature"
+
+#. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Signed by"
+msgstr "Signé par"
 
 #. module: chantrea_parc
 #: model_terms:ir.ui.view,arch_db:chantrea_parc.fsm_equipment_form_view
@@ -327,6 +378,11 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. module: chantrea_parc
+#: model_terms:ir.ui.view,arch_db:chantrea_parc.portal_fieldservice_order_page
+msgid "Work done"
+msgstr "Travaux réalisés"
+
+#. module: chantrea_parc
 #: model:ir.model.fields.selection,name:chantrea_parc.selection__fsm_equipment__chantrea_categorie__poste
 msgid "Workstation"
 msgstr "Poste de travail"
@@ -355,6 +411,14 @@ msgid ""
 "« %(field)s » seems to contain a password or a login. Passwords, IP "
 "addresses and access credentials must never be stored in Odoo."
 msgstr "« %(field)s » semble contenir un mot de passe ou un identifiant. Les mots de passe, adresses IP et identifiants d'accès ne doivent jamais être enregistrés dans Odoo."
+
+#. module: chantrea_parc
+#. odoo-python
+#: code:addons/chantrea_parc/models/fsm_order.py:0
+msgid ""
+"« %(field)s » seems to contain an IP address, a password or a login. "
+"Passwords, IP addresses and access credentials must never be stored in Odoo."
+msgstr "« %(field)s » semble contenir une adresse IP, un mot de passe ou un identifiant. Les mots de passe, adresses IP et identifiants d'accès ne doivent jamais être enregistrés dans Odoo."
 
 #. module: chantrea_parc
 #. odoo-python
