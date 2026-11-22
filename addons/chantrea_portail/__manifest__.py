@@ -29,6 +29,7 @@
         "views/helpdesk_portail.xml",
         "views/mise_en_page.xml",
         "views/accueil.xml",
+        "data/traductions.xml",
     ],
     "assets": {
         "web._assets_frontend_helpers": [
@@ -45,5 +46,7 @@
             "chantrea_portail/static/src/scss/messagerie.scss",
         ],
     },
+    # Complète les traductions du code d'Odoo/OCA (voir traductions_code.py).
+    "post_load": "completer_traductions_du_code",
     "installable": True,
 }

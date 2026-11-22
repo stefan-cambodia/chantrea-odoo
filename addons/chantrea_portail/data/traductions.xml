@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Importe i18n_clients/*.po (textes Odoo/OCA vus par les clients) à chaque
+         installation ou mise à jour du module. Voir models/traductions_clients.py. -->
+    <function model="chantrea.traductions.clients" name="_charger"/>
+</odoo>
