@@ -18,6 +18,17 @@ Ces défauts pourraient être signalés à l'OCA ; ce n'est pas fait (à décide
 | sign_oca (`6080baa8`) | La route `/my/sign/<id>/download` lit la demande en sudo d'après le seul numéro et renvoie un lien vers le document signé, sans vérifier qui le demande. | Un client connecté télécharge les documents signés de tous les autres en essayant les numéros. | Document servi seulement à un signataire (ou sa société) ou à un interne autorisé (`chantrea_portail/controllers/signature.py`). | `test_autre_client_refuse` |
 | fieldservice_sign (`99a7b92e`) | Les boutons « Signer » n'apparaissent que si l'étape en cours demande une signature ; seule l'étape « Terminé » le fait, alors que « signature obligatoire » l'exige AVANT de terminer. | Impossible de faire signer puis de terminer une intervention. | Signature possible dès l'étape « Nouveau » (`chantrea_parc/data/interventions.xml`). | `test_terminer_exige_la_signature` |
 | fieldservice (`99a7b92e`) | Les instructions au technicien (`todo`) sont lisibles par le client via l'API. | Fuite d'instructions internes. | Champ réservé aux utilisateurs internes. | `test_instructions_illisibles_par_le_client` |
+| fieldservice_portal (`99a7b92e`) | Son script `fsm_order_portal.esm.js` importe `@portal/js/portal`, qui n'existe plus dans Odoo 19. | Une erreur JavaScript sur **chaque** page de l'espace client. | Script retiré du lot de scripts de l'espace client (`chantrea_portail/__manifest__.py`). | `test_script_oca_incompatible_retire` |
+
+## Défauts d'Odoo 19 sans le module « website »
+
+Le module `website` n'est pas installé (il n'est pas demandé). Sans lui, deux réglages
+qu'il apporte manquent à l'espace client ; ils sont rétablis par héritage.
+
+| Défaut | Conséquence | Correctif | Test |
+|---|---|---|---|
+| La balise `<html>` des pages client n'a pas d'attribut `lang` : le navigateur demande les traductions JavaScript sans préciser de langue. | Fenêtre de signature d'un devis, messages d'erreur, boutons affichés par JavaScript : en anglais dans **toutes** les langues, français compris. | Attribut `lang` ajouté (`chantrea_portail/views/mise_en_page.xml`). | `test_traductions_javascript_demandees_dans_la_langue_de_la_page` |
+| Les traductions JavaScript du module `mail` ne sont envoyées à l'espace client que par `website_mail`. | La messagerie d'un ticket, d'un devis ou d'une facture (« Write a message… », « Send ») reste en anglais. | `mail`, `auth_totp_portal`, `auth_passkey_portal` et `account_payment` ajoutés aux modules traduits côté client (`chantrea_portail/models/ir_http.py`). | même test |
 
 ## Comportements d'Odoo pris en compte (pas des défauts)
 

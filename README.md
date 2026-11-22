@@ -82,7 +82,7 @@ Faire une sauvegarde avant toute mise à jour sur le serveur.
 ## Tests automatiques
 
 ```bash
-scripts/tests.sh            # base de test neuve « chantrea_test » (installation complète, ~5 min)
+scripts/tests.sh            # base de test neuve « chantrea_test » (installation complète, ~6 min)
 scripts/tests.sh --rapide   # réutilise la base de test (mise à jour des modules maison seulement)
 ```
 
@@ -105,6 +105,14 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 
 ## Assistance et espace client
 
+- **Accueil de l'espace client** (`/my`, module `chantrea_portail`) : un tableau de bord aux
+  couleurs de Chantrea Systems avec six cartes — demandes d'assistance ouvertes, interventions
+  en cours, matériel (et garanties qui se terminent dans les 60 jours), contrats en cours, devis
+  à examiner, factures à payer (et montant dû) — et un bouton « Demander de l'aide ».
+  Chaque chiffre est calculé avec les droits du client connecté : il ne compte que les
+  données de sa société. En dessous : commandes, adresses, connexion et sécurité.
+  Les rubriques internes ou fournisseurs d'Odoo (projets, tâches, feuilles de temps, achats,
+  signature à distance) ne sont pas proposées aux clients (`controllers/accueil.py`).
 - Les clients ouvrent et suivent leurs tickets dans l'espace client (`/my/tickets`, bouton
   « Nouveau ») ; la catégorie est obligatoire. Les tickets vont à l'équipe
   « Assistance Chantrea Systems », dont le temps passé est suivi dans le projet « Assistance ».
@@ -117,7 +125,8 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 - En local, `scripts/donnees_demo.sh` crée deux accès clients de démonstration
   (`dara@demo.example` en khmer, `sophea@demo.example` en anglais) ; mot de passe :
   `DEMO_CLIENT_PASSWORD` dans `.env`.
-- Défauts trouvés dans les modules OCA et corrigés par héritage : [docs/CORRECTIFS_OCA.md](docs/CORRECTIFS_OCA.md).
+- Défauts trouvés dans les modules OCA (et dans Odoo 19 sans le module « website ») et corrigés par
+  héritage : [docs/CORRECTIFS_OCA.md](docs/CORRECTIFS_OCA.md).
 
 ## Contrats de maintenance
 
@@ -158,10 +167,40 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 - Le client suit ses interventions dans son espace (`/my/fsm_orders`) et télécharge le rapport.
 - Les textes d'une intervention refusent aussi adresses IP, mots de passe et identifiants.
 
-## Relecture du khmer
+## Langues et traductions
+
+L'interface interne est en français. L'espace client existe en khmer, en anglais et en
+français : chaque client le voit dans la langue de sa fiche (champ « Langue » du contact).
+
+| Où | Contenu |
+|---|---|
+| `addons/chantrea_*/i18n/fr.po`, `km.po` | Textes des modules maison (écrits en anglais dans le code) |
+| `addons/chantrea_portail/i18n_clients/km.po` | Textes d'**Odoo et de l'OCA** vus par les clients, en khmer (Odoo 19 n'en traduit que 1 à 17 %, l'OCA aucun) |
+| `addons/chantrea_portail/i18n_clients/km_pays.po` | Noms de pays en khmer, repris du référentiel Unicode CLDR |
+| `addons/chantrea_portail/i18n_clients/fr.po` | Les quelques textes que l'OCA et Odoo n'ont pas traduits en français |
+
+- Les fichiers `i18n_clients` sont chargés à chaque installation ou mise à jour de
+  `chantrea_portail` : pages, champs, pays et courriels sont importés dans la base
+  (`models/traductions_clients.py`) ; les textes écrits dans le code Python ou JavaScript
+  d'Odoo et de l'OCA (tris et filtres des listes, fenêtre de signature, messagerie d'un
+  ticket…) sont complétés au démarrage (`traductions_code.py`). Ni Odoo ni l'OCA ne sont modifiés.
+- **Corriger une traduction** : modifier le `msgstr` dans le fichier, puis
+  `scripts/mettre_a_jour.sh chantrea_portail` (ou le module concerné).
+  Les fichiers `i18n_clients` font foi : pour les textes qu'ils contiennent, une traduction
+  modifiée à la main dans Odoo est remplacée à la mise à jour suivante.
+- **Ajouter un texte d'Odoo ou de l'OCA resté en anglais** : ajouter une entrée dans
+  `i18n_clients/km.po` en recopiant le `msgid` et les lignes `#.` / `#:` du fichier
+  `i18n/<module>.pot` du module d'origine, puis mettre à jour `chantrea_portail`.
+- Restent en anglais pour un client khmer : les données saisies par l'équipe (noms de
+  produits, descriptions, étapes ajoutées à la main), les pages de paiement en ligne (aucun
+  prestataire de paiement n'est configuré) et les fonctions d'Odoo que les clients
+  n'utilisent pas (clés d'API, discussion instantanée).
+
+### Relecture du khmer
 
 Tous les textes khmers visibles par les clients sont listés dans
-[docs/RELECTURE_KM.md](docs/RELECTURE_KM.md), à faire relire par un locuteur natif.
+[docs/RELECTURE_KM.md](docs/RELECTURE_KM.md), à faire relire par un locuteur natif, en trois
+parties : documents imprimés et pages Chantrea, modules Chantrea, textes d'Odoo et de l'OCA.
 Après correction, noter le texte comme relu dans `docs/relecture-km-statut.json` puis :
 
 ```bash

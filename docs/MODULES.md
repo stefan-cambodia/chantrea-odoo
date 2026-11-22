@@ -65,4 +65,4 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 | chantrea_base | LGPL-3 | 2 | installé, testé |
 | chantrea_kh_facture | LGPL-3 | 2 | installé, testé |
 | chantrea_parc | AGPL-3 (dépend de fieldservice) | 5 et 6 | parc et interventions signées installés, testés |
-| chantrea_portail | AGPL-3 (dépend de modules OCA) | 3, 4 et 7 | assistance, règles d'accès client, contrats installés et testés ; page d'accueil à l'étape 7 |
+| chantrea_portail | AGPL-3 (dépend de modules OCA) | 3, 4 et 7 | assistance, règles d'accès client, contrats, page d'accueil de l'espace client, traductions khmères et françaises des textes Odoo/OCA : installés et testés |

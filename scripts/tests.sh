@@ -2,7 +2,7 @@
 # Lance les tests automatiques des modules maison dans une base SÉPARÉE
 # (« <base>_test »), jamais dans la base de travail.
 # Usage :
-#   scripts/tests.sh            # recrée la base de test de zéro (installation complète, ~5 min)
+#   scripts/tests.sh            # recrée la base de test de zéro (installation complète, ~6 min)
 #   scripts/tests.sh --rapide   # réutilise la base de test existante (mise à jour seulement)
 set -euo pipefail
 cd "$(dirname "$0")/.."
