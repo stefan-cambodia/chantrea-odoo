@@ -33,3 +33,4 @@ fieldservice_stock
 # Modules maison (addons/)
 chantrea_base
 chantrea_kh_facture
+chantrea_portail

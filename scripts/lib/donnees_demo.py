@@ -91,6 +91,31 @@ if not devis:
         ],
     })
 
+# --- Espace client : un accès par client de démo, un ticket chacun -------------
+mdp_client = os.environ.get("DEMO_CLIENT_PASSWORD")
+if not mdp_client:
+    raise SystemExit("DEMO_CLIENT_PASSWORD manquant dans .env")
+portail = env.ref("base.group_portal")
+acces = []
+for societe, nom, courriel, langue, sujet, categorie in [
+    (hotel, "Dara (DÉMO)", "dara@demo.example", "km_KH", "Imprimante de la réception en panne (DÉMO)",
+     "chantrea_portail.categorie_materiel"),
+    (cafe, "Sophea (DÉMO)", "sophea@demo.example", "en_US", "Wi-Fi des clients très lent (DÉMO)",
+     "chantrea_portail.categorie_reseau"),
+]:
+    contact = trouver_ou_creer("res.partner", [("email", "=", courriel)], {
+        "name": nom, "parent_id": societe.id, "email": courriel, "lang": langue})
+    utilisateur = env["res.users"].with_context(active_test=False).search([("login", "=", courriel)])
+    if not utilisateur:
+        utilisateur = env["res.users"].with_context(no_reset_password=True).create({
+            "name": nom, "login": courriel, "partner_id": contact.id,
+            "group_ids": [(6, 0, portail.ids)]})
+    utilisateur.password = mdp_client
+    trouver_ou_creer("helpdesk.ticket", [("name", "=", sujet)], {
+        "name": sujet, "description": "<p>Ticket de démonstration.</p>", "partner_id": contact.id,
+        "category_id": env.ref(categorie).id, "team_id": env.ref("chantrea_portail.equipe_assistance").id})
+    acces.append((courriel, langue, societe.name))
+
 env.cr.commit()
 
 # --- PDF -------------------------------------------------------------------
@@ -112,3 +137,5 @@ for m in (f_tva | f_com):
           f"= {m.chantrea_total_khr:,.0f} KHR")
 print(f"{devis.name:12} devis        {devis.amount_total:>9.2f} USD")
 print("PDF écrits dans", SORTIE)
+for courriel, langue, societe in acces:
+    print(f"Accès client : {courriel} ({langue}, {societe}) — mot de passe : DEMO_CLIENT_PASSWORD de .env")

@@ -20,7 +20,8 @@ existe() {
 docker compose up -d db
 
 if [ "${1:-}" = "--rapide" ] && existe; then
-  ACTION=(-u "$MODULES_MAISON")
+  # -i installe un module maison encore absent, -u met à jour les autres.
+  ACTION=(-i "$MODULES_MAISON" -u "$MODULES_MAISON")
 else
   if existe; then
     docker compose exec -T db dropdb -U "${POSTGRES_USER:-odoo}" "$DB"
@@ -32,8 +33,10 @@ else
 fi
 
 JOURNAL=$(mktemp)
+# Serveur web actif (tests des pages de l'espace client), un seul processus,
+# et filtre de base adapté à la base de test.
 run odoo -d "$DB" "${ACTION[@]}" --test-enable --test-tags "$TAGS" \
-  --stop-after-init --no-http 2>&1 | tee "$JOURNAL" | grep -E "Running tests|tests in|FAIL|ERROR|Traceback|^\s+File|Error:" || true
+  --workers=0 --db-filter="^${DB}\$" --stop-after-init 2>&1 | tee "$JOURNAL" | grep -E "Running tests|tests in|FAIL|ERROR|Traceback|^\s+File|Error:" || true
 
 echo
 NB=$(grep -c " Starting Test" "$JOURNAL" || true)

@@ -7,6 +7,7 @@ services:
       - ./oca:/opt/chantrea/oca:ro
     environment:
       ADMIN_LOCAL_PASSWORD: ${ADMIN_LOCAL_PASSWORD:-}
+      DEMO_CLIENT_PASSWORD: ${DEMO_CLIENT_PASSWORD:-}
 
   # Boîte aux lettres de test : tous les courriels envoyés par Odoo y arrivent.
   # Interface : http://localhost:8025

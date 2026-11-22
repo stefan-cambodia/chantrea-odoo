@@ -63,7 +63,14 @@ def textes_des_po():
                 en = "".join(re.findall(r'"(.*)"', msgid.group(1)))
                 km = "".join(re.findall(r'"(.*)"', msgstr.group(1)))
                 if KHMER.search(km):
-                    yield nettoyer(km), nettoyer(en), fichier.relative_to(RACINE)
+                    yield texte_po(km), texte_po(en), fichier.relative_to(RACINE)
+
+
+def texte_po(valeur):
+    """Texte lisible d'une chaîne de .po (les courriels HTML sont réduits à leur texte)."""
+    valeur = valeur.replace("\\n", " ").replace('\\"', '"')
+    valeur = re.sub(r"<[^>]+>", " ", valeur)
+    return nettoyer(valeur).replace("|", "/")
 
 
 def main():
