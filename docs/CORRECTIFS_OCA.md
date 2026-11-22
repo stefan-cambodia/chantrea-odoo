@@ -22,17 +22,20 @@ Ces défauts pourraient être signalés à l'OCA ; ce n'est pas fait (à décide
 
 ## Défauts d'Odoo 19 sans le module « website »
 
-Le module `website` n'est pas installé (il n'est pas demandé). Sans lui, deux réglages
+Le module `website` n'est pas installé (il n'est pas demandé). Sans lui, trois réglages
 qu'il apporte manquent à l'espace client ; ils sont rétablis par héritage.
 
 | Défaut | Conséquence | Correctif | Test |
 |---|---|---|---|
 | La balise `<html>` des pages client n'a pas d'attribut `lang` : le navigateur demande les traductions JavaScript sans préciser de langue. | Fenêtre de signature d'un devis, messages d'erreur, boutons affichés par JavaScript : en anglais dans **toutes** les langues, français compris. | Attribut `lang` ajouté (`chantrea_portail/views/mise_en_page.xml`). | `test_traductions_javascript_demandees_dans_la_langue_de_la_page` |
+| La page de connexion `/web/login` n'est pas servie comme une page de l'espace client. | Elle est toujours en anglais, même à l'adresse `/km/web/login` ou pour un client déjà venu ; un mot de passe erroné ramène aussi à l'anglais. | Mêmes réglages de route que le module `website` (`website=True`, `auth="public"`) dans `chantrea_portail/controllers/connexion.py`. | `test_page_de_connexion_dans_la_langue_de_l_adresse`, `test_mot_de_passe_errone_reste_dans_la_langue_du_client` |
 | Les traductions JavaScript du module `mail` ne sont envoyées à l'espace client que par `website_mail`. | La messagerie d'un ticket, d'un devis ou d'une facture (« Write a message… », « Send ») reste en anglais. | `mail`, `auth_totp_portal`, `auth_passkey_portal` et `account_payment` ajoutés aux modules traduits côté client (`chantrea_portail/models/ir_http.py`). | même test |
 
 ## Comportements d'Odoo pris en compte (pas des défauts)
 
 - La langue des pages client suit d'abord le cookie `frontend_lang`, posé dès la page de
   connexion : à la connexion, `chantrea_portail` l'aligne sur la langue du compte du client.
+- Le plan comptable crée ses taxes après l'installation des modules : `chantrea_portail` remet ses
+  traductions à ce moment-là (`test_plan_comptable_traduit_apres_son_chargement`).
 - Odoo sert la langue par défaut aux robots (dont `curl`) : pour tester une langue à la
   main, utiliser un navigateur ou l'adresse préfixée (`/km/my`, `/fr/my`).

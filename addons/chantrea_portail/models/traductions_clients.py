@@ -60,3 +60,15 @@ class IrModuleModule(models.Model):
         resultat = super()._load_module_terms(modules, langs, overwrite=overwrite)
         self.env["chantrea.traductions.clients"]._charger(modules=list(modules), langues=langs)
         return resultat
+
+
+class AccountChartTemplate(models.AbstractModel):
+    _inherit = "account.chart.template"
+
+    def _load(self, *args, **kwargs):
+        """Le plan comptable crée ses taxes et groupes de taxes APRÈS l'installation des
+        modules : nos traductions (« VAT 10% » sur un devis) sont remises à ce moment-là.
+        """
+        resultat = super()._load(*args, **kwargs)
+        self.env["chantrea.traductions.clients"]._charger(modules=["account"])
+        return resultat

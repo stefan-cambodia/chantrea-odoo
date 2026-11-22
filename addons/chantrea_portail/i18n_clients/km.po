@@ -5047,6 +5047,7 @@ msgstr "សម្រង់តម្លៃបានផ្ញើ"
 #. odoo-python
 #: model:ir.model.fields.selection,name:sale.selection__sale_order__state__sale
 #: code:addons/sale/models/sale_order.py:0
+#: model:ir.model,name:sale.model_sale_order
 msgid "Sales Order"
 msgstr "ការបញ្ជាទិញ"
 
@@ -5492,3 +5493,59 @@ msgid "<span class=\"oi oi-chevron-right\" role=\"img\" aria-label=\"Next\" titl
 msgstr ""
 "<span class=\"oi oi-chevron-right\" role=\"img\" aria-label=\"បន្ទាប់\" "
 "title=\"បន្ទាប់\"/>"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+msgid "View %s"
+msgstr "មើល %s"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+msgid "View"
+msgstr "មើល"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.mail_notification_light
+msgid "Your"
+msgstr "ឯកសាររបស់លោកអ្នក៖"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "View Quotation"
+msgstr "មើលសម្រង់តម្លៃ"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "Accept & Sign Quotation"
+msgstr "យល់ព្រម និងចុះហត្ថលេខាលើសម្រង់តម្លៃ"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "Sign & Pay Quotation"
+msgstr "ចុះហត្ថលេខា និងបង់ប្រាក់សម្រង់តម្លៃ"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "Accept & Pay Quotation"
+msgstr "យល់ព្រម និងបង់ប្រាក់សម្រង់តម្លៃ"
+
+#. module: helpdesk_mgmt
+#: model:ir.model,name:helpdesk_mgmt.model_helpdesk_ticket
+msgid "Helpdesk Ticket"
+msgstr "សំណើជំនួយ"
+
+#. module: fieldservice
+#: model:ir.model,name:fieldservice.model_fsm_order
+msgid "Field Service Order"
+msgstr "ការចុះជួសជុល"
+
+#. module: fieldservice
+#: model:ir.model,name:fieldservice.model_fsm_equipment
+msgid "Field Service Equipment"
+msgstr "ឧបករណ៍"

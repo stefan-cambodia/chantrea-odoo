@@ -66,11 +66,20 @@ class TestFichiersDeTraduction(TransactionCase):
         self.assertIn("ស្វែងរក", en_khmer.ref("portal.portal_searchbar").arch_db)
         self.assertIn("សម្រង់តម្លៃ", en_khmer.ref("sale.sale_order_portal_template").arch_db)
         self.assertEqual(en_khmer.ref("fieldservice.fsm_stage_completed").name, "បានបញ្ចប់")
+        # Nom du type de document, repris dans les courriels (« មើល សំណើជំនួយ »).
+        self.assertEqual(en_khmer.ref("helpdesk_mgmt.model_helpdesk_ticket").name, "សំណើជំនួយ")
         # Français : seuls les textes absents des modules OCA sont complétés.
         en_francais = self.env(context={"lang": "fr_FR"})
         self.assertEqual(en_francais.ref("fieldservice.fsm_stage_completed").name, "Terminé")
         self.assertIn("Vos contrats", en_francais.ref("contract.portal_my_home_contract").arch_db)
         self.assertIn("Adresses", en_francais.ref("portal.portal_my_home").arch_db, "traduction d'Odoo conservée")
+
+    def test_plan_comptable_traduit_apres_son_chargement(self):
+        """Le plan comptable se charge après l'installation des modules : son groupe de
+        taxes (« VAT 10% » sur un devis) doit quand même être en khmer sur une base neuve."""
+        groupe = self.env["account.tax.group"].with_context(lang="en_US").search([("name", "=", "VAT 10%")], limit=1)
+        self.assertTrue(groupe, "groupe de taxes du plan comptable cambodgien introuvable")
+        self.assertEqual(groupe.with_context(lang="km_KH").name, "អាករលើតម្លៃបន្ថែម ១០%")
 
     def test_traductions_remises_quand_odoo_recharge_un_module(self):
         """Mise à jour d'un module OCA, langue réactivée : nos traductions sont remises aussitôt."""
@@ -112,6 +121,7 @@ class TestFichiersDeTraduction(TransactionCase):
         self.assertEqual(python("fieldservice_portal", "km_KH").get("Search in All"), "ស្វែងរកក្នុងទាំងអស់")
         self.assertEqual(python("portal", "km_KH").get("Some required fields are empty."),
                          "ព័ត៌មានចាំបាច់ខ្លះមិនទាន់បានបំពេញ។")
+        self.assertEqual(python("mail", "km_KH").get("View %s"), "មើល %s", "bouton des courriels envoyés aux clients")
         self.assertEqual(python("contract", "fr_FR").get("All"), "Tous")
         self.assertNotIn("Newest", python("helpdesk_mgmt", "en_US"))
 

@@ -13,7 +13,7 @@ Les noms de pays ne sont pas listés : ils viennent du référentiel Unicode CLD
 Ordre conseillé : parties 1 et 2 d'abord (ce que chaque client voit sur ses documents
 et sur l'accueil), puis la partie 3.
 
-**0 / 689 textes relus.**
+**0 / 699 textes relus.**
 
 ## 1. Documents imprimés et pages Chantrea
 
@@ -166,7 +166,7 @@ Catégories de tickets, courriels, accueil de l'espace client… À corriger dan
 
 Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules OCA. À corriger dans `addons/chantrea_portail/i18n_clients/km.po` (la colonne indique le module d'origine).
 
-0 / 560 textes relus.
+0 / 570 textes relus.
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
@@ -730,3 +730,13 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | វិក្កយបត្រ | Invoice | account |
 | ⏳ à relire |  |  | auth_totp_portal, payment, portal |
 | ⏳ à relire | ប្រសិនបើលោកអ្នកគិតថានេះជាកំហុស សូមទាក់ទងអ្នកគ្រប់គ្រងគេហទំព័រ។ | If you believe that it is an error, please contact the website administrator. | payment |
+| ⏳ à relire | មើល %s | View %s | mail |
+| ⏳ à relire | មើល | View | mail |
+| ⏳ à relire | ឯកសាររបស់លោកអ្នក៖ | Your | mail |
+| ⏳ à relire | មើលសម្រង់តម្លៃ | View Quotation | sale |
+| ⏳ à relire | យល់ព្រម និងចុះហត្ថលេខាលើសម្រង់តម្លៃ | Accept & Sign Quotation | sale |
+| ⏳ à relire | ចុះហត្ថលេខា និងបង់ប្រាក់សម្រង់តម្លៃ | Sign & Pay Quotation | sale |
+| ⏳ à relire | យល់ព្រម និងបង់ប្រាក់សម្រង់តម្លៃ | Accept & Pay Quotation | sale |
+| ⏳ à relire | សំណើជំនួយ | Helpdesk Ticket | helpdesk_mgmt |
+| ⏳ à relire | ការចុះជួសជុល | Field Service Order | fieldservice |
+| ⏳ à relire | ឧបករណ៍ | Field Service Equipment | fieldservice |
