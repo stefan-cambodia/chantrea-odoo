@@ -145,3 +145,98 @@ msgstr "Valider la facture mensuelle"
 #: model:mail.template,subject:chantrea_portail.modele_accuse_reception_ticket
 msgid "Your request {{ object.number }} has been received"
 msgstr "Votre demande {{ object.number }} a bien été reçue"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "<i class=\"fa fa-plus\"/> Ask for help"
+msgstr "<i class=\"fa fa-plus\"/> Demander de l'aide"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Accept and sign online"
+msgstr "Acceptez et signez en ligne"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Active contracts"
+msgstr "Contrats en cours"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "All interventions, with their signed reports:"
+msgstr "Toutes les interventions, avec leur rapport signé :"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Amount due:"
+msgstr "Montant dû :"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Equipment"
+msgstr "Matériel"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Follow and answer your support tickets"
+msgstr "Suivez vos demandes d'assistance et répondez-y"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Hello"
+msgstr "Bonjour"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Interventions in progress"
+msgstr "Interventions en cours"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Invoices to pay"
+msgstr "Factures à payer"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Maintenance and services"
+msgstr "Maintenance et services"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Nothing to pay"
+msgstr "Rien à payer"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Open requests"
+msgstr "Demandes en cours"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Quotations to review"
+msgstr "Devis à examiner"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Servers, network, workstations, licences"
+msgstr "Serveurs, réseau, postes, licences"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Warranties ending within 60 days:"
+msgstr "Garanties se terminant dans les 60 jours :"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Your IT at a glance: requests, interventions, equipment and invoices."
+msgstr "Votre informatique en un coup d'œil : demandes, interventions, matériel et factures."
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Your account"
+msgstr "Votre compte"
+
+#. module: chantrea_portail
+#: model:ir.model,name:chantrea_portail.model_chantrea_traductions_clients
+msgid "Chantrea: translations of customer-facing Odoo/OCA texts"
+msgstr "Chantrea : traductions des textes Odoo/OCA vus par les clients"

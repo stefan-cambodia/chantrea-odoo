@@ -145,3 +145,93 @@ msgstr ""
 #: model:mail.template,subject:chantrea_portail.modele_accuse_reception_ticket
 msgid "Your request {{ object.number }} has been received"
 msgstr "សំណើរបស់លោកអ្នក {{ object.number }} ត្រូវបានទទួលហើយ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "<i class=\"fa fa-plus\"/> Ask for help"
+msgstr "<i class=\"fa fa-plus\"/> ស្នើសុំជំនួយ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Accept and sign online"
+msgstr "យល់ព្រម និងចុះហត្ថលេខាតាមអនឡាញ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Active contracts"
+msgstr "កិច្ចសន្យាកំពុងមានសុពលភាព"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "All interventions, with their signed reports:"
+msgstr "ការចុះជួសជុលទាំងអស់ ព្រមទាំងរបាយការណ៍ដែលបានចុះហត្ថលេខា៖"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Amount due:"
+msgstr "ចំនួនត្រូវបង់៖"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Equipment"
+msgstr "ឧបករណ៍"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Follow and answer your support tickets"
+msgstr "តាមដាន និងឆ្លើយតបសំណើជំនួយរបស់លោកអ្នក"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Hello"
+msgstr "សួស្តី"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Interventions in progress"
+msgstr "ការចុះជួសជុលកំពុងដំណើរការ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Invoices to pay"
+msgstr "វិក្កយបត្រត្រូវបង់"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Maintenance and services"
+msgstr "ការថែទាំ និងសេវាកម្ម"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Nothing to pay"
+msgstr "គ្មានអ្វីត្រូវបង់ទេ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Open requests"
+msgstr "សំណើជំនួយកំពុងបើក"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Quotations to review"
+msgstr "សម្រង់តម្លៃត្រូវពិនិត្យ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Servers, network, workstations, licences"
+msgstr "ម៉ាស៊ីនមេ បណ្តាញ កុំព្យូទ័រ អាជ្ញាប័ណ្ណ"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Warranties ending within 60 days:"
+msgstr "ការធានាដែលនឹងផុតកំណត់ក្នុងរយៈពេល 60 ថ្ងៃ៖"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Your IT at a glance: requests, interventions, equipment and invoices."
+msgstr "ទិដ្ឋភាពរួមនៃប្រព័ន្ធព័ត៌មានវិទ្យារបស់លោកអ្នក៖ សំណើជំនួយ ការចុះជួសជុល ឧបករណ៍ និងវិក្កយបត្រ។"
+
+#. module: chantrea_portail
+#: model_terms:ir.ui.view,arch_db:chantrea_portail.portal_my_home_chantrea
+msgid "Your account"
+msgstr "គណនីរបស់លោកអ្នក"
