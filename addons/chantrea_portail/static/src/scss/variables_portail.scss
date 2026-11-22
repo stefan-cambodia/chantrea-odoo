@@ -1,0 +1,14 @@
+// Charte Chantrea Systems (site chantrea, mode « chrome ») pour l'espace client.
+// Chargé AVANT les variables d'Odoo (qui utilisent !default) : seul l'espace
+// client est concerné, l'interface interne garde ses couleurs.
+$primary: #1f6b3c;
+$secondary: #5e574d;
+$body-bg: #f3efe6;
+$body-color: #0f1412;
+$link-color: #1f6b3c;
+$border-radius: 0.5rem;
+$border-radius-lg: 0.75rem;
+// Polices : celles du site (Noto Sans Khmer, Kantumruy Pro) si elles sont
+// présentes sur l'appareil, sinon les polices khmères du système.
+$font-family-sans-serif: "Noto Sans", "Noto Sans Khmer", "Kantumruy Pro", "Khmer OS System", "Khmer UI",
+    "Leelawadee UI", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

@@ -9,6 +9,7 @@
     "depends": [
         "chantrea_base",
         "chantrea_kh_facture",
+        "chantrea_parc",
         "portal",
         "helpdesk_mgmt",
         "helpdesk_mgmt_timesheet",
@@ -26,6 +27,18 @@
         "data/mail_template.xml",
         "data/contrats.xml",
         "views/helpdesk_portail.xml",
+        "views/accueil.xml",
     ],
+    "assets": {
+        "web._assets_frontend_helpers": [
+            ("prepend", "chantrea_portail/static/src/scss/variables_portail.scss"),
+        ],
+        "web.assets_frontend": [
+            "chantrea_portail/static/src/scss/espace_client.scss",
+        ],
+        "portal.assets_chatter_style": [
+            "chantrea_portail/static/src/scss/messagerie.scss",
+        ],
+    },
     "installable": True,
 }

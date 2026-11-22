@@ -1,0 +1,12 @@
+// Messagerie d'un document (ticket, devis, facture…). Odoo la charge à part, avec sa
+// propre feuille de style : on y reprend le vert de la charte pour le bouton d'envoi
+// et les liens.
+$ck-vert: #1f6b3c;
+
+.btn-primary {
+    background-color: $ck-vert !important; border-color: $ck-vert !important; color: #fff !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: darken($ck-vert, 6%) !important; border-color: darken($ck-vert, 6%) !important;
+}
+a:not(.btn), .btn-link { color: $ck-vert; }

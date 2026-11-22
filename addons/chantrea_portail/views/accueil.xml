@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Accueil de l'espace client : tableau de bord Chantrea (tickets, interventions,
+         matériel, contrats, devis, factures), puis les rubriques du compte.
+         Chaque texte est dans son propre bloc (div) pour rester une phrase entière
+         dans les fichiers de traduction. -->
+    <template id="portal_my_home_chantrea" name="Chantrea: customer area dashboard"
+              inherit_id="portal.portal_my_home" priority="5">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-if="chantrea">
+                <section class="o_chantrea_accueil">
+                    <div class="o_chantrea_bandeau">
+                        <div>
+                            <h1 class="o_chantrea_titre">Hello <t t-out="request.env.user.partner_id.name"/></h1>
+                            <p class="o_chantrea_intro">Your IT at a glance: requests, interventions, equipment and invoices.</p>
+                        </div>
+                        <a href="/new/ticket" class="btn btn-primary o_chantrea_bouton">
+                            <i class="fa fa-plus"/> Ask for help
+                        </a>
+                    </div>
+
+                    <div class="row g-3 o_chantrea_cartes">
+                        <div class="col-12 col-sm-6">
+                            <a href="/my/tickets" class="o_chantrea_carte" data-chantrea-carte="tickets">
+                                <i class="fa fa-life-ring o_chantrea_icone"/>
+                                <div class="o_chantrea_nombre" t-out="chantrea['tickets_ouverts']"/>
+                                <div class="o_chantrea_libelle">Open requests</div>
+                                <div class="o_chantrea_detail">Follow and answer your support tickets</div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <a href="/my/fsm_orders" class="o_chantrea_carte" data-chantrea-carte="interventions">
+                                <i class="fa fa-wrench o_chantrea_icone"/>
+                                <div class="o_chantrea_nombre" t-out="chantrea['interventions_ouvertes']"/>
+                                <div class="o_chantrea_libelle">Interventions in progress</div>
+                                <div class="o_chantrea_detail">All interventions, with their signed reports: <t t-out="chantrea['interventions_total']"/></div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <a href="/my/equipments" class="o_chantrea_carte" data-chantrea-carte="equipements">
+                                <i class="fa fa-server o_chantrea_icone"/>
+                                <div class="o_chantrea_nombre" t-out="chantrea['equipements']"/>
+                                <div class="o_chantrea_libelle">Equipment</div>
+                                <div t-if="chantrea['garanties_bientot']" class="o_chantrea_detail o_chantrea_alerte">Warranties ending within 60 days: <t t-out="chantrea['garanties_bientot']"/></div>
+                                <div t-else="" class="o_chantrea_detail">Servers, network, workstations, licences</div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <a href="/my/contracts" class="o_chantrea_carte" data-chantrea-carte="contrats">
+                                <i class="fa fa-handshake-o o_chantrea_icone"/>
+                                <div class="o_chantrea_nombre" t-out="chantrea['contrats_actifs']"/>
+                                <div class="o_chantrea_libelle">Active contracts</div>
+                                <div class="o_chantrea_detail">Maintenance and services</div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <a href="/my/quotes" class="o_chantrea_carte" data-chantrea-carte="devis">
+                                <i class="fa fa-file-text-o o_chantrea_icone"/>
+                                <div class="o_chantrea_nombre" t-out="chantrea['devis_a_valider']"/>
+                                <div class="o_chantrea_libelle">Quotations to review</div>
+                                <div class="o_chantrea_detail">Accept and sign online</div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <a href="/my/invoices" class="o_chantrea_carte" data-chantrea-carte="factures">
+                                <i class="fa fa-money o_chantrea_icone"/>
+                                <div class="o_chantrea_nombre" t-out="chantrea['factures_a_payer']"/>
+                                <div class="o_chantrea_libelle">Invoices to pay</div>
+                                <div t-if="chantrea['montant_a_payer']" class="o_chantrea_detail">Amount due: <span t-out="chantrea['montant_a_payer']" t-options="{'widget': 'monetary', 'display_currency': chantrea['devise_usd']}"/></div>
+                                <div t-else="" class="o_chantrea_detail">Nothing to pay</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <p t-if="chantrea['societe'].phone or chantrea['societe'].email" class="o_chantrea_contact">
+                        <i class="fa fa-phone"/>
+                        <span t-out="chantrea['societe'].name"/> :
+                        <span t-if="chantrea['societe'].phone" t-out="chantrea['societe'].phone"/>
+                        <t t-if="chantrea['societe'].phone and chantrea['societe'].email"> · </t>
+                        <span t-if="chantrea['societe'].email" t-out="chantrea['societe'].email"/>
+                    </p>
+                    <h2 class="o_chantrea_sous_titre">Your account</h2>
+                </section>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Rubriques standard de l'accueil : on ne garde que celles qui ne sont pas déjà
+         dans le tableau de bord (commandes, adresses, connexion et sécurité). Les
+         rubriques internes ou fournisseurs (projets, feuilles de temps, achats…) ne
+         sont pas proposées aux clients. La liste est dans controllers/accueil.py. -->
+    <template id="portal_docs_entry_chantrea" name="Chantrea: customer area entries"
+              inherit_id="portal.portal_docs_entry">
+        <xpath expr="//div[a]" position="attributes">
+            <attribute name="t-if">not chantrea or (url or '').split('?')[0] not in chantrea['rubriques_masquees']</attribute>
+        </xpath>
+    </template>
+</odoo>
