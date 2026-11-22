@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Règles d'accès des clients (groupe Portail) qui complètent les modules OCA.
+
+    Les règles d'un même groupe s'additionnent (OU) ; un modèle sans règle pour
+    le groupe Portail est lisible en entier. Voir docs/CORRECTIFS_OCA.md.
+-->
+<odoo>
+    <!-- Contrats : visibles par toute la société du client (comme ses tickets et
+         factures), en plus de la règle OCA « contacts abonnés au contrat ». -->
+    <record id="regle_contrat_societe_portail" model="ir.rule">
+        <field name="name">Chantrea : contrats de la société du client</field>
+        <field name="model_id" ref="contract.model_contract_contract"/>
+        <field name="domain_force">[('partner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Lignes de contrat : l'OCA n'a aucune règle Portail ; un client lisait les
+         lignes (produits, prix) des contrats de tous les autres clients. -->
+    <record id="regle_ligne_contrat_portail" model="ir.rule">
+        <field name="name">Chantrea : lignes des contrats du client</field>
+        <field name="model_id" ref="contract.model_contract_line"/>
+        <field name="domain_force">['|',
+            ('contract_id.partner_id', 'child_of', [user.commercial_partner_id.id]),
+            ('contract_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <!-- Modifications de contrat : même défaut, même correction. -->
+    <record id="regle_modification_contrat_portail" model="ir.rule">
+        <field name="name">Chantrea : modifications des contrats du client</field>
+        <field name="model_id" ref="contract.model_contract_modification"/>
+        <field name="domain_force">['|',
+            ('contract_id.partner_id', 'child_of', [user.commercial_partner_id.id]),
+            ('contract_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+    <!-- Mouvements de stock : fieldservice_stock donne au Portail la lecture ET
+         l'écriture sur tous les mouvements, sans règle. Lecture limitée aux
+         mouvements des interventions du client (même domaine que la règle
+         fieldservice_portal des interventions) ; aucune écriture. -->
+    <record id="regle_mouvement_stock_lecture_portail" model="ir.rule">
+        <field name="name">Chantrea : mouvements de stock des interventions du client</field>
+        <field name="model_id" ref="stock.model_stock_move"/>
+        <field name="domain_force">['&amp;', ('fsm_order_id', '!=', False), '|', '|',
+            ('fsm_order_id.location_id.owner_id', 'child_of', [user.commercial_partner_id.id]),
+            ('fsm_order_id.location_id.contact_id', 'child_of', [user.commercial_partner_id.id]),
+            ('fsm_order_id.message_partner_ids', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="regle_mouvement_stock_ecriture_portail" model="ir.rule">
+        <field name="name">Chantrea : aucune modification des mouvements de stock par un client</field>
+        <field name="model_id" ref="stock.model_stock_move"/>
+        <field name="domain_force">[(0, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>
