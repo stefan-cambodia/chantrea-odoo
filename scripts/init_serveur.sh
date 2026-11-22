@@ -21,10 +21,12 @@ probleme() { echo "  - $*"; erreurs=1; }
 case "${COMPOSE_FILE:-}" in
   *local*) probleme ".env : supprimez la ligne COMPOSE_FILE (elle ajoute les outils du poste local)." ;;
 esac
-for variable in DOMAINE POSTGRES_PASSWORD ODOO_ADMIN_PASSWD; do
+for variable in DOMAINE POSTGRES_PASSWORD ODOO_ADMIN_PASSWD SMTP_SERVER EMAIL_FROM; do
   [ -n "${!variable:-}" ] || probleme ".env : $variable est vide."
 done
 [ "${SMTP_SERVER:-}" != "mailpit" ] || probleme ".env : SMTP_SERVER=mailpit est le réglage local ; indiquez votre serveur d'envoi."
+# Tous les courriels partent de EMAIL_FROM : ce doit être une vraie adresse, autorisée par le service d'envoi.
+[ "${EMAIL_FROM:-}" != "odoo@localhost" ] || probleme ".env : EMAIL_FROM=odoo@localhost est le réglage local ; indiquez l'adresse d'expédition autorisée par votre service d'envoi."
 [ -z "${ADMIN_LOCAL_PASSWORD:-}${DEMO_CLIENT_PASSWORD:-}" ] \
   || probleme ".env : videz ADMIN_LOCAL_PASSWORD et DEMO_CLIENT_PASSWORD (ils ne servent qu'en local)."
 if [ "$erreurs" = 1 ]; then echo "Corrigez ces points puis relancez."; exit 1; fi
@@ -71,21 +73,19 @@ echo "==> 4/5 Démarrage"
 docker compose up -d
 scripts/verifier_modules.sh
 
-echo "==> 5/5 Courriel d'essai à ${ADMIN_EMAIL}"
-ALERTE_EMAIL="$ADMIN_EMAIL" alerter "[Chantrea] Courriel d'essai du serveur ${DOMAINE}" <<EOF
-Ceci est le courriel d'essai envoyé à la fin de l'installation de ${URL_PUBLIQUE}.
-Si vous le lisez, l'envoi de courriels fonctionne : vous recevrez de la même façon
-le code demandé à chaque connexion.
-EOF
+echo "==> 5/5 Deux courriels d'essai à ${ADMIN_EMAIL}"
+# Le second est envoyé par Odoo lui-même : c'est le chemin du code de connexion.
+scripts/essai_courriel.sh "$ADMIN_EMAIL" || true
 
 cat <<EOF
 
 Installation terminée : ${URL_PUBLIQUE}   (identifiant : admin)
 
-AVANT de vous connecter, vérifiez que le courriel d'essai est arrivé à ${ADMIN_EMAIL}.
-Le code de connexion arrive par courriel : sans envoi de courriels, pas de connexion.
-S'il n'est pas arrivé : corrigez SMTP_* dans .env, puis « docker compose up -d »
-(voir docs/DEPLOIEMENT.md, « Dépannage »).
+AVANT de vous connecter, vérifiez que les DEUX courriels d'essai sont arrivés à ${ADMIN_EMAIL}
+(regardez aussi dans les indésirables). Le second est envoyé par Odoo, comme le code de
+connexion : sans lui, pas de connexion.
+S'ils ne sont pas arrivés : corrigez SMTP_* et EMAIL_FROM dans .env, puis « docker compose up -d »
+et « scripts/essai_courriel.sh ${ADMIN_EMAIL} » (voir docs/DEPLOIEMENT.md, « Dépannage »).
 
 Étapes suivantes : sauvegardes (scripts/sauvegarde.sh) et tâches planifiées, dans docs/DEPLOIEMENT.md.
 EOF
