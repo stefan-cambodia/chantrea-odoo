@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Accusé de réception envoyé au client à la création de son ticket, dans sa
+         langue (khmer, anglais ou français : traductions dans i18n/).
+         Envoi : models/helpdesk_ticket.py. -->
+    <record id="modele_accuse_reception_ticket" model="mail.template">
+        <field name="name">Chantrea: ticket received</field>
+        <field name="model_id" ref="helpdesk_mgmt.model_helpdesk_ticket"/>
+        <field name="email_from">{{ object.company_id.email_formatted }}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="email_cc">{{ not object.partner_id and object.partner_email or '' }}</field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="subject">Your request {{ object.number }} has been received</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html" type="html">
+<div style="font-family: 'Noto Sans Khmer', 'Noto Sans', Arial, sans-serif; font-size: 14px; color: #0f1412; line-height: 1.6;">
+    <p>Hello <t t-out="object.partner_id.name or object.partner_name or ''">Dara</t>,</p>
+    <p>We have received your request <strong t-out="object.name or ''">Printer out of order</strong> under number <strong t-out="object.number or ''">HT00001</strong>.</p>
+    <p>A technician will get back to you as soon as possible. You can follow this request and reply to it in your customer area.</p>
+    <p style="margin: 20px 0;">
+        <a t-att-href="object.get_base_url() + object.get_portal_url()"
+           style="background-color: #1f6b3c; color: #ffffff; padding: 10px 18px; border-radius: 6px; text-decoration: none;">View my request</a>
+    </p>
+    <p>Chantrea Systems</p>
+</div>
+        </field>
+    </record>
+
+</odoo>
