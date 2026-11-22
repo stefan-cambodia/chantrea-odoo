@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Contrats de maintenance : produit et modèle de contrat mensuel.
+    La facture est créée chaque mois EN BROUILLON par la tâche planifiée du module
+    OCA « contract » ; une activité « À valider » est posée dessus
+    (models/contract_contract.py). Prix laissés à 0 : à fixer par contrat.
+-->
+<odoo noupdate="1">
+    <!-- Activité posée sur chaque facture mensuelle, marquée faite à la validation. -->
+    <record id="activite_valider_facture" model="mail.activity.type">
+        <field name="name">Validate invoice</field>
+        <field name="res_model">account.move</field>
+        <field name="icon">fa-check</field>
+        <field name="delay_count">0</field>
+    </record>
+
+    <record id="produit_maintenance_mensuelle" model="product.product">
+        <field name="name">Monthly IT maintenance plan</field>
+        <field name="type">service</field>
+        <field name="list_price">0.0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+
+    <record id="modele_contrat_maintenance_mensuelle" model="contract.template">
+        <field name="name">Monthly IT maintenance</field>
+        <field name="contract_type">sale</field>
+        <field name="recurring_rule_type">monthly</field>
+        <field name="recurring_interval">1</field>
+        <field name="recurring_invoicing_type">pre-paid</field>
+    </record>
+
+    <!-- Libellé bilingue, comme la facture imprimée ; #START# et #END# sont
+         remplacés par les dates de la période facturée. -->
+    <record id="modele_contrat_maintenance_mensuelle_ligne" model="contract.template.line">
+        <field name="contract_id" ref="modele_contrat_maintenance_mensuelle"/>
+        <field name="product_id" ref="produit_maintenance_mensuelle"/>
+        <field name="name">Monthly IT maintenance plan / កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#)</field>
+        <field name="quantity">1</field>
+        <field name="automatic_price" eval="False"/>
+        <field name="price_unit">0.0</field>
+    </record>
+</odoo>
