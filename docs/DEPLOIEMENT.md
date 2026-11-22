@@ -251,17 +251,24 @@ concernés.
 5. Assistance › Configuration › Les équipes › « Assistance Chantrea Systems » : dans « Alias de
    courriel », saisissez `assistance`.
 6. Lancez `scripts/essai_courriel.sh vous@votre-domaine.com` (il signale un expéditeur mal
-   réglé), puis écrivez à `assistance@votre-domaine.com` depuis votre propre adresse et attendez
-   le ticket.
+   réglé), puis écrivez à `assistance@votre-domaine.com` depuis l'adresse de votre compte Odoo et
+   attendez le ticket.
 
 Ce qui se passe ensuite :
 
 - **Un contact connu écrit** (son adresse est sur sa fiche) : le ticket est rattaché à ce client,
   visible dans son espace, avec le canal « Courriel », et il reçoit l'accusé de réception dans sa
   langue. Sa réponse à l'accusé arrive dans le même ticket.
-- **Une adresse inconnue écrit** : le ticket est créé sans client, à rattacher à la main, et rien
-  n'est envoyé à cette adresse. Pour refuser ces courriels : sur l'équipe, « Accepter les courriels
-  de » › « Partenaires authentifiés ».
+- **Une adresse inconnue écrit** : le courriel est refusé et aucun ticket n'est créé. « Connue »
+  veut dire que l'adresse figure sur une fiche de contact d'Odoo. L'expéditeur reçoit une réponse
+  automatique en khmer, anglais et français, qui l'invite à écrire depuis l'adresse que vous
+  connaissez ou à passer par son espace client. Elle arrive au nom de « MAILER-DAEMON », comme un
+  avis de non-remise. Avant de communiquer l'adresse d'assistance, vérifiez donc que l'adresse de
+  chaque interlocuteur est sur sa fiche de contact.
+  - Pour changer le texte : Paramètres › Technique › E-mail › Alias › `assistance` › « Message de
+    rejet personnalisé ».
+  - Pour accepter tout le monde : sur l'équipe, « Accepter les courriels de » › « Tout le monde ».
+    Un inconnu crée alors un ticket sans client, à rattacher à la main, sans accusé de réception.
 - Un ticket reçu par courriel n'a pas de catégorie : le technicien la choisit.
 - Odoo ne relève que les courriels **non lus**, et les laisse dans la boîte, marqués comme lus.
   N'ouvrez donc pas cette boîte avec un logiciel de messagerie : un courriel lu ailleurs avant le
@@ -535,8 +542,9 @@ Essayé sur le poste de développement, le 22/11/2026 :
     client, réinitialisation de mot de passe, accusé de réception, réponse d'un technicien ;
   - l'étape 6 en entier : boîte relevée en IMAP avec SSL, ticket créé pour une cliente connue et
     visible dans son espace, accusé de réception en khmer, réponse de la cliente rangée dans le
-    même ticket, courriel d'une adresse inconnue, réponse à un devis reçue par l'adresse
-    `catchall` et rangée sous le devis ;
+    même ticket, réponse à un devis reçue par l'adresse `catchall` et rangée sous le devis ;
+  - le refus d'une adresse inconnue : aucun ticket, et la réponse en trois langues reçue dans
+    Mailpit (essai fait en donnant le courriel à Odoo, sans passer par la boîte provisoire) ;
   - `scripts/essai_courriel.sh` : les deux courriels, l'alerte quand l'expéditeur réglé dans Odoo
     n'est pas `EMAIL_FROM`, et l'échec quand le serveur d'envoi ne répond pas.
 - Une connexion de l'administrateur dans un navigateur : le code de connexion part de

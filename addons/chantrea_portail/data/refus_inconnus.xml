@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Adresse d'assistance (tickets par courriel, docs/DEPLOIEMENT.md, étape 6) : seuls les
+    contacts connus peuvent y écrire. Un expéditeur inconnu reçoit la réponse ci-dessous ;
+    sa langue n'étant pas connue, elle est en khmer, en anglais et en français.
+    noupdate : modifiable ensuite sur l'équipe (« Accepter les courriels de »), sans être
+    écrasé par une mise à jour du module. Les bases déjà installées reçoivent ce réglage
+    par migrations/19.0.1.0.1.
+-->
+<odoo noupdate="1">
+    <record id="equipe_assistance" model="helpdesk.ticket.team">
+        <field name="alias_contact">partners</field>
+        <field name="alias_bounced_content" type="html">
+<div style="font-family: 'Noto Sans Khmer', 'Noto Sans', Arial, sans-serif; font-size: 14px; color: #0f1412; line-height: 1.6;">
+    <p><span class="km" style="display: block; margin-bottom: 10px;">អាសយដ្ឋាននេះទទួលតែអ៊ីមែលពីអ្នកទំនាក់ទំនងដែលបានចុះឈ្មោះជាមួយ Chantrea Systems ប៉ុណ្ណោះ ដូច្នេះសាររបស់លោកអ្នកមិនត្រូវបានបញ្ជូនទៅដល់យើងទេ។ ប្រសិនបើលោកអ្នកជាអតិថិជន សូមសរសេរពីអាសយដ្ឋានអ៊ីមែលដែលលោកអ្នកបានផ្តល់ឱ្យយើង ឬផ្ញើសំណើរបស់លោកអ្នកពីតំបន់អតិថិជនរបស់លោកអ្នក។</span>
+    <span class="en" style="display: block;">This address only accepts emails from contacts registered with Chantrea Systems, so your message was not delivered. If you are a customer, please write from the email address you gave us, or send your request from your customer area.</span></p>
+    <p>Cette adresse n'accepte que les courriels des contacts enregistrés chez Chantrea Systems : votre message ne nous est pas parvenu. Si vous êtes client, écrivez depuis l'adresse que vous nous avez donnée, ou envoyez votre demande depuis votre espace client.</p>
+    <p>Chantrea Systems</p>
+</div>
+        </field>
+    </record>
+</odoo>

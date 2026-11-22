@@ -4,6 +4,7 @@ On donne à Odoo le courriel brut, comme le fait la relève de la boîte aux let
 """
 from unittest.mock import patch
 
+from odoo.addons.mail.tests.common import MockEmail
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import config
 
@@ -20,7 +21,7 @@ Content-Type: text/plain; charset="utf-8"
 
 
 @tagged("post_install", "-at_install", "chantrea")
-class TestTicketsParCourriel(TransactionCase):
+class TestTicketsParCourriel(TransactionCase, MockEmail):
 
     @classmethod
     def setUpClass(cls):
@@ -81,9 +82,26 @@ class TestTicketsParCourriel(TransactionCase):
         self.assertEqual(ticket.message_ids[0].author_id, self.cliente)
         self.assertEqual(len(self.accuses(ticket)), 1, "pas de second accusé de réception")
 
-    def test_courriel_d_un_inconnu(self):
-        """Ticket créé sans client, à rattacher à la main ; rien n'est envoyé à l'inconnu
-        (une adresse d'expéditeur se falsifie : pas de réponse automatique à n'importe qui)."""
+    def test_courriel_d_un_inconnu_refuse(self):
+        """Réglage livré : l'adresse d'assistance n'accepte que les contacts connus.
+        Un inconnu n'ouvre pas de ticket ; il reçoit une réponse en khmer, anglais et français."""
+        Ticket = self.env["helpdesk.ticket"]
+        self.assertEqual(self.equipe.alias_contact, "partners")
+        nb_tickets = Ticket.search_count([])
+        with self.mock_mail_gateway():
+            self.recevoir("Inconnu <quelquun@ailleurs.test>", "Demande de devis (test courriel)")
+        self.assertEqual(Ticket.search_count([]), nb_tickets)
+        self.assertEqual(len(self._mails), 1, "une seule réponse, à l'expéditeur refusé")
+        reponse = self._mails[0]
+        self.assertEqual(len(reponse["email_to"]), 1)
+        self.assertIn("quelquun@ailleurs.test", reponse["email_to"][0])
+        for extrait in ("អាសយដ្ឋាននេះ", "This address only accepts", "Cette adresse n'accepte"):
+            self.assertIn(extrait, reponse["body"])
+
+    def test_courriel_d_un_inconnu_accepte_sur_reglage(self):
+        """Avec « Accepter les courriels de : Tout le monde » sur l'équipe : ticket créé sans
+        client, à rattacher à la main, et aucun accusé de réception."""
+        self.equipe.alias_contact = "everyone"
         self.recevoir("Inconnu <quelquun@ailleurs.test>", "Demande de devis (test courriel)")
         ticket = self.env["helpdesk.ticket"].search([("name", "=", "Demande de devis (test courriel)")])
         self.assertEqual(len(ticket), 1)

@@ -13,13 +13,13 @@ Les noms de pays ne sont pas listés : ils viennent du référentiel Unicode CLD
 Ordre conseillé : parties 1 et 2 d'abord (ce que chaque client voit sur ses documents
 et sur l'accueil), puis la partie 3.
 
-**0 / 699 textes relus.**
+**0 / 700 textes relus.**
 
 ## 1. Documents imprimés et pages Chantrea
 
 Libellés des devis, factures, rapports d'intervention et pages du parc matériel. À corriger dans le gabarit XML du module indiqué.
 
-0 / 64 textes relus.
+0 / 65 textes relus.
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
@@ -87,6 +87,7 @@ Libellés des devis, factures, rapports d'intervention et pages du parc matérie
 | ⏳ à relire | ហត្ថលេខាអតិថិជន | Customer's signature | chantrea_parc |
 | ⏳ à relire | មិនទាន់ចុះហត្ថលេខា | Not signed yet | chantrea_parc |
 | ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
+| ⏳ à relire | អាសយដ្ឋាននេះទទួលតែអ៊ីមែលពីអ្នកទំនាក់ទំនងដែលបានចុះឈ្មោះជាមួយ Chantrea Systems ប៉ុណ្ណោះ ដូច្នេះសាររបស់លោកអ្នកមិនត្រូវបានបញ្ជូនទៅដល់យើងទេ។ ប្រសិនបើលោកអ្នកជាអតិថិជន សូមសរសេរពីអាសយដ្ឋានអ៊ីមែលដែលលោកអ្នកបានផ្តល់ឱ្យយើង ឬផ្ញើសំណើរបស់លោកអ្នកពីតំបន់អតិថិជនរបស់លោកអ្នក។ | This address only accepts emails from contacts registered with Chantrea Systems, so your message was not delivered. If you are a customer, please write from the email address you gave us, or send your request from your customer area. | chantrea_portail |
 
 ## 2. Modules Chantrea
 

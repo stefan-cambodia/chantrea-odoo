@@ -128,6 +128,8 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 - Un ticket peut aussi être ouvert par courriel (facultatif, réglages dans
   [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md), étape 6) : contact connu rattaché à son ticket,
   canal « Courriel », réponses rangées dans le ticket (`tests/test_tickets_par_courriel.py`).
+  Une adresse inconnue est refusée et reçoit une réponse en khmer, anglais et français
+  (`data/refus_inconnus.xml`) ; le réglage se change sur l'équipe, « Accepter les courriels de ».
 - Accès d'un client : fiche du contact › Action › « Accorder l'accès au portail ».
   Un client voit les tickets, devis et factures de **sa** société, jamais ceux d'un autre client
   (tests `chantrea_portail/tests/`). La page de connexion est en anglais à la première visite ;

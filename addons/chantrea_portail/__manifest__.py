@@ -1,7 +1,7 @@
 {
     "name": "Chantrea Systems – Espace client",
     "summary": "Assistance (tickets) et espace client de Chantrea Systems",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Website",
     "author": "Chantrea Systems",
     # AGPL-3 : ce module dépend de modules OCA sous AGPL-3.
@@ -24,6 +24,7 @@
         "security/chantrea_groupes.xml",
         "security/regles_portail.xml",
         "data/assistance.xml",
+        "data/refus_inconnus.xml",
         "data/mail_template.xml",
         "data/contrats.xml",
         "views/helpdesk_portail.xml",
