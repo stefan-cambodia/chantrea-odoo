@@ -5,3 +5,4 @@ from . import test_contrats
 from . import test_accueil
 from . import test_blocs_masques
 from . import test_traductions_clients
+from . import test_tickets_par_courriel
