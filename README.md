@@ -4,7 +4,7 @@ Application de gestion et espace client de **Chantrea Systems** (services inform
 Odoo 19.0 Community, auto-hébergé avec Docker. Interface interne en français ; espace client en khmer, anglais et français.
 
 - Liste des modules, licences et versions épinglées : [docs/MODULES.md](docs/MODULES.md)
-- Installation sur un serveur : `docs/DEPLOIEMENT.md` (étape 8)
+- Installation sur un serveur, sauvegardes et restauration : [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md)
 
 ## Organisation du dépôt
 
@@ -13,7 +13,8 @@ Odoo 19.0 Community, auto-hébergé avec Docker. Interface interne en français 
 | `docker/` | Image Odoo (polices khmères), génération de `odoo.conf`, Caddyfile |
 | `oca/` | Dépôts OCA en sous-modules git, épinglés à un commit — **jamais modifiés** |
 | `addons/` | Modules maison `chantrea_*` |
-| `scripts/` | Installation locale, mise à jour, vérification (sauvegarde/restauration à l'étape 8) |
+| `scripts/` | Installation (locale ou serveur), mise à jour, vérification, sauvegarde et restauration |
+| `deploiement/` | Tâches planifiées du serveur (sauvegarde chaque nuit, essai de restauration chaque semaine) |
 | `docs/` | Documentation |
 
 ## Installer en local
@@ -77,7 +78,7 @@ scripts/mettre_a_jour.sh
 scripts/mettre_a_jour.sh chantrea_parc,chantrea_portail
 ```
 
-Faire une sauvegarde avant toute mise à jour sur le serveur.
+Sur le serveur, faire une sauvegarde avant toute mise à jour : `scripts/sauvegarde.sh`.
 
 ## Tests automatiques
 
@@ -209,4 +210,30 @@ python3 scripts/relecture_km.py
 
 ## Sauvegarder / restaurer
 
-À venir (étape 8) : `scripts/sauvegarde.sh` et `scripts/restauration.sh`.
+Mode d'emploi complet, réglages et planification : [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md), étapes 7 et 8.
+
+```bash
+scripts/sauvegarde.sh                           # base + fichiers → archive chiffrée → copie SFTP → ménage (30 jours)
+scripts/restauration.sh --essai --depuis-sftp   # essai : restaure à côté, vérifie, supprime. Ne touche à rien.
+scripts/restauration.sh --remplacer --depuis-sftp   # revenir à la dernière sauvegarde (confirmation demandée)
+scripts/restauration.sh --help
+```
+
+- Une archive contient la base PostgreSQL, les fichiers d'Odoo (pièces jointes, PDF) et un manifeste.
+  Elle est chiffrée (AES-256) avec `SAUVEGARDE_PHRASE` de `.env` : **gardez cette phrase hors du
+  serveur**, sans elle aucune sauvegarde n'est lisible. `.env` n'est pas dans les archives.
+- Après chaque sauvegarde, l'archive est relue et la copie distante vérifiée. Les archives de plus
+  de `SAUVEGARDE_JOURS` jours (30) sont supprimées, sur la machine et sur le second stockage.
+- Une restauration se fait toujours **à côté** de la base en service, puis est vérifiée (mêmes
+  chiffres qu'au moment de la sauvegarde, chaque pièce jointe présente et intacte). La base en
+  service n'est remplacée qu'ensuite, et l'ancienne est gardée sous un autre nom.
+- Une sauvegarde venue d'un autre domaine (celle du serveur, ouverte sur votre poste) est
+  neutralisée : pas d'envoi de courriels ni de tâches planifiées.
+- En cas d'échec d'une sauvegarde ou d'un essai de restauration : courriel à `ALERTE_EMAIL`.
+
+Essai complet sur le poste local, sans toucher à la base de travail ni à vos réglages
+(serveur SFTP provisoire, environ une minute et demie) :
+
+```bash
+scripts/essai_sauvegarde.sh
+```
