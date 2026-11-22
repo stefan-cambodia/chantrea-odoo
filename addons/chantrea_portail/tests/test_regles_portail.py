@@ -3,6 +3,8 @@
 Vérifiées par l'ORM et par l'appel direct à l'API JSON d'Odoo, qu'un client
 connecté peut utiliser sans passer par les pages de l'espace client.
 """
+import base64
+
 from odoo.exceptions import AccessError
 from odoo.tests import HttpCase, tagged
 
@@ -87,3 +89,41 @@ class TestReglesPortail(HttpCase):
                 "model": modele, "method": "search_read", "args": [[], [champ]], "kwargs": {}})
             valeurs = [ligne[champ] for ligne in resultat]
             self.assertNotIn(interdit, valeurs, f"{modele} : donnée d'un autre client livrée par l'API")
+
+
+@tagged("post_install", "-at_install", "chantrea")
+class TestTelechargementSignature(HttpCase):
+    """sign_oca : /my/sign/<id>/download ne doit servir un document signé qu'à ses signataires."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        env = cls.env
+        Partner = env["res.partner"]
+        portail = env.ref("base.group_portal")
+        cls.contact_a = Partner.create({"name": "Sok A (signature)", "email": "sok@a.example",
+                                        "parent_id": Partner.create({"name": "A (signature)", "is_company": True}).id})
+        cls.contact_b = Partner.create({"name": "Bopha B (signature)", "email": "bopha@b.example",
+                                        "parent_id": Partner.create({"name": "B (signature)", "is_company": True}).id})
+        for contact, login in ((cls.contact_a, "sok-signature"), (cls.contact_b, "bopha-signature")):
+            env["res.users"].with_context(no_reset_password=True).create({
+                "name": contact.name, "login": login, "password": MOT_DE_PASSE, "partner_id": contact.id,
+                "group_ids": [(6, 0, portail.ids)]})
+        pdf = base64.b64encode(b"%PDF-1.4\n% document signe de B\n")
+        cls.demande_b = env["sign.oca.request"].create({
+            "name": "Contrat signé de B", "data": pdf,
+            "signer_ids": [(0, 0, {"partner_id": cls.contact_b.id,
+                                   "role_id": env["sign.oca.role"].search([], limit=1).id})]})
+
+    def telecharger(self, login):
+        self.authenticate(login, MOT_DE_PASSE)
+        return self.url_open(f"/my/sign/{self.demande_b.id}/download", allow_redirects=False)
+
+    def test_autre_client_refuse(self):
+        reponse = self.telecharger("sok-signature")
+        self.assertEqual(reponse.status_code, 404, "un client a obtenu le document signé d'un autre client")
+
+    def test_signataire_autorise(self):
+        reponse = self.telecharger("bopha-signature")
+        self.assertIn(reponse.status_code, (302, 303))
+        self.assertIn("/web/content/", reponse.headers.get("Location", ""))

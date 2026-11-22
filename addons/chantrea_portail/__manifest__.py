@@ -17,6 +17,7 @@
         "contract",
         "fieldservice_portal",
         "fieldservice_stock",
+        "sign_oca",
     ],
     "data": [
         "security/chantrea_groupes.xml",
