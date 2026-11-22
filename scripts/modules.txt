@@ -34,3 +34,4 @@ fieldservice_stock
 chantrea_base
 chantrea_kh_facture
 chantrea_portail
+chantrea_parc

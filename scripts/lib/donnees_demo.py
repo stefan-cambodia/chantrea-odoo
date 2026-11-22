@@ -134,6 +134,30 @@ if not contrat:
     Contrat.cron_recurring_create_invoice(date_ref=fields.Date.to_date("2026-11-16"))
 facture_contrat = contrat._get_related_invoices()[:1]
 
+# --- Parc matériel (garanties calculées par rapport à aujourd'hui) -------------
+from datetime import timedelta  # noqa: E402
+
+aujourd_hui = fields.Date.context_today(env["fsm.equipment"])
+site_hotel = trouver_ou_creer("fsm.location", [("name", "=", "Riverside Guesthouse – réception (DÉMO)")], {
+    "name": "Riverside Guesthouse – réception (DÉMO)", "owner_id": hotel.id})
+for nom, client, site, categorie, marque, modele, serie, achat, fin in [
+    ("Pare-feu de la réception (DÉMO)", hotel, site_hotel, "pare_feu", "Fortinet", "FortiGate 40F", "FGT40F-DEMO-001",
+     aujourd_hui - timedelta(days=700), aujourd_hui + timedelta(days=400)),
+    ("Onduleur de la baie (DÉMO)", hotel, site_hotel, "onduleur", "APC", "Smart-UPS 1500", "AS1500-DEMO-002",
+     aujourd_hui - timedelta(days=1050), aujourd_hui + timedelta(days=45)),
+    ("Borne Wi-Fi du jardin (DÉMO)", hotel, site_hotel, "wifi", "Ubiquiti", "U6 Mesh", "U6M-DEMO-003",
+     aujourd_hui - timedelta(days=900), aujourd_hui - timedelta(days=170)),
+    ("Poste de caisse (DÉMO)", cafe, False, "poste", "Lenovo", "ThinkCentre M70q", "M70Q-DEMO-004",
+     aujourd_hui - timedelta(days=300), aujourd_hui + timedelta(days=760)),
+]:
+    trouver_ou_creer("fsm.equipment", [("name", "=", nom)], {
+        "name": nom, "chantrea_client_id": client.id, "location_id": site.id if site else False,
+        "chantrea_categorie": categorie, "chantrea_marque": marque, "chantrea_modele": modele,
+        "chantrea_numero_serie": serie, "chantrea_date_achat": achat, "chantrea_fin_garantie": fin,
+        "chantrea_contrat_id": contrat.id if client == hotel else False,
+        "notes": "<p>Note interne de démonstration : jamais visible par le client.</p>"})
+env["fsm.equipment"]._chantrea_cron_alertes_garantie()
+
 env.cr.commit()
 
 # --- PDF -------------------------------------------------------------------

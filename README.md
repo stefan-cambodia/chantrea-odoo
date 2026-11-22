@@ -131,6 +131,21 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 - Échéance = date de facture, sauf conditions de paiement définies sur le contrat.
 - Le client voit les contrats de sa société dans son espace (`/my/contracts`).
 
+## Parc matériel des clients
+
+- Interventions › Équipements (fiche « Field Service Equipment » complétée par `chantrea_parc`) :
+  client, site, catégorie (serveur, switch, pare-feu, Wi-Fi, onduleur, stockage, poste, licence),
+  marque, modèle, numéro de série, fournisseur, date d'achat, fin de garantie, contrat lié,
+  responsable, notes internes. Boutons : tickets et interventions de l'équipement.
+- **Aucun mot de passe, adresse IP ni identifiant d'accès dans Odoo** : un avertissement le
+  rappelle sur la fiche, et Odoo refuse d'enregistrer une fiche qui semble en contenir
+  (pour un numéro de version, écrire `v1.0.2.15`).
+- Alertes internes 60 et 30 jours avant la fin de garantie : activité pour le responsable
+  de la fiche (tâche planifiée chaque jour à 7 h).
+- Le client voit le matériel de sa société dans son espace (`/my/equipments`), en lecture
+  seule, sans les notes internes ni le fournisseur (illisibles aussi par l'API).
+- Un ticket peut être relié aux équipements concernés (champ « Équipement » du ticket).
+
 ## Relecture du khmer
 
 Tous les textes khmers visibles par les clients sont listés dans

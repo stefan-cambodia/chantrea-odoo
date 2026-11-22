@@ -8,7 +8,7 @@ noter le texte comme relu dans `docs/relecture-km-statut.json`
 Tous les textes ci-dessous ont été traduits par Claude depuis l'anglais.
 Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en dessous.
 
-**0 / 61 textes relus.**
+**0 / 94 textes relus.**
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
@@ -60,10 +60,43 @@ Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en
 | ⏳ à relire | អត្រាបណ្ដោះអាសន្ន សម្រាប់ជាព័ត៌មានប៉ុណ្ណោះ | Provisional rate, for information only | chantrea_kh_facture |
 | ⏳ à relire | មិនទាន់មានអត្រាប្តូរប្រាក់ផ្លូវការ | Official exchange rate not yet available | chantrea_kh_facture |
 | ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
+| ⏳ à relire | ម៉ាក | Brand | chantrea_parc |
+| ⏳ à relire | ម៉ាក និងម៉ូដែល | Brand and model | chantrea_parc |
+| ⏳ à relire | ប្រភេទ | Category | chantrea_parc |
+| ⏳ à relire | កិច្ចសន្យា | Contract | chantrea_parc |
+| ⏳ à relire | អតិថិជន | Customer | chantrea_parc |
+| ⏳ à relire | ឈ្មោះសំរាប់បង្ហាញ | Display Name | chantrea_parc, chantrea_portail |
+| ⏳ à relire | ផុតកំណត់ក្នុងរយៈពេល ៦០ ថ្ងៃ | Ends within 60 days | chantrea_parc |
+| ⏳ à relire | ឧបករណ៍ | Equipment | chantrea_parc |
+| ⏳ à relire | ផុតកំណត់ | Expired | chantrea_parc |
+| ⏳ à relire | ជញ្ជាំងភ្លើង (Firewall) | Firewall | chantrea_parc |
+| ⏳ à relire | ការចុះជួសជុល | Interventions | chantrea_parc |
+| ⏳ à relire | អាជ្ញាប័ណ្ណ | License | chantrea_parc |
+| ⏳ à relire | ម៉ូដែល | Model | chantrea_parc |
+| ⏳ à relire | មិនទាន់មានឧបករណ៍ត្រូវបានកត់ត្រានៅឡើយទេ។ | No equipment recorded yet. | chantrea_parc |
+| ⏳ à relire | មិនមានការចុះជួសជុលសម្រាប់ឧបករណ៍នេះទេ។ | No intervention for this equipment. | chantrea_parc |
+| ⏳ à relire | មិនមានសំណើជំនួយសម្រាប់ឧបករណ៍នេះទេ។ | No ticket for this equipment. | chantrea_parc |
+| ⏳ à relire | កាលបរិច្ឆេទទិញ | Purchase date | chantrea_parc |
+| ⏳ à relire | លេខស៊េរី | Serial number | chantrea_parc |
+| ⏳ à relire | ម៉ាស៊ីនមេ (Server) | Server | chantrea_parc |
+| ⏳ à relire | ម៉ាស៊ីនមេ បណ្ដាញ កុំព្យូទ័រ និងអាជ្ញាប័ណ្ណ ព្រមទាំងការធានារបស់វា | Servers, network, workstations and licences, with their warranty | chantrea_parc |
+| ⏳ à relire | ទីតាំង | Site | chantrea_parc |
+| ⏳ à relire | ឧបករណ៍ផ្ទុកទិន្នន័យ | Storage | chantrea_parc |
+| ⏳ à relire | សំណើជំនួយ | Tickets | chantrea_parc |
+| ⏳ à relire | ឧបករណ៍បម្រុងថាមពល (UPS) | UPS | chantrea_parc |
+| ⏳ à relire | ក្នុងការធានា | Under warranty | chantrea_parc |
+| ⏳ à relire | មិនស្គាល់ | Unknown | chantrea_parc |
+| ⏳ à relire | ការធានា | Warranty | chantrea_parc |
+| ⏳ à relire | ថ្ងៃផុតការធានា | Warranty end | chantrea_parc |
+| ⏳ à relire | ការធានាជិតផុតកំណត់ | Warranty ends soon | chantrea_parc |
+| ⏳ à relire | ការធានាផុតកំណត់ | Warranty expired | chantrea_parc |
+| ⏳ à relire | ស្ថានភាពការធានា | Warranty status | chantrea_parc |
+| ⏳ à relire | មិនស្គាល់ការធានា | Warranty unknown | chantrea_parc |
+| ⏳ à relire | កុំព្យូទ័រការិយាល័យ | Workstation | chantrea_parc |
+| ⏳ à relire | ឧបករណ៍របស់លោកអ្នក | Your equipment | chantrea_parc |
 | ⏳ à relire | សួស្តី Dara , យើងបានទទួលសំណើរបស់លោកអ្នក Printer out of order ក្រោមលេខ HT00001 ហើយ។ អ្នកបច្ចេកទេសនឹងឆ្លើយតបទៅលោកអ្នកឆាប់ៗនេះ។ លោកអ្នកអាចតាមដានសំណើនេះ និងឆ្លើយតបនៅក្នុងតំបន់អតិថិជនរបស់លោកអ្នក។ មើលសំណើរបស់ខ្ញុំ Chantrea Systems | Hello Dara , We have received your request Printer out of order under number HT00001 . A technician will get back to you as soon as possible. You can follow this request and reply to it in your customer area. View my request Chantrea Systems | chantrea_portail |
 | ⏳ à relire | ការបម្រុងទុក និងទិន្នន័យ | Backup and data | chantrea_portail |
 | ⏳ à relire | ផ្នែកជំនួយ Chantrea Systems | Chantrea Systems support | chantrea_portail |
-| ⏳ à relire | ឈ្មោះសំរាប់បង្ហាញ | Display Name | chantrea_portail |
 | ⏳ à relire | អ៊ីមែល និងគណនីអ្នកប្រើប្រាស់ | Email and user accounts | chantrea_portail |
 | ⏳ à relire | ផ្នែករឹង និងឧបករណ៍ | Hardware and devices | chantrea_portail |
 | ⏳ à relire | ការចុះទិន្នានុប្បរត្ត | Journal Entry | chantrea_portail |
