@@ -10,6 +10,7 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 | postgres:17 | `sha256:223efeb196329b55b3b9a13db144956411dbc18e727e59f681c3e0aede6475cf` |
 | caddy:2 | `sha256:4851e54a46b206517c574821bb5cc67f170d2156041e9fbc4c9193b45e84a75b` |
 | axllent/mailpit (local seulement) | `sha256:23a2ef85bc50853ab3093645d1d64679afd8887e89da5e48a88940c172591a4e` |
+| atmoz/sftp:alpine (serveur SFTP provisoire de `scripts/essai_sauvegarde.sh`, local seulement) | `sha256:c5fb9e4beb8b7054a4c0b65c5e11df47cc20da95ad6002e88aecff62bab06372` |
 
 ## Dépôts OCA (sous-modules git, branche 19.0)
 
