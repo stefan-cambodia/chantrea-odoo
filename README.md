@@ -122,6 +122,12 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
   « Assistance Chantrea Systems », dont le temps passé est suivi dans le projet « Assistance ».
 - Accusé de réception envoyé au client à la création du ticket, dans sa langue (khmer,
   anglais ou français), signé par la société.
+- Tous les courriels d'Odoo partent de l'adresse `EMAIL_FROM` de `.env`, avec le nom de leur
+  auteur ; les réponses reviennent à l'auteur. `scripts/essai_courriel.sh adresse` envoie deux
+  courriels d'essai et contrôle cet expéditeur.
+- Un ticket peut aussi être ouvert par courriel (facultatif, réglages dans
+  [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md), étape 6) : contact connu rattaché à son ticket,
+  canal « Courriel », réponses rangées dans le ticket (`tests/test_tickets_par_courriel.py`).
 - Accès d'un client : fiche du contact › Action › « Accorder l'accès au portail ».
   Un client voit les tickets, devis et factures de **sa** société, jamais ceux d'un autre client
   (tests `chantrea_portail/tests/`). La page de connexion est en anglais à la première visite ;

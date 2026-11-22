@@ -19,6 +19,7 @@ Ces défauts pourraient être signalés à l'OCA ; ce n'est pas fait (à décide
 | fieldservice_sign (`99a7b92e`) | Les boutons « Signer » n'apparaissent que si l'étape en cours demande une signature ; seule l'étape « Terminé » le fait, alors que « signature obligatoire » l'exige AVANT de terminer. | Impossible de faire signer puis de terminer une intervention. | Signature possible dès l'étape « Nouveau » (`chantrea_parc/data/interventions.xml`). | `test_terminer_exige_la_signature` |
 | fieldservice (`99a7b92e`) | Les instructions au technicien (`todo`) sont lisibles par le client via l'API. | Fuite d'instructions internes. | Champ réservé aux utilisateurs internes. | `test_instructions_illisibles_par_le_client` |
 | fieldservice_portal (`99a7b92e`) | Son script `fsm_order_portal.esm.js` importe `@portal/js/portal`, qui n'existe plus dans Odoo 19. | Une erreur JavaScript sur **chaque** page de l'espace client. | Script retiré du lot de scripts de l'espace client (`chantrea_portail/__manifest__.py`). | `test_script_oca_incompatible_retire` |
+| helpdesk_mgmt (`77d935eb`) | Le canal « Courriel » d'un ticket reçu par courriel est déduit du contexte `fetchmail_cron_running`, qu'Odoo 19 ne transmet plus à la création du ticket. | Le canal reste vide : on ne distingue plus les tickets reçus par courriel. | Canal fixé dans `message_new`, appelé seulement pour un courriel reçu (`models/helpdesk_ticket.py`). | `test_courriel_d_un_client_connu` |
 
 ## Défauts d'Odoo 19 sans le module « website »
 
@@ -32,6 +33,16 @@ qu'il apporte manquent à l'espace client ; ils sont rétablis par héritage.
 | Les traductions JavaScript du module `mail` ne sont envoyées à l'espace client que par `website_mail`. | La messagerie d'un ticket, d'un devis ou d'une facture (« Write a message… », « Send ») reste en anglais. | `mail`, `auth_totp_portal`, `auth_passkey_portal` et `account_payment` ajoutés aux modules traduits côté client (`chantrea_portail/models/ir_http.py`). | même test |
 
 ## Comportements d'Odoo pris en compte (pas des défauts)
+
+- Sans réglage, Odoo met en expéditeur d'un courriel l'adresse personnelle de son auteur
+  (invitation d'un client, réponse à un ticket, envoi d'un devis) : un service d'envoi refuse en
+  général ces courriels. `docker/entrypoint-chantrea.sh` règle `from_filter` sur `EMAIL_FROM` :
+  tout part de cette adresse, le nom de l'auteur est conservé et les réponses lui reviennent.
+- Créer un domaine d'alias (réception des courriels) change l'expéditeur en `notifications@…` :
+  `chantrea_base` propose `EMAIL_FROM` à la place (`test_expediteur_du_domaine_d_alias`).
+- Quand on impose l'auteur d'un message publié avec un modèle de courriel, Odoo ne reprend plus
+  l'expéditeur du modèle : l'accusé de réception d'un ticket le donne lui-même, avec le nom de la
+  société (`test_expediteur_de_l_accuse_de_reception`).
 
 - La langue des pages client suit d'abord le cookie `frontend_lang`, posé dès la page de
   connexion : à la connexion, `chantrea_portail` l'aligne sur la langue du compte du client.

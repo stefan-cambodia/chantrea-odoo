@@ -165,7 +165,7 @@ nano .env
 | `ODOO_WORKERS` | `2` pour 2 processeurs. |
 | `SMTP_SERVER`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` | Ceux de votre service d'envoi. |
 | `SMTP_SSL` | `True` (connexion chiffrée STARTTLS, port 587). |
-| `EMAIL_FROM` | L'adresse d'expédition autorisée par votre service d'envoi. |
+| `EMAIL_FROM` | L'adresse d'expédition autorisée par votre service d'envoi, par exemple `erp@votre-domaine.com`. **Tous** les courriels d'Odoo partent de cette adresse : le nom de l'auteur est conservé (« Sokha <erp@…> ») et les réponses lui reviennent. |
 | `ADMIN_LOCAL_PASSWORD`, `DEMO_CLIENT_PASSWORD` | **Vides.** Ils ne servent qu'en local. |
 | `SAUVEGARDE_…`, `ALERTE_EMAIL` | Voir l'[étape 7](#7-sauvegardes). |
 
@@ -181,18 +181,24 @@ scripts/init_serveur.sh
 Le script vérifie d'abord `.env`, puis demande l'adresse courriel et le mot de passe de
 l'administrateur (12 caractères au moins ; ils ne sont écrits dans aucun fichier). Il construit
 ensuite l'image, crée la base en français, règle la société (Cambodge, USD, riel actif), installe
-tous les modules, récupère le taux USD/KHR, démarre l'application et envoie un **courriel d'essai**
-à l'administrateur. Comptez une dizaine de minutes. Il refuse de tourner si la base existe déjà.
+tous les modules, récupère le taux USD/KHR, démarre l'application et envoie **deux courriels
+d'essai** à l'administrateur. Comptez une dizaine de minutes. Il refuse de tourner si la base
+existe déjà.
 
 À la fin :
 
-1. Vérifiez que le courriel d'essai est arrivé. S'il n'arrive pas, voyez
-   [Dépannage](#lenvoi-de-courriels-ne-fonctionne-pas) avant d'aller plus loin : sans courriels,
-   vous ne pourrez pas vous connecter.
+1. Vérifiez que les deux courriels d'essai sont arrivés, sans oublier le dossier des indésirables.
+   Le premier vient du serveur, le second d'Odoo lui-même, par le même chemin que le code de
+   connexion. S'il en manque un, voyez [Dépannage](#lenvoi-de-courriels-ne-fonctionne-pas) avant
+   d'aller plus loin : sans courriels, vous ne pourrez pas vous connecter.
 2. Ouvrez `https://VOTRE_DOMAINE`, identifiant `admin`. Un code vous est envoyé par courriel.
-3. Créez un compte par personne (Paramètres › Utilisateurs), avec le groupe **Technicien** ou
+3. Renseignez l'adresse courriel de la société (Paramètres › Utilisateurs & Sociétés › Sociétés ›
+   Chantrea Systems › E-mail), par exemple `contact@votre-domaine.com`. C'est à elle que
+   reviennent les réponses de vos clients aux accusés de réception de leurs tickets. Tant qu'elle
+   est vide, ces réponses partent vers `EMAIL_FROM`.
+4. Créez un compte par personne (Paramètres › Utilisateurs), avec le groupe **Technicien** ou
    **Direction**, et gardez `admin` pour l'administration.
-4. Vérifiez que `https://VOTRE_DOMAINE/web/database/manager` répond « 404 » : le gestionnaire de
+5. Vérifiez que `https://VOTRE_DOMAINE/web/database/manager` répond « 404 » : le gestionnaire de
    bases n'est pas accessible.
 
 Les données de démonstration ne s'installent pas sur un serveur : `scripts/donnees_demo.sh` refuse
@@ -202,9 +208,14 @@ de tourner si `DOMAINE` n'est pas `localhost`.
 
 ### Envoi
 
-Tout passe par le serveur SMTP de `.env`. Pour que vos courriels n'arrivent pas dans les
-indésirables, déclarez votre service d'envoi dans le DNS de votre domaine (enregistrements SPF et
-DKIM : votre fournisseur de courriels donne les valeurs exactes).
+Tout passe par le serveur SMTP de `.env`, et tout part de l'adresse `EMAIL_FROM` : un service
+d'envoi refuse en général les courriels dont l'expéditeur n'est pas une adresse qu'il connaît.
+Vos clients voient le nom de l'auteur (« Chantrea Systems », ou le technicien qui répond), et
+leur réponse va à l'adresse de cet auteur : celle de la société (étape 5) ou celle du technicien.
+
+Pour que vos courriels n'arrivent pas dans les indésirables, déclarez votre service d'envoi dans
+le DNS de votre domaine (enregistrements SPF et DKIM : votre fournisseur de courriels donne les
+valeurs exactes).
 
 Pour refaire un essai à tout moment :
 
@@ -212,22 +223,53 @@ Pour refaire un essai à tout moment :
 scripts/essai_courriel.sh vous@votre-domaine.com
 ```
 
+Le script envoie deux courriels : l'un avec les seuls réglages de `.env`, l'autre par Odoo, au
+nom de l'administrateur. Il affiche l'expéditeur qu'Odoo utilise et vous prévient s'il ne
+correspond pas à `EMAIL_FROM`.
+
 ### Réception : ouvrir un ticket par courriel (facultatif)
 
 Sans réglage supplémentaire, vos clients ouvrent leurs tickets dans l'espace client, et leurs
-réponses à un courriel d'Odoo arrivent dans la boîte de l'expéditeur. Pour qu'un courriel envoyé à
-une adresse comme `assistance@votre-domaine.com` crée un ticket :
+réponses à un courriel d'Odoo arrivent dans la boîte de son auteur (la société, ou le technicien).
 
-1. Créez cette boîte aux lettres chez votre fournisseur de courriels (accès IMAP).
+Avec les réglages ci-dessous, un courriel envoyé à `assistance@votre-domaine.com` crée un ticket,
+et les réponses de vos clients reviennent dans Odoo, sous le ticket, le devis ou la facture
+concernés.
+
+1. Chez votre fournisseur de courriels, créez la boîte `assistance@votre-domaine.com` (accès IMAP)
+   et donnez-lui une seconde adresse, `catchall@votre-domaine.com` (un « alias » de la même boîte).
+   **Ne sautez pas cette seconde adresse** : dès l'étape 3, Odoo la donne comme adresse de réponse
+   à tous ses courriels qui ne concernent pas un ticket (devis, factures, contrats). Si elle
+   n'existe pas, les réponses de vos clients à ces courriels sont perdues.
 2. Dans Odoo, activez le mode développeur (Paramètres › tout en bas).
-3. Paramètres › Technique › E-mail › **Alias de domaine** : créez votre domaine.
-4. Paramètres › Technique › E-mail › **Serveurs de messagerie entrants** : ajoutez la boîte (IMAP,
-   SSL), puis « Tester et confirmer ».
-5. Assistance › Configuration › Les équipes › « Assistance Chantrea Systems » : donnez-lui l'alias
-   de courriel `assistance`.
+3. Paramètres › Technique › E-mail › **Alias de domaine** › Nouveau : saisissez votre domaine
+   (`votre-domaine.com`). Vérifiez que « Alias d'envoi par défaut » contient votre adresse
+   `EMAIL_FROM` (elle est proposée d'office) : c'est l'expéditeur de tous les courriels.
+4. Paramètres › Technique › E-mail › **Serveurs de messagerie entrants** › Nouveau : type IMAP,
+   « SSL/TLS » coché, le serveur, l'identifiant et le mot de passe de la boîte, puis « Tester et
+   confirmer ». Odoo relève ensuite la boîte toutes les 5 minutes.
+5. Assistance › Configuration › Les équipes › « Assistance Chantrea Systems » : dans « Alias de
+   courriel », saisissez `assistance`.
+6. Lancez `scripts/essai_courriel.sh vous@votre-domaine.com` (il signale un expéditeur mal
+   réglé), puis écrivez à `assistance@votre-domaine.com` depuis votre propre adresse et attendez
+   le ticket.
 
-Cette partie n'a pas pu être essayée en local, faute de vraie boîte aux lettres : faites un essai
-avec votre propre adresse avant de la communiquer à vos clients.
+Ce qui se passe ensuite :
+
+- **Un contact connu écrit** (son adresse est sur sa fiche) : le ticket est rattaché à ce client,
+  visible dans son espace, avec le canal « Courriel », et il reçoit l'accusé de réception dans sa
+  langue. Sa réponse à l'accusé arrive dans le même ticket.
+- **Une adresse inconnue écrit** : le ticket est créé sans client, à rattacher à la main, et rien
+  n'est envoyé à cette adresse. Pour refuser ces courriels : sur l'équipe, « Accepter les courriels
+  de » › « Partenaires authentifiés ».
+- Un ticket reçu par courriel n'a pas de catégorie : le technicien la choisit.
+- Odoo ne relève que les courriels **non lus**, et les laisse dans la boîte, marqués comme lus.
+  N'ouvrez donc pas cette boîte avec un logiciel de messagerie : un courriel lu ailleurs avant le
+  passage d'Odoo ne devient jamais un ticket. Videz-la de temps en temps.
+
+Ce parcours a été essayé en local avec une boîte aux lettres IMAP provisoire (voir
+[à la fin](#ce-qui-a-été-essayé)). Faites tout de même un essai avec votre propre adresse avant
+de communiquer l'adresse d'assistance à vos clients.
 
 ## 7. Sauvegardes
 
@@ -418,8 +460,11 @@ systemctl list-timers 'chantrea-*'
 scripts/essai_courriel.sh vous@votre-domaine.com
 ```
 
-Le script affiche les réglages utilisés et l'erreur renvoyée par le serveur d'envoi. Corrigez
-`SMTP_…` et `EMAIL_FROM` dans `.env`, puis appliquez :
+Le script affiche les réglages utilisés, l'expéditeur qu'Odoo utilise et l'erreur renvoyée par le
+serveur d'envoi. Si le premier courriel arrive et pas le second, regardez la ligne « ATTENTION »
+du script : l'expéditeur réglé dans Odoo (étape 6, « Alias d'envoi par défaut ») n'est pas celui
+que votre service d'envoi autorise. Sinon, corrigez `SMTP_…` et `EMAIL_FROM` dans `.env`, puis
+appliquez :
 
 ```bash
 docker compose up -d
@@ -456,7 +501,8 @@ EOF
 ## 11. Liste de contrôle avant la mise en service
 
 - [ ] `https://VOTRE_DOMAINE` s'ouvre avec un certificat valide ; `/web/database/manager` répond 404.
-- [ ] Le courriel d'essai et le code de connexion arrivent.
+- [ ] Les deux courriels d'essai et le code de connexion arrivent.
+- [ ] L'adresse courriel de la société est renseignée (Paramètres › Sociétés).
 - [ ] Un compte par personne ; `admin` réservé à l'administration.
 - [ ] `.env` et la phrase secrète des sauvegardes sont dans votre gestionnaire de mots de passe.
 - [ ] `scripts/sauvegarde.sh` puis `scripts/restauration.sh --essai --depuis-sftp` ont réussi à la main.
@@ -483,8 +529,20 @@ Essayé sur le poste de développement, le 22/11/2026 :
   - refus de remplacer une base existante sans `--remplacer` ; remplacement avec l'ancienne base
     gardée ; copie neutralisée quand la sauvegarde vient d'un autre domaine.
 - La syntaxe et les horaires des tâches planifiées (`systemd-analyze`).
+- Les courriels, dans une base jetable, avec un serveur de courriels provisoire (envoi et boîtes
+  IMAP) à la place de votre fournisseur :
+  - l'expéditeur de chaque courriel est `EMAIL_FROM`, avec le nom de l'auteur : invitation d'un
+    client, réinitialisation de mot de passe, accusé de réception, réponse d'un technicien ;
+  - l'étape 6 en entier : boîte relevée en IMAP avec SSL, ticket créé pour une cliente connue et
+    visible dans son espace, accusé de réception en khmer, réponse de la cliente rangée dans le
+    même ticket, courriel d'une adresse inconnue, réponse à un devis reçue par l'adresse
+    `catchall` et rangée sous le devis ;
+  - `scripts/essai_courriel.sh` : les deux courriels, l'alerte quand l'expéditeur réglé dans Odoo
+    n'est pas `EMAIL_FROM`, et l'échec quand le serveur d'envoi ne répond pas.
+- Une connexion de l'administrateur dans un navigateur : le code de connexion part de
+  `EMAIL_FROM`.
 
 Pas essayé, parce que cela demande le vrai serveur : le certificat Let's Encrypt avec un vrai nom
-de domaine, votre service d'envoi de courriels, votre hébergeur SFTP, les commandes de préparation
-d'Ubuntu (étape 2), l'exécution des tâches planifiées par systemd, et la réception de courriels
-(étape 6).
+de domaine, votre service d'envoi de courriels (ce qu'il accepte comme expéditeur, SPF et DKIM),
+votre fournisseur de boîtes aux lettres (la seconde adresse `catchall`), votre hébergeur SFTP, les
+commandes de préparation d'Ubuntu (étape 2) et l'exécution des tâches planifiées par systemd.
