@@ -1,0 +1,10 @@
+[Unit]
+Description=Essai de restauration de chantrea-odoo chaque semaine
+
+[Timer]
+# Dimanche 20 h 30 UTC = lundi 3 h 30 du matin à Phnom Penh, après la sauvegarde de la nuit.
+OnCalendar=Sun *-*-* 20:30:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

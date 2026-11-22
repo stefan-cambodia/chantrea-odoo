@@ -1,0 +1,11 @@
+[Unit]
+Description=Sauvegarde de chantrea-odoo chaque nuit
+
+[Timer]
+# 19 h 30 UTC = 2 h 30 du matin à Phnom Penh.
+OnCalendar=*-*-* 19:30:00 UTC
+# Si le serveur était éteint à cette heure, la sauvegarde part au redémarrage.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

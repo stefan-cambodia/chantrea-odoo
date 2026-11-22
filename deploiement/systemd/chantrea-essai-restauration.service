@@ -1,0 +1,15 @@
+# Essai de restauration : télécharge la dernière archive du second stockage, la restaure
+# dans une base provisoire, vérifie son contenu, puis supprime cette base.
+# Ne touche pas à la base en service. Un courriel est envoyé en cas d'échec.
+[Unit]
+Description=Essai de restauration de la dernière sauvegarde de chantrea-odoo
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=chantrea
+WorkingDirectory=/opt/chantrea-odoo
+ExecStart=/opt/chantrea-odoo/scripts/restauration.sh --essai --depuis-sftp --oui
+Nice=10

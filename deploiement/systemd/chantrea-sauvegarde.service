@@ -1,0 +1,14 @@
+# Sauvegarde de chantrea-odoo. Installation : docs/DEPLOIEMENT.md.
+# À adapter si le dépôt n'est pas dans /opt/chantrea-odoo ou si l'utilisateur n'est pas « chantrea ».
+[Unit]
+Description=Sauvegarde chiffrée de chantrea-odoo (base et fichiers) vers le second stockage
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=chantrea
+WorkingDirectory=/opt/chantrea-odoo
+ExecStart=/opt/chantrea-odoo/scripts/sauvegarde.sh
+Nice=10
