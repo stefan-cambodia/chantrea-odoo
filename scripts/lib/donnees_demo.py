@@ -158,6 +158,41 @@ for nom, client, site, categorie, marque, modele, serie, achat, fin in [
         "notes": "<p>Note interne de démonstration : jamais visible par le client.</p>"})
 env["fsm.equipment"]._chantrea_cron_alertes_garantie()
 
+# --- Intervention signée, créée depuis un ticket de l'hôtel ---------------------
+import base64  # noqa: E402
+import io  # noqa: E402
+import math  # noqa: E402
+
+from PIL import Image, ImageDraw  # noqa: E402
+
+onduleur = env["fsm.equipment"].search([("name", "=", "Onduleur de la baie (DÉMO)")])
+ticket_onduleur = trouver_ou_creer("helpdesk.ticket", [("name", "=", "L'onduleur bipe toutes les heures (DÉMO)")], {
+    "name": "L'onduleur bipe toutes les heures (DÉMO)", "description": "<p>Bip régulier dans la baie.</p>",
+    "partner_id": env["res.partner"].search([("email", "=", "dara@demo.example")]).id,
+    "team_id": env.ref("chantrea_portail.equipe_assistance").id,
+    "category_id": env.ref("chantrea_portail.categorie_materiel").id,
+    "chantrea_equipement_ids": [(6, 0, onduleur.ids)]})
+intervention = env["fsm.order"].search([("ticket_id", "=", ticket_onduleur.id)], limit=1)
+if not intervention:
+    contexte = ticket_onduleur.action_create_order()["context"]
+    intervention = env["fsm.order"].with_context(**contexte).create({
+        "location_id": site_hotel.id,
+        "description": "<p>Diagnostic de l'onduleur qui bipe.</p>",
+        "todo": "<p>Prévoir une batterie de rechange dans la camionnette.</p>",
+        "resolution": "<p>Batterie usée remplacée ; test de coupure réussi (autonomie 12 min).</p>",
+    })
+    # Signature de démonstration : un simple tracé.
+    image = Image.new("RGBA", (420, 120), (255, 255, 255, 0))
+    dessin = ImageDraw.Draw(image)
+    points = [(20 + x, 70 + 28 * math.sin(x / 22) * math.exp(-x / 400)) for x in range(0, 380, 4)]
+    dessin.line(points, fill=(15, 20, 18, 255), width=4)
+    tampon = io.BytesIO()
+    image.save(tampon, format="PNG")
+    env["fsm.order.sign.wizard"].create({
+        "order_id": intervention.id, "signed_by": "Dara (DÉMO)",
+        "signature": base64.b64encode(tampon.getvalue())}).action_sign()
+    intervention.action_complete()
+
 env.cr.commit()
 
 # --- PDF -------------------------------------------------------------------
@@ -167,6 +202,7 @@ for nom, rapport, docs in [
     ("facture_commerciale", "account.account_invoices", f_com),
     ("devis", "sale.action_report_saleorder", devis),
     ("facture_contrat_brouillon", "account.account_invoices", facture_contrat),
+    ("rapport_intervention", "fieldservice.action_report_fsm_order", intervention),
 ]:
     pdf, _type = Rapport._render_qweb_pdf(rapport, docs.ids)
     chemin = os.path.join(SORTIE, f"{nom}.pdf")
@@ -182,5 +218,6 @@ print(f"{devis.name:12} devis        {devis.amount_total:>9.2f} USD")
 print(f"Contrat « {contrat.name} » : facture {facture_contrat.state} du {facture_contrat.invoice_date}, "
       f"{facture_contrat.amount_total:.2f} USD, activité : {facture_contrat.activity_ids.summary}")
 print("PDF écrits dans", SORTIE)
+print(f"Intervention {intervention.name} : {intervention.stage_id.name}, signée par {intervention.signed_by}")
 for courriel, langue, societe in acces:
     print(f"Accès client : {courriel} ({langue}, {societe}) — mot de passe : DEMO_CLIENT_PASSWORD de .env")

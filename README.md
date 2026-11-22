@@ -146,6 +146,18 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
   seule, sans les notes internes ni le fournisseur (illisibles aussi par l'API).
 - Un ticket peut être relié aux équipements concernés (champ « Équipement » du ticket).
 
+## Interventions sur site
+
+- Depuis un ticket : bouton de création d'une intervention (elle reprend le site et les
+  équipements du ticket). Interventions › Ordres de service sinon.
+- Le technicien fait **signer le client sur place** (bouton « Signer », tablette ou téléphone) ;
+  une intervention ne peut pas être terminée sans signature. La signature de documents à
+  distance (`sign_oca`) est désactivée.
+- Rapport d'intervention PDF bilingue khmer/anglais : demande, travaux réalisés, équipements,
+  signature et heure (fuseau du site, Phnom Penh par défaut). Jamais les instructions internes.
+- Le client suit ses interventions dans son espace (`/my/fsm_orders`) et télécharge le rapport.
+- Les textes d'une intervention refusent aussi adresses IP, mots de passe et identifiants.
+
 ## Relecture du khmer
 
 Tous les textes khmers visibles par les clients sont listés dans

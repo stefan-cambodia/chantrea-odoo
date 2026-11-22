@@ -8,7 +8,7 @@ noter le texte comme relu dans `docs/relecture-km-statut.json`
 Tous les textes ci-dessous ont été traduits par Claude depuis l'anglais.
 Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en dessous.
 
-**0 / 94 textes relus.**
+**0 / 112 textes relus.**
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
@@ -59,15 +59,31 @@ Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en
 | ⏳ à relire | បញ្ចូលដោយដៃ | manual entry | chantrea_kh_facture |
 | ⏳ à relire | អត្រាបណ្ដោះអាសន្ន សម្រាប់ជាព័ត៌មានប៉ុណ្ណោះ | Provisional rate, for information only | chantrea_kh_facture |
 | ⏳ à relire | មិនទាន់មានអត្រាប្តូរប្រាក់ផ្លូវការ | Official exchange rate not yet available | chantrea_kh_facture |
-| ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
-| ⏳ à relire | ម៉ាក | Brand | chantrea_parc |
+| ⏳ à relire | របាយការណ៍សេវាកម្មនៅទីតាំង | ON-SITE SERVICE REPORT | chantrea_parc |
+| ⏳ à relire | មិនទាន់បញ្ចប់ | NOT COMPLETED | chantrea_parc |
+| ⏳ à relire | លេខរបាយការណ៍ | Report No. | chantrea_parc |
+| ⏳ à relire | ទីតាំង | Site | chantrea_parc |
+| ⏳ à relire | មកដល់ | Arrival | chantrea_parc |
+| ⏳ à relire | បញ្ចប់ | End | chantrea_parc |
+| ⏳ à relire | អ្នកបច្ចេកទេស | Technician | chantrea_parc |
+| ⏳ à relire | សំណើជំនួយ | Ticket | chantrea_parc |
+| ⏳ à relire | ឧបករណ៍ពាក់ព័ន្ធ | Equipment concerned | chantrea_parc |
+| ⏳ à relire | ឧបករណ៍ | Equipment | chantrea_parc |
 | ⏳ à relire | ម៉ាក និងម៉ូដែល | Brand and model | chantrea_parc |
+| ⏳ à relire | លេខស៊េរី | Serial number | chantrea_parc |
+| ⏳ à relire | ការងារដែលបានស្នើ | Work requested | chantrea_parc |
+| ⏳ à relire | ការងារដែលបានធ្វើ | Work done | chantrea_parc |
+| ⏳ à relire | ហត្ថលេខាអតិថិជន | Customer's signature | chantrea_parc |
+| ⏳ à relire | មិនទាន់ចុះហត្ថលេខា | Not signed yet | chantrea_parc |
+| ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
+| ⏳ à relire | ទាញយករបាយការណ៍ (PDF) | Download the report (PDF) | chantrea_parc |
+| ⏳ à relire | ម៉ាក | Brand | chantrea_parc |
 | ⏳ à relire | ប្រភេទ | Category | chantrea_parc |
 | ⏳ à relire | កិច្ចសន្យា | Contract | chantrea_parc |
 | ⏳ à relire | អតិថិជន | Customer | chantrea_parc |
+| ⏳ à relire | ហត្ថលេខាអតិថិជន | Customer signature | chantrea_parc |
 | ⏳ à relire | ឈ្មោះសំរាប់បង្ហាញ | Display Name | chantrea_parc, chantrea_portail |
 | ⏳ à relire | ផុតកំណត់ក្នុងរយៈពេល ៦០ ថ្ងៃ | Ends within 60 days | chantrea_parc |
-| ⏳ à relire | ឧបករណ៍ | Equipment | chantrea_parc |
 | ⏳ à relire | ផុតកំណត់ | Expired | chantrea_parc |
 | ⏳ à relire | ជញ្ជាំងភ្លើង (Firewall) | Firewall | chantrea_parc |
 | ⏳ à relire | ការចុះជួសជុល | Interventions | chantrea_parc |
@@ -76,11 +92,13 @@ Sur les devis et factures, le khmer est imprimé au-dessus et l'anglais juste en
 | ⏳ à relire | មិនទាន់មានឧបករណ៍ត្រូវបានកត់ត្រានៅឡើយទេ។ | No equipment recorded yet. | chantrea_parc |
 | ⏳ à relire | មិនមានការចុះជួសជុលសម្រាប់ឧបករណ៍នេះទេ។ | No intervention for this equipment. | chantrea_parc |
 | ⏳ à relire | មិនមានសំណើជំនួយសម្រាប់ឧបករណ៍នេះទេ។ | No ticket for this equipment. | chantrea_parc |
+| ⏳ à relire | មិនទាន់បំពេញនៅឡើយទេ។ | Not filled in yet. | chantrea_parc |
+| ⏳ à relire | មិនទាន់ចុះហត្ថលេខានៅឡើយទេ។ | Not signed yet. | chantrea_parc |
 | ⏳ à relire | កាលបរិច្ឆេទទិញ | Purchase date | chantrea_parc |
-| ⏳ à relire | លេខស៊េរី | Serial number | chantrea_parc |
 | ⏳ à relire | ម៉ាស៊ីនមេ (Server) | Server | chantrea_parc |
 | ⏳ à relire | ម៉ាស៊ីនមេ បណ្ដាញ កុំព្យូទ័រ និងអាជ្ញាប័ណ្ណ ព្រមទាំងការធានារបស់វា | Servers, network, workstations and licences, with their warranty | chantrea_parc |
-| ⏳ à relire | ទីតាំង | Site | chantrea_parc |
+| ⏳ à relire | ហត្ថលេខា | Signature | chantrea_parc |
+| ⏳ à relire | ចុះហត្ថលេខាដោយ | Signed by | chantrea_parc |
 | ⏳ à relire | ឧបករណ៍ផ្ទុកទិន្នន័យ | Storage | chantrea_parc |
 | ⏳ à relire | សំណើជំនួយ | Tickets | chantrea_parc |
 | ⏳ à relire | ឧបករណ៍បម្រុងថាមពល (UPS) | UPS | chantrea_parc |
