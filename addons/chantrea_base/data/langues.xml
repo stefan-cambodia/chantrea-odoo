@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Au Cambodge, les dates s'écrivent jour/mois/année, y compris en anglais
+         (documents, périodes de contrat, espace client). Réappliqué à chaque mise à jour. -->
+    <record id="base.lang_en" model="res.lang">
+        <field name="date_format">%d/%m/%Y</field>
+    </record>
+</odoo>

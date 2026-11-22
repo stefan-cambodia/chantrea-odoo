@@ -21,6 +21,7 @@
     "data": [
         "security/chantrea_groupes.xml",
         "data/parametres.xml",
+        "data/langues.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

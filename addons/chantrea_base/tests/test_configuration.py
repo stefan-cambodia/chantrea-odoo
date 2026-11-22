@@ -22,6 +22,10 @@ class TestConfiguration(TransactionCase):
         for code in ("fr_FR", "en_US", "km_KH"):
             self.assertIn(code, actives)
 
+    def test_dates_jour_mois_annee(self):
+        for code in ("fr_FR", "en_US", "km_KH"):
+            self.assertEqual(self.env["res.lang"]._lang_get(code).date_format, "%d/%m/%Y", code)
+
     def test_double_authentification(self):
         policy = self.env["ir.config_parameter"].sudo().get_param("auth_totp.policy")
         self.assertEqual(policy, "employee_required")
