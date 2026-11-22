@@ -27,6 +27,7 @@
         "data/mail_template.xml",
         "data/contrats.xml",
         "views/helpdesk_portail.xml",
+        "views/mise_en_page.xml",
         "views/accueil.xml",
     ],
     "assets": {
@@ -35,6 +36,10 @@
         ],
         "web.assets_frontend": [
             "chantrea_portail/static/src/scss/espace_client.scss",
+            # Script OCA incompatible avec Odoo 19 (il importe « @portal/js/portal »,
+            # qui n'existe plus) : erreur dans le navigateur sur chaque page de
+            # l'espace client. Voir docs/CORRECTIFS_OCA.md.
+            ("remove", "fieldservice_portal/static/src/js/fsm_order_portal.esm.js"),
         ],
         "portal.assets_chatter_style": [
             "chantrea_portail/static/src/scss/messagerie.scss",

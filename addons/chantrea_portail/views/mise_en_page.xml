@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Langue de la page. Sans le module « website », Odoo 19 n'écrit pas l'attribut
+         lang de la balise <html> : le navigateur demande alors les traductions
+         JavaScript sans préciser de langue et n'en reçoit aucune (fenêtre de signature,
+         messagerie d'un ticket… restent en anglais, même pour un client francophone).
+         Voir docs/CORRECTIFS_OCA.md. -->
+    <template id="frontend_layout_langue" name="Chantrea: page language"
+              inherit_id="portal.frontend_layout">
+        <xpath expr="//html" position="attributes">
+            <attribute name="t-att-lang">(request.env.lang or 'en_US').replace('_', '-')</attribute>
+        </xpath>
+    </template>
+</odoo>
