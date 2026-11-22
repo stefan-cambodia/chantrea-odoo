@@ -29,6 +29,7 @@
         "views/helpdesk_portail.xml",
         "views/mise_en_page.xml",
         "views/accueil.xml",
+        "views/blocs_masques.xml",
         "data/traductions.xml",
     ],
     "assets": {

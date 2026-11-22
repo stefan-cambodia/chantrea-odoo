@@ -631,11 +631,6 @@ msgid "Due Date"
 msgstr "ថ្ងៃផុតកំណត់"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.portal_my_details
-msgid "Electronic format"
-msgstr "ទម្រង់អេឡិចត្រូនិក"
-
-#. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_my_home_invoice
 msgid "Follow, download or pay our invoices"
 msgstr "តាមដាន ទាញយក ឬបង់វិក្កយបត្ររបស់យើង"
@@ -815,11 +810,6 @@ msgid "Quantity:"
 msgstr "បរិមាណ៖"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.portal_my_details
-msgid "Receive invoices"
-msgstr "ទទួលវិក្កយបត្រ"
-
-#. module: account
 #. module: account_payment
 #. module: contract
 #. odoo-python
@@ -955,13 +945,6 @@ msgstr "អាករលើតម្លៃបន្ថែម ១០%"
 #: model_terms:ir.ui.view,arch_db:account.portal_my_home_invoice
 msgid "Your Invoices"
 msgstr "វិក្កយបត្ររបស់លោកអ្នក"
-
-#. module: account
-#. odoo-python
-#: model:ir.model.fields.selection,name:account.selection__res_partner__invoice_sending_method__email
-#: code:addons/account/controllers/portal.py:0
-msgid "by Email"
-msgstr "តាមអ៊ីមែល"
 
 #. module: account
 #: model:mail.template,subject:account.email_template_edi_credit_note
@@ -3074,11 +3057,6 @@ msgstr "ដោយចុះហត្ថលេខា លោកអ្នកបញ�
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "Connect with your software!"
-msgstr "ភ្ជាប់ជាមួយកម្មវិធីរបស់លោកអ្នក!"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "Copy"
 msgstr "ចម្លង"
 
@@ -3140,11 +3118,6 @@ msgstr "សម្រង់តម្លៃត្រូវពិនិត្យ"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "Read the documentation"
-msgstr "អានឯកសារណែនាំ"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "Reject This Quotation"
 msgstr "បដិសេធសម្រង់តម្លៃនេះ"
 
@@ -3183,11 +3156,6 @@ msgid "Validate Order"
 msgstr "បញ្ជាក់ការបញ្ជាទិញ"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "You don't use a good CRM software?"
-msgstr "លោកអ្នកមិនទាន់មានកម្មវិធី CRM ល្អមែនទេ?"
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_home_sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_orders
 msgid "Your Orders"
@@ -3214,11 +3182,6 @@ msgstr "សម្រាប់"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_sign_modal
 msgid "quote."
 msgstr "សម្រង់តម្លៃនេះ។"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "to learn all the ways to connect your software with"
-msgstr "ដើម្បីស្វែងយល់ពីវិធីភ្ជាប់កម្មវិធីរបស់លោកអ្នកជាមួយ"
 
 #. module: sale
 #: model:mail.template,subject:sale.mail_template_sale_confirmation
@@ -3307,17 +3270,6 @@ msgstr ""
 "                                    <span class=\"d-none d-md-inline\"> កំពុងដំណើរការការទូទាត់</span>"
 
 #. module: account
-#: model_terms:ir.ui.view,arch_db:account.portal_my_details
-msgid ""
-"<small class=\"form-text text-muted\">\n"
-"                        You can choose how you want us to send your invoices, and with which electronic format.\n"
-"                    </small>"
-msgstr ""
-"<small class=\"form-text text-muted\">\n"
-"                        លោកអ្នកអាចជ្រើសរើសរបៀបដែលយើងផ្ញើវិក្កយបត្រជូន និងទម្រង់អេឡិចត្រូនិកដែលត្រូវប្រើ។\n"
-"                    </small>"
-
-#. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_invoice_page
 msgid "Already Paid:"
 msgstr "បានបង់រួច៖"
@@ -3379,11 +3331,6 @@ msgstr "ប្រតិបត្តិការគណនេយ្យ"
 #: model_terms:ir.ui.view,arch_db:account.portal_invoice_page
 msgid "Left to Pay:"
 msgstr "នៅសល់ត្រូវបង់៖"
-
-#. module: account
-#: model:ir.model.fields.selection,name:account.selection__res_partner__invoice_sending_method__manual
-msgid "Manual"
-msgstr "ដោយដៃ"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_invoice_page
@@ -4919,15 +4866,6 @@ msgstr "ព័ត៌មានគណនីរបស់លោកអ្នក"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid ""
-", it's 100% free! You'll save time creating beautiful quotations and track "
-"sales."
-msgstr ""
-" ឥតគិតថ្លៃ 100%! លោកអ្នកនឹងចំណេញពេលវេលាក្នុងការបង្កើតសម្រង់តម្លៃ "
-"និងតាមដានការលក់។"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
 msgid "<i class=\"fa fa-comment\"/> Contact us to get a new quotation."
 msgstr "<i class=\"fa fa-comment\"/> សូមទាក់ទងមកយើង ដើម្បីទទួលបានសម្រង់តម្លៃថ្មី។"
 
@@ -5031,15 +4969,6 @@ msgid "Down payment <br/>"
 msgstr "ប្រាក់កក់ <br/>"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid ""
-"Drag and drop the request for quotation PDF file into your list of "
-"quotations in Odoo. Enjoy the automation!"
-msgstr ""
-"អូសឯកសារ PDF នៃសំណើសុំសម្រង់តម្លៃ "
-"ទៅទម្លាក់ក្នុងបញ្ជីសម្រង់តម្លៃរបស់លោកអ្នកក្នុង Odoo។"
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_pay_modal_amount_selector
 msgid "Full amount <br/>"
 msgstr "ចំនួនពេញ <br/>"
@@ -5070,11 +4999,6 @@ msgstr "អាសយដ្ឋានចេញវិក្កយបត្រ"
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Last Invoices"
 msgstr "វិក្កយបត្រចុងក្រោយ"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "Not using Odoo?"
-msgstr "មិនទាន់ប្រើ Odoo?"
 
 #. module: sale
 #. odoo-python
@@ -5183,22 +5107,9 @@ msgid "There are currently no sales orders for your account."
 msgstr "បច្ចុប្បន្នមិនមានការបញ្ជាទិញសម្រាប់គណនីរបស់លោកអ្នកទេ។"
 
 #. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid ""
-"Use the above REST URL to get structured data of the purchase order in UBL "
-"format."
-msgstr ""
-"ប្រើអាសយដ្ឋាន REST ខាងលើ ដើម្បីទទួលបានទិន្នន័យនៃការបញ្ជាទិញជាទម្រង់ UBL។"
-
-#. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.portal_my_quotations
 msgid "Valid Until"
 msgstr "មានសុពលភាពដល់"
-
-#. module: sale
-#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
-msgid "Want to import this document in Odoo?"
-msgstr "ចង់នាំចូលឯកសារនេះទៅក្នុង Odoo?"
 
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
@@ -5535,41 +5446,6 @@ msgstr "លិខិតឥណទានព្រាង"
 msgid "Invoice"
 msgstr "វិក្កយបត្រ"
 
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__ubl_a_nz
-msgid "Australia (BIS Billing 3.0 A-NZ)"
-msgstr "អូស្ត្រាលី (BIS Billing 3.0 A-NZ)"
-
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__ubl_bis3
-msgid "EU Standard (Peppol Bis 3.0)"
-msgstr "ស្តង់ដារអឺរ៉ុប (Peppol Bis 3.0)"
-
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__facturx
-msgid "France (FacturX)"
-msgstr "បារាំង (FacturX)"
-
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__xrechnung
-msgid "Germany (XRechnung)"
-msgstr "អាល្លឺម៉ង់ (XRechnung)"
-
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__zugferd
-msgid "Germany (ZUGFeRD)"
-msgstr "អាល្លឺម៉ង់ (ZUGFeRD)"
-
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__nlcius
-msgid "Netherlands (NLCIUS)"
-msgstr "ហូឡង់ (NLCIUS)"
-
-#. module: account_edi_ubl_cii
-#: model:ir.model.fields.selection,name:account_edi_ubl_cii.selection__res_partner__invoice_edi_format__ubl_sg
-msgid "Singapore (BIS Billing 3.0 SG)"
-msgstr "សិង្ហបុរី (BIS Billing 3.0 SG)"
-
 #. module: auth_totp_portal
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:auth_totp_portal.totp_portal_hook
@@ -5616,10 +5492,3 @@ msgid "<span class=\"oi oi-chevron-right\" role=\"img\" aria-label=\"Next\" titl
 msgstr ""
 "<span class=\"oi oi-chevron-right\" role=\"img\" aria-label=\"បន្ទាប់\" "
 "title=\"បន្ទាប់\"/>"
-
-#. module: snailmail_account
-#. odoo-python
-#: model:ir.model.fields.selection,name:snailmail_account.selection__res_partner__invoice_sending_method__snailmail
-#: code:addons/snailmail_account/controllers/portal.py:0
-msgid "by Post"
-msgstr "តាមប្រៃសណីយ៍"

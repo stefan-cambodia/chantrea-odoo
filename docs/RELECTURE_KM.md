@@ -13,7 +13,7 @@ Les noms de pays ne sont pas listés : ils viennent du référentiel Unicode CLD
 Ordre conseillé : parties 1 et 2 d'abord (ce que chaque client voit sur ses documents
 et sur l'accueil), puis la partie 3.
 
-**0 / 711 textes relus.**
+**0 / 689 textes relus.**
 
 ## 1. Documents imprimés et pages Chantrea
 
@@ -166,7 +166,7 @@ Catégories de tickets, courriels, accueil de l'espace client… À corriger dan
 
 Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules OCA. À corriger dans `addons/chantrea_portail/i18n_clients/km.po` (la colonne indique le module d'origine).
 
-0 / 582 textes relus.
+0 / 560 textes relus.
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
@@ -200,7 +200,6 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | អតិថិជន៖ | Customer: | account, contract |
 | ⏳ à relire | បោះបង់ | Discard | account, auth_passkey_portal, auth_totp, portal |
 | ⏳ à relire | បញ្ចុះតម្លៃ (%) | Discount (%) | account, contract |
-| ⏳ à relire | ទម្រង់អេឡិចត្រូនិក | Electronic format | account |
 | ⏳ à relire | តាមដាន ទាញយក ឬបង់វិក្កយបត្ររបស់យើង | Follow, download or pay our invoices | account |
 | ⏳ à relire | តាមដាន ទាញយក ឬបង់វិក្កយបត្ររបស់លោកអ្នក | Follow, download or pay your invoices | account |
 | ⏳ à relire | ដាក់ជាក្រុមតាម | Group By | account |
@@ -215,7 +214,6 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | បង់ប្រាក់ | Pay | account, account_payment |
 | ⏳ à relire | ផលិតផល | Products | account, sale |
 | ⏳ à relire | បរិមាណ៖ | Quantity: | account |
-| ⏳ à relire | ទទួលវិក្កយបត្រ | Receive invoices | account |
 | ⏳ à relire | បដិសេធ | Reject | account, sale |
 | ⏳ à relire | បានបដិសេធ | Rejected | account, helpdesk_mgmt |
 | ⏳ à relire | អ្នកលក់ | Salesperson | account, sale |
@@ -226,7 +224,6 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | ឯកតា | Units | account, uom |
 | ⏳ à relire | អាករលើតម្លៃបន្ថែម ១០% | VAT 10% | account |
 | ⏳ à relire | វិក្កយបត្ររបស់លោកអ្នក | Your Invoices | account |
-| ⏳ à relire | តាមអ៊ីមែល | by Email | account |
 | ⏳ à relire | {{ object.company_id.name }} លិខិតឥណទាន (យោង {{ object.name or 'n/a' }}) | {{ object.company_id.name }} Credit Note (Ref {{ object.name or 'n/a' }}) | account |
 | ⏳ à relire | {{ object.company_id.name }} វិក្កយបត្រ (យោង {{ object.name or 'n/a' }}) | {{ object.company_id.name }} Invoice (Ref {{ object.name or 'n/a' }}) | account |
 | ⏳ à relire | {{ object.company_id.name }} បង្កាន់ដៃទូទាត់ (យោង {{ object.name or 'n/a' }}) | {{ object.company_id.name }} Payment Receipt (Ref {{ object.name or 'n/a' }}) | account |
@@ -363,26 +360,22 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | យល់ព្រម និងចុះហត្ថលេខា | Accept & Sign | portal, sale |
 | ⏳ à relire | ចំនួនទឹកប្រាក់៖ | Amount: | sale |
 | ⏳ à relire | ដោយចុះហត្ថលេខា លោកអ្នកបញ្ជាក់ការយល់ព្រមក្នុងនាម | By signing, you confirm acceptance on behalf of | sale |
-| ⏳ à relire | ភ្ជាប់ជាមួយកម្មវិធីរបស់លោកអ្នក! | Connect with your software! | sale |
 | ⏳ à relire | ចម្លង | Copy | auth_totp_portal, sale |
 | ⏳ à relire | ឯកសារណែនាំ | Documentation | sale |
 | ⏳ à relire | កាលបរិច្ឆេទផុតកំណត់៖ | Expiration Date: | sale |
 | ⏳ à relire | តាមដាន មើល ឬបង់ការបញ្ជាទិញរបស់លោកអ្នក | Follow, view or pay your orders | sale |
 | ⏳ à relire | សម្រង់តម្លៃ | Quotation | sale |
 | ⏳ à relire | សម្រង់តម្លៃ | Quotations | sale |
-| ⏳ à relire | អានឯកសារណែនាំ | Read the documentation | sale |
 | ⏳ à relire | បដិសេធសម្រង់តម្លៃនេះ | Reject This Quotation | sale |
 | ⏳ à relire | ព័ត៌មានការលក់ | Sale Information | sale |
 | ⏳ à relire | ការបញ្ជាទិញ | Sales Orders | sale |
 | ⏳ à relire | បច្ចុប្បន្នមិនមានសម្រង់តម្លៃសម្រាប់គណនីរបស់លោកអ្នកទេ។ | There are currently no quotations for your account. | sale |
 | ⏳ à relire | បញ្ជាក់ការបញ្ជាទិញ | Validate Order | sale |
-| ⏳ à relire | លោកអ្នកមិនទាន់មានកម្មវិធី CRM ល្អមែនទេ? | You don't use a good CRM software? | sale |
 | ⏳ à relire | ការបញ្ជាទិញរបស់លោកអ្នក | Your Orders | sale |
 | ⏳ à relire | ឯកសារយោងរបស់លោកអ្នក៖ | Your Reference: | sale |
 | ⏳ à relire | មតិរបស់លោកអ្នក... | Your feedback... | sale |
 | ⏳ à relire | សម្រាប់ | for the | sale |
 | ⏳ à relire | សម្រង់តម្លៃនេះ។ | quote. | sale |
-| ⏳ à relire | ដើម្បីស្វែងយល់ពីវិធីភ្ជាប់កម្មវិធីរបស់លោកអ្នកជាមួយ | to learn all the ways to connect your software with | sale |
 | ⏳ à relire | {{ object.company_id.name }} {{ (object.get_portal_last_transaction().state == 'pending') and 'Pending Order' or 'Order' }} (យោង {{ object.name or 'n/a' }}) | {{ object.company_id.name }} {{ (object.get_portal_last_transaction().state == 'pending') and 'Pending Order' or 'Order' }} (Ref {{ object.name or 'n/a' }}) | sale |
 | ⏳ à relire | {{ object.company_id.name }} {{ object.state in ('draft', 'sent') and 'Quotation' or 'Order' }} (យោង {{ object.name or 'n/a' }}) | {{ object.company_id.name }} {{ object.state in ('draft', 'sent') and 'Quotation' or 'Order' }} (Ref {{ object.name or 'n/a' }}) | sale |
 | ⏳ à relire | សំណើចុះហត្ថលេខា | Signature Requests | sign_oca |
@@ -394,7 +387,6 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | បានបង់ | Paid | account, account_payment, sale |
 | ⏳ à relire | បានកែបញ្ច្រាស | Reversed | account, sale |
 | ⏳ à relire | កំពុងដំណើរការការទូទាត់ | Processing Payment | account, account_payment |
-| ⏳ à relire | លោកអ្នកអាចជ្រើសរើសរបៀបដែលយើងផ្ញើវិក្កយបត្រជូន និងទម្រង់អេឡិចត្រូនិកដែលត្រូវប្រើ។ | You can choose how you want us to send your invoices, and with which electronic format. | account |
 | ⏳ à relire | បានបង់រួច៖ | Already Paid: | account |
 | ⏳ à relire | បានផ្អាក | Blocked | account |
 | ⏳ à relire | លិខិតឥណទានអតិថិជន | Customer Credit Note | account |
@@ -405,7 +397,6 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | វិក្កយបត្រ | Invoices | account |
 | ⏳ à relire | ប្រតិបត្តិការគណនេយ្យ | Journal Entry | account |
 | ⏳ à relire | នៅសល់ត្រូវបង់៖ | Left to Pay: | account |
-| ⏳ à relire | ដោយដៃ | Manual | account |
 | ⏳ à relire | ការបង់រំលស់បន្ទាប់ | Next Installment | account |
 | ⏳ à relire | មិនទាន់បង់ | Not Paid | account |
 | ⏳ à relire | ហួសកំណត់ | Overdue | account |
@@ -644,7 +635,6 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | ចូលគណនី | logged in | portal |
 | ⏳ à relire | ដើម្បីផ្តល់មតិ។ | to post a comment. | portal |
 | ⏳ à relire | ព័ត៌មានគណនីរបស់លោកអ្នក | your account details | portal |
-| ⏳ à relire | ឥតគិតថ្លៃ 100%! លោកអ្នកនឹងចំណេញពេលវេលាក្នុងការបង្កើតសម្រង់តម្លៃ និងតាមដានការលក់។ | , it's 100% free! You'll save time creating beautiful quotations and track sales. | sale |
 | ⏳ à relire | សូមទាក់ទងមកយើង ដើម្បីទទួលបានសម្រង់តម្លៃថ្មី។ | Contact us to get a new quotation. | sale |
 | ⏳ à relire | កំពុងរង់ចាំការទូទាត់ | Waiting Payment | sale |
 | ⏳ à relire | អត្ថប្រយោជន៍របស់លោកអ្នក | Your advantage | sale |
@@ -658,14 +648,12 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | កាលបរិច្ឆេទដឹកជញ្ជូន៖ | Delivery Date: | sale |
 | ⏳ à relire | ឯកសារ | Documents | sale |
 | ⏳ à relire | ប្រាក់កក់ | Down payment | sale |
-| ⏳ à relire | អូសឯកសារ PDF នៃសំណើសុំសម្រង់តម្លៃ ទៅទម្លាក់ក្នុងបញ្ជីសម្រង់តម្លៃរបស់លោកអ្នកក្នុង Odoo។ | Drag and drop the request for quotation PDF file into your list of quotations in Odoo. Enjoy the automation! | sale |
 | ⏳ à relire | ចំនួនពេញ | Full amount | sale |
 | ⏳ à relire | រួមពន្ធ) | Incl. tax) | sale |
 | ⏳ à relire | ការបញ្ជាទិញមិនត្រឹមត្រូវ។ | Invalid order. | sale |
 | ⏳ à relire | ទិន្នន័យហត្ថលេខាមិនត្រឹមត្រូវ។ | Invalid signature data. | sale |
 | ⏳ à relire | អាសយដ្ឋានចេញវិក្កយបត្រ | Invoicing Address | sale |
 | ⏳ à relire | វិក្កយបត្រចុងក្រោយ | Last Invoices | sale |
-| ⏳ à relire | មិនទាន់ប្រើ Odoo? | Not using Odoo? | sale |
 | ⏳ à relire | កាលបរិច្ឆេទបញ្ជាទិញ | Order Date | sale |
 | ⏳ à relire | កាលបរិច្ឆេទបញ្ជាទិញ៖ | Order Date: | sale |
 | ⏳ à relire | ការបញ្ជាទិញចុះហត្ថលេខាដោយ %s | Order signed by %s | sale |
@@ -684,9 +672,7 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | ការបញ្ជាទិញនេះមិនស្ថិតក្នុងស្ថានភាពដែលត្រូវការការទូទាត់ពីអតិថិជនទេ។ | The order is not in a state requiring customer payment. | sale |
 | ⏳ à relire | ការបញ្ជាទិញនេះមិនស្ថិតក្នុងស្ថានភាពដែលត្រូវការហត្ថលេខាអតិថិជនទេ។ | The order is not in a state requiring customer signature. | sale |
 | ⏳ à relire | បច្ចុប្បន្នមិនមានការបញ្ជាទិញសម្រាប់គណនីរបស់លោកអ្នកទេ។ | There are currently no sales orders for your account. | sale |
-| ⏳ à relire | ប្រើអាសយដ្ឋាន REST ខាងលើ ដើម្បីទទួលបានទិន្នន័យនៃការបញ្ជាទិញជាទម្រង់ UBL។ | Use the above REST URL to get structured data of the purchase order in UBL format. | sale |
 | ⏳ à relire | មានសុពលភាពដល់ | Valid Until | sale |
-| ⏳ à relire | ចង់នាំចូលឯកសារនេះទៅក្នុង Odoo? | Want to import this document in Odoo? | sale |
 | ⏳ à relire | ការបញ្ជាទិញរបស់លោកអ្នកត្រូវបានបញ្ជាក់ហើយ។ | Your order has been confirmed. | sale |
 | ⏳ à relire | ការបញ្ជាទិញរបស់លោកអ្នកបានចុះហត្ថលេខាហើយ ប៉ុន្តែត្រូវបង់ប្រាក់សិន ទើបត្រូវបានបញ្ជាក់។ | Your order has been signed but still needs to be paid to be confirmed. | sale |
 | ⏳ à relire | ការបញ្ជាទិញរបស់លោកអ្នកបានចុះហត្ថលេខាហើយ។ | Your order has been signed. | sale |
@@ -742,13 +728,5 @@ Pages standard de l'espace client, fenêtres et courriels d'Odoo et des modules 
 | ⏳ à relire | លិខិតឥណទាន | Credit Note | account |
 | ⏳ à relire | លិខិតឥណទានព្រាង | Draft Credit Note | account |
 | ⏳ à relire | វិក្កយបត្រ | Invoice | account |
-| ⏳ à relire | អូស្ត្រាលី (BIS Billing 3.0 A-NZ) | Australia (BIS Billing 3.0 A-NZ) | account_edi_ubl_cii |
-| ⏳ à relire | ស្តង់ដារអឺរ៉ុប (Peppol Bis 3.0) | EU Standard (Peppol Bis 3.0) | account_edi_ubl_cii |
-| ⏳ à relire | បារាំង (FacturX) | France (FacturX) | account_edi_ubl_cii |
-| ⏳ à relire | អាល្លឺម៉ង់ (XRechnung) | Germany (XRechnung) | account_edi_ubl_cii |
-| ⏳ à relire | អាល្លឺម៉ង់ (ZUGFeRD) | Germany (ZUGFeRD) | account_edi_ubl_cii |
-| ⏳ à relire | ហូឡង់ (NLCIUS) | Netherlands (NLCIUS) | account_edi_ubl_cii |
-| ⏳ à relire | សិង្ហបុរី (BIS Billing 3.0 SG) | Singapore (BIS Billing 3.0 SG) | account_edi_ubl_cii |
 | ⏳ à relire |  |  | auth_totp_portal, payment, portal |
 | ⏳ à relire | ប្រសិនបើលោកអ្នកគិតថានេះជាកំហុស សូមទាក់ទងអ្នកគ្រប់គ្រងគេហទំព័រ។ | If you believe that it is an error, please contact the website administrator. | payment |
-| ⏳ à relire | តាមប្រៃសណីយ៍ | by Post | snailmail_account |

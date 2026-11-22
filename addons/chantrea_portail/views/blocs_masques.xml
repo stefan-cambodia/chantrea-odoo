@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Deux blocs standard d'Odoo retirés de l'espace client, à la demande de Chantrea Systems. -->
+
+    <!-- Page « Mon compte » : pas de choix du mode d'envoi ni du format électronique des
+         factures (FacturX, Peppol, ZUGFeRD…), sans objet au Cambodge. Odoo n'affiche ces
+         listes que si elles ont un contenu : on les vide pour cette page, quels que soient
+         les modules qui les remplissent. -->
+    <template id="portal_my_details_sans_format_electronique"
+              name="Chantrea: no e-invoicing choice in the customer account"
+              inherit_id="account.portal_my_details">
+        <xpath expr="//div[@name='address_details']" position="before">
+            <t t-set="invoice_sending_methods" t-value="{}"/>
+            <t t-set="invoice_edi_formats" t-value="{}"/>
+        </xpath>
+    </template>
+
+    <!-- Page d'un devis ou d'une commande : pas de bouton « Connect with your software! »
+         ni de sa fenêtre, qui fait la publicité d'Odoo auprès des clients. -->
+    <template id="sale_order_portal_sans_encart_logiciel"
+              name="Chantrea: no software connection box on quotations"
+              inherit_id="sale.sale_order_portal_template">
+        <xpath expr="//button[@id='portal_connect_software_modal_btn']/.." position="replace"/>
+        <xpath expr="//div[@id='sale_portal_connect_software_modal']" position="replace"/>
+    </template>
+</odoo>

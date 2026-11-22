@@ -114,6 +114,9 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
   données de sa société. En dessous : commandes, adresses, connexion et sécurité.
   Les rubriques internes ou fournisseurs d'Odoo (projets, tâches, feuilles de temps, achats,
   signature à distance) ne sont pas proposées aux clients (`controllers/accueil.py`).
+- Deux blocs standard d'Odoo sont masqués pour les clients (`views/blocs_masques.xml`) : le choix
+  du mode d'envoi et du format électronique des factures sur « Mon compte » (FacturX, Peppol…,
+  sans objet au Cambodge), et l'encart « Connect with your software! » de la page d'un devis.
 - Les clients ouvrent et suivent leurs tickets dans l'espace client (`/my/tickets`, bouton
   « Nouveau ») ; la catégorie est obligatoire. Les tickets vont à l'équipe
   « Assistance Chantrea Systems », dont le temps passé est suivi dans le projet « Assistance ».
