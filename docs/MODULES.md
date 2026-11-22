@@ -65,4 +65,4 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 | chantrea_base | LGPL-3 | 2 | installé, testé |
 | chantrea_kh_facture | LGPL-3 | 2 | installé, testé |
 | chantrea_parc | AGPL-3 (dépend de fieldservice) | 5 | à faire |
-| chantrea_portail | AGPL-3 (dépend de modules OCA) | 7 | à faire |
+| chantrea_portail | AGPL-3 (dépend de modules OCA) | 3 et 7 | tickets et espace client installés, testés ; page d'accueil à l'étape 7 |

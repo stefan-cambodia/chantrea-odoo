@@ -103,6 +103,22 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 - Saisie manuelle : Facturation › Configuration › Taux USD/KHR, ou sur la facture brouillon
   (onglet Cambodge). Sans aucun taux, une facture ne peut pas être validée.
 
+## Assistance et espace client
+
+- Les clients ouvrent et suivent leurs tickets dans l'espace client (`/my/tickets`, bouton
+  « Nouveau ») ; la catégorie est obligatoire. Les tickets vont à l'équipe
+  « Assistance Chantrea Systems », dont le temps passé est suivi dans le projet « Assistance ».
+- Accusé de réception envoyé au client à la création du ticket, dans sa langue (khmer,
+  anglais ou français), signé par la société.
+- Accès d'un client : fiche du contact › Action › « Accorder l'accès au portail ».
+  Un client voit les tickets, devis et factures de **sa** société, jamais ceux d'un autre client
+  (tests `chantrea_portail/tests/`). Pages publiques (connexion) en anglais ; après connexion,
+  la langue du compte du client.
+- En local, `scripts/donnees_demo.sh` crée deux accès clients de démonstration
+  (`dara@demo.example` en khmer, `sophea@demo.example` en anglais) ; mot de passe :
+  `DEMO_CLIENT_PASSWORD` dans `.env`.
+- Défauts trouvés dans les modules OCA et corrigés par héritage : [docs/CORRECTIFS_OCA.md](docs/CORRECTIFS_OCA.md).
+
 ## Relecture du khmer
 
 Tous les textes khmers visibles par les clients sont listés dans
