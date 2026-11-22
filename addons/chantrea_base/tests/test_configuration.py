@@ -1,8 +1,23 @@
+from unittest.mock import patch
+
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import config
 
 
 @tagged("post_install", "-at_install", "chantrea")
 class TestConfiguration(TransactionCase):
+
+    @patch.dict(config.options, {"email_from": "erp@exemple.test"})
+    def test_expediteur_du_domaine_d_alias(self):
+        """Créer le domaine d'alias (réception des courriels) ne doit pas changer
+        l'adresse d'expédition : elle reste EMAIL_FROM, la seule autorisée."""
+        domaine = self.env["mail.alias.domain"].create({"name": "exemple.test"})
+        self.assertEqual(domaine.default_from_email, "erp@exemple.test")
+
+    @patch.dict(config.options, {"email_from": False})
+    def test_expediteur_du_domaine_d_alias_sans_reglage(self):
+        domaine = self.env["mail.alias.domain"].create({"name": "exemple.test"})
+        self.assertEqual(domaine.default_from_email, "notifications@exemple.test")
 
     def test_societe(self):
         company = self.env.ref("base.main_company")

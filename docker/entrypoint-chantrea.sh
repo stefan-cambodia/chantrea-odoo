@@ -46,6 +46,14 @@ EOF
 # Options facultatives : écrites seulement si elles sont renseignées.
 if [ -n "${SMTP_USER:-}" ]; then echo "smtp_user = ${SMTP_USER}" >> "${ODOO_RC}"; fi
 if [ -n "${SMTP_PASSWORD:-}" ]; then echo "smtp_password = ${SMTP_PASSWORD}" >> "${ODOO_RC}"; fi
-if [ -n "${EMAIL_FROM:-}" ]; then echo "email_from = ${EMAIL_FROM}" >> "${ODOO_RC}"; fi
+if [ -n "${EMAIL_FROM:-}" ]; then
+  echo "email_from = ${EMAIL_FROM}" >> "${ODOO_RC}"
+  # Tous les courriels partent de EMAIL_FROM, la seule adresse que le service d'envoi
+  # autorise. Sans « from_filter », Odoo met en expéditeur l'adresse personnelle de
+  # l'utilisateur (invitation d'un client, réponse à un ticket, envoi d'un devis) : un
+  # vrai service d'envoi refuse ces courriels ou les destinataires les classent en
+  # indésirables. Le nom de l'auteur est conservé, et les réponses lui reviennent (Reply-To).
+  echo "from_filter = ${EMAIL_FROM}" >> "${ODOO_RC}"
+fi
 
 exec /entrypoint.sh "$@"
