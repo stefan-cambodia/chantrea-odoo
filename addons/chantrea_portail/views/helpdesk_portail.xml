@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fermeture d'un ticket depuis l'espace client : POST avec jeton CSRF
+         (le formulaire OCA envoie un GET ; voir controllers/helpdesk.py). -->
+    <template id="portal_helpdesk_ticket_page" inherit_id="helpdesk_mgmt.portal_helpdesk_ticket_page">
+        <!-- Défaut OCA avec Odoo 19 : un attribut « id » sur <t t-call> empêche de
+             transmettre « title » et « entries » à portal_record_sidebar. Le client ne
+             voyait ni le numéro du ticket ni les boutons de fermeture. On retire l'attribut
+             (aucun autre module ne s'en sert). -->
+        <xpath expr="//t[@t-call='portal.portal_record_sidebar']" position="attributes">
+            <attribute name="id"/>
+        </xpath>
+        <xpath expr="//form[@t-attf-action='/ticket/close']" position="attributes">
+            <attribute name="method">POST</attribute>
+        </xpath>
+        <xpath expr="//form[@t-attf-action='/ticket/close']/input[@name='ticket_id']" position="before">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+        </xpath>
+    </template>
+</odoo>
