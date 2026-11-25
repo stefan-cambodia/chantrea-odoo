@@ -59,6 +59,10 @@ Corrigés par héritage dans `chantrea_base/models/res_partner_bank.py`, pour le
 
 - La langue des pages client suit d'abord le cookie `frontend_lang`, posé dès la page de
   connexion : à la connexion, `chantrea_portail` l'aligne sur la langue du compte du client.
+- À la première visite (ni langue dans l'adresse, ni cookie, pas connecté), Odoo prendrait la langue
+  du navigateur, puis l'anglais : `chantrea_portail` la remplace par le khmer
+  (`chantrea_portail/models/ir_http.py`, `test_premiere_visite_en_khmer`). Les robots gardent la
+  langue par défaut (anglais).
 - Le plan comptable crée ses taxes après l'installation des modules : `chantrea_portail` remet ses
   traductions à ce moment-là (`test_plan_comptable_traduit_apres_son_chargement`).
 - Odoo sert la langue par défaut aux robots (dont `curl`) : pour tester une langue à la

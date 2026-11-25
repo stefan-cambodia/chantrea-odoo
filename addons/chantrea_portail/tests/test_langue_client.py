@@ -1,4 +1,4 @@
-"""Langue de l'espace client : page publique en anglais, puis langue du compte après connexion."""
+"""Langue de l'espace client : première visite en khmer, puis langue du compte après connexion."""
 import re
 
 from odoo.tests import HttpCase, tagged
@@ -19,10 +19,38 @@ class TestLangueClient(HttpCase):
             "partner_id": contact.id, "group_ids": [(6, 0, cls.env.ref("base.group_portal").ids)],
         })
 
-    def test_page_de_connexion_en_anglais(self):
+    def test_premiere_visite_en_khmer(self):
+        """Quelle que soit la langue du navigateur ; le choix est ensuite mémorisé (cookie)."""
+        for navigateur in (None, "en-US,en;q=0.9", "fr-FR,fr;q=0.9"):
+            self.opener.cookies.clear()
+            entetes = {"Accept-Language": navigateur} if navigateur else {}
+            reponse = self.url_open("/web/login", headers=entetes)
+            self.assertIn("/km/web/login", reponse.url, navigateur)
+            self.assertRegex(reponse.text, r'<html[^>]*\blang="km-KH"')
+            self.assertEqual(self.opener.cookies.get("frontend_lang"), "km_KH")
+        # Un visiteur qui choisit l'anglais (sélecteur de langue → /en/…) le garde ensuite.
+        self.opener.cookies.clear()
+        self.url_open("/en/web/login")
+        self.assertEqual(self.opener.cookies.get("frontend_lang"), "en_US")
         page = self.url_open("/web/login").text
         self.assertIn('"bundle_params": {"lang": "en_US"}', page)
         self.assertIn("Log in", page)
+
+    def test_client_anglais_arrive_en_anglais(self):
+        """Première page en khmer, puis la langue du compte une fois connecté."""
+        contact = self.env["res.partner"].create({"name": "Dara EN (test)", "email": "dara-en@test.example",
+                                                  "lang": "en_US"})
+        self.env["res.users"].with_context(no_reset_password=True).create({
+            "name": contact.name, "login": "dara-en-test", "password": MOT_DE_PASSE,
+            "partner_id": contact.id, "group_ids": [(6, 0, self.env.ref("base.group_portal").ids)],
+        })
+        page = self.url_open("/web/login").text
+        self.assertIn("ចូលគណនី", page)
+        jeton = re.search(r'name="csrf_token" value="([^"]+)"', page).group(1)
+        reponse = self.url_open("/web/login", data={
+            "login": "dara-en-test", "password": MOT_DE_PASSE, "csrf_token": jeton, "redirect": "/my"})
+        self.assertEqual(self.opener.cookies.get("frontend_lang"), "en_US")
+        self.assertIn('"bundle_params": {"lang": "en_US"}', reponse.text)
 
     def test_page_de_connexion_dans_la_langue_de_l_adresse(self):
         """Sans le module « website », Odoo la servait toujours en anglais."""

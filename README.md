@@ -135,9 +135,11 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
   (`data/refus_inconnus.xml`) ; le réglage se change sur l'équipe, « Accepter les courriels de ».
 - Accès d'un client : fiche du contact › Action › « Accorder l'accès au portail ».
   Un client voit les tickets, devis et factures de **sa** société, jamais ceux d'un autre client
-  (tests `chantrea_portail/tests/`). La page de connexion est en anglais à la première visite ;
-  elle existe en khmer et en français (`/km/web/login`, `/fr/web/login`) et un client déjà venu
-  la retrouve dans sa langue. Après connexion, tout est dans la langue du compte du client.
+  (tests `chantrea_portail/tests/`). La page de connexion est en khmer à la première visite, quelle que soit la langue du
+  navigateur (`LANGUE_PREMIERE_VISITE` dans `chantrea_portail/models/ir_http.py`) ; elle existe
+  en anglais et en français (`/en/web/login`, `/fr/web/login`, sélecteur de langue en bas de page)
+  et un visiteur déjà venu la retrouve dans sa langue. Après connexion, tout est dans la langue
+  du compte du client (ou de l'utilisateur interne).
 - En local, `scripts/donnees_demo.sh` crée deux accès clients de démonstration
   (`dara@demo.example` en khmer, `sophea@demo.example` en anglais) ; mot de passe :
   `DEMO_CLIENT_PASSWORD` dans `.env`.
