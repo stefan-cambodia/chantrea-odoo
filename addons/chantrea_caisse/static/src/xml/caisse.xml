@@ -159,6 +159,12 @@
     </t>
 
     <t t-name="chantrea_caisse.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('line-details')]" position="after">
+            <div t-if="vals.isReceipt and vals.chantreaKm" class="chantrea-ticket-km chantrea-ligne-km d-flex justify-content-between">
+                <span class="pe-2" t-esc="vals.chantreaKm.quantite"/>
+                <span class="font-monospace" t-esc="vals.chantreaKm.montant"/>
+            </div>
+        </xpath>
         <xpath expr="//li[@t-if='vals.discount']" position="attributes">
             <attribute name="t-if">vals.discount and !vals.isReceipt</attribute>
         </xpath>
@@ -221,6 +227,9 @@
                 <span class="km-inline">ថ្ងៃដឹកជញ្ជូន</span> / Expected delivery:
                 <div class="shipping-date"><span class="km-inline" t-esc="livraison.km"/> (<t t-esc="livraison.en"/>)</div>
             </div>
+        </xpath>
+        <xpath expr="//div[hasclass('pos-config-name')]/following-sibling::div[1]" position="replace">
+            <div t-esc="chantreaAdresse()"/>
         </xpath>
         <xpath expr="//div[@t-if='company.vat']" position="replace">
             <div t-if="company.vat" t-translation="off"><span class="km-inline">លេខអត្តសញ្ញាណកម្ម អតប</span> / VATTIN: <t t-out="company.vat"/></div>

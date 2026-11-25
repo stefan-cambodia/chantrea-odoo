@@ -54,3 +54,22 @@ export function montantAnglais(valeur, devise) {
     }
     return devise.position === "after" ? `${nombre} ${devise.symbol}` : `${devise.symbol} ${nombre}`;
 }
+
+/** Quantité sans zéros inutiles, à l'anglaise : 2 → « 2 », 1.5 → « 1.5 », 1234 → « 1,234 ». */
+export function quantiteAnglaise(quantite) {
+    const arrondie = Math.round((Number(quantite) || 0) * 1000) / 1000;
+    const decimales = (String(arrondie).split(".")[1] || "").length;
+    return nombreAnglais(arrondie, decimales);
+}
+
+/**
+ * Ligne de produit du ticket en chiffres khmers, sous la ligne habituelle et comme elle :
+ * quantité à gauche, montant à droite ({quantite: "២", montant: "$ ៧.១៥"}). Pas de
+ * « quantité × prix » : Odoo arrondit le prix unitaire affiché, le calcul paraîtrait faux.
+ */
+export function ligneKhmere(quantite, montant, devise) {
+    return {
+        quantite: chiffresKhmers(quantiteAnglaise(quantite)),
+        montant: chiffresKhmers(montantAnglais(montant, devise)),
+    };
+}

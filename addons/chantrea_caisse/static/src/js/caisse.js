@@ -25,6 +25,7 @@ import {
     dateHeureAnglaise,
     dateHeureKhmere,
     dateKhmere,
+    ligneKhmere,
     montantAnglais,
     nombreAnglais,
 } from "@chantrea_caisse/js/khmer";
@@ -410,6 +411,11 @@ patch(OrderReceipt.prototype, {
         const taux = this.order.chantreaTaux;
         return nombreAnglais(taux, Number.isInteger(taux) ? 0 : 2);
     },
+    /** Adresse de la boutique sur une ligne, sans virgule en trop quand la rue est vide. */
+    chantreaAdresse() {
+        const societe = this.order.company;
+        return [societe.street, societe.city, societe.state_id?.code, societe.zip].filter(Boolean).join(", ");
+    },
     chantreaMonnaie() {
         return Math.abs(this.order.change);
     },
@@ -457,6 +463,7 @@ patch(Orderline.prototype, {
             displayPriceUnit:
                 valeurs.displayPriceUnit && `${montantAnglais(line.displayPriceUnit, devise)} / ${uniteAnglaise}`,
             noDiscountPrice: montantAnglais(line.displayPriceNoDiscount, devise),
+            chantreaKm: prix && ligneKhmere(line.qty, line.displayPrice, devise),
         };
     },
 });

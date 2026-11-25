@@ -5,7 +5,10 @@ import { readFileSync } from "node:fs";
 
 // Même chargement que riels.test.mjs (Node 18 de l'image Odoo).
 const source = readFileSync(new URL("../static/src/js/khmer.js", import.meta.url), "utf8");
-const { MOIS_KM, chiffresKhmers, dateKhmere, dateHeureKhmere, dateHeureAnglaise, nombreAnglais, montantAnglais } =
+const {
+    MOIS_KM, chiffresKhmers, dateKhmere, dateHeureKhmere, dateHeureAnglaise, nombreAnglais, montantAnglais,
+    quantiteAnglaise, ligneKhmere,
+} =
     await import("data:text/javascript," + encodeURIComponent(source));
 
 const MOMENT = { jour: 26, mois: 11, annee: 2026, heure: 5, minute: 35 };
@@ -46,4 +49,15 @@ test("montants avec le symbole de la devise", () => {
     assert.equal(montantAnglais(7.43, usd), "$ 7.43");
     assert.equal(montantAnglais(48100, khr), "48,100 ៛");
     assert.equal(montantAnglais(5, null), "5.00");
+});
+
+test("lignes de produits du ticket en chiffres khmers", () => {
+    const usd = { symbol: "$", position: "before", decimal_places: 2 };
+    assert.equal(quantiteAnglaise(2), "2");
+    assert.equal(quantiteAnglaise(1.5), "1.5");
+    assert.equal(quantiteAnglaise(1234), "1,234");
+    assert.equal(quantiteAnglaise(0.1 + 0.2), "0.3");
+    assert.deepEqual(ligneKhmere(1, 3.58, usd), { quantite: "១", montant: "$\u00a0៣.៥៨" });
+    assert.deepEqual(ligneKhmere(2, 7.15, usd), { quantite: "២", montant: "$\u00a0៧.១៥" });
+    assert.deepEqual(ligneKhmere(-1, -3.58, usd), { quantite: "-១", montant: "$\u00a0-៣.៥៨" });
 });
