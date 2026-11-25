@@ -92,7 +92,10 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 ## Factures cambodgiennes et taux USD/KHR
 
 - Devis et factures sont imprimés en khmer, l'anglais juste en dessous, avec le total en USD
-  **et** en KHR. Le taux, sa date et sa source sont imprimés et mémorisés sur la facture
+  **et** en KHR. Les dates et les montants sont aussi écrits en chiffres khmers, au-dessus des
+  chiffres habituels (« ថ្ងៃទី២៦ ខែវិច្ឆិកា ឆ្នាំ២០២៦ », « $ ៤៩៥.០០ », mêmes séparateurs que la ligne
+  anglaise) ; de même pour les heures du rapport d'intervention. Les tableaux de lignes gardent
+  les chiffres habituels. Fonctions : `chantrea_base/outils_km.py`, nommées `km` dans les rapports. Le taux, sa date et sa source sont imprimés et mémorisés sur la facture
   au moment de la validation ; ils ne changent plus ensuite.
 - Deux variantes, une seule numérotation (`INV/000001`, sans remise à zéro annuelle ;
   avoirs : `RINV/000001`) : **facture de TVA** (numéro de TVA du client obligatoire) et

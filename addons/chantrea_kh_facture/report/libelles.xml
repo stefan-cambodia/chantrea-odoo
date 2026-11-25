@@ -88,45 +88,47 @@
         <table class="ck-totaux" t-translation="off">
             <tr>
                 <th><span class="km">សរុប</span><span class="en">Sub-total</span></th>
-                <td><span t-field="doc.amount_untaxed"/></td>
+                <td><span class="ck-val-km" t-out="km.montant(doc.amount_untaxed, doc.currency_id)"/><span class="ck-val-en" t-field="doc.amount_untaxed"/></td>
             </tr>
             <t t-foreach="doc.tax_totals['subtotals']" t-as="sous_total">
                 <tr t-foreach="sous_total['tax_groups']" t-as="groupe">
                     <th><span class="km">អាករ</span><span class="en" t-out="groupe['group_name']"/></th>
-                    <td><span t-out="groupe['tax_amount_currency']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></td>
+                    <td><span class="ck-val-km" t-out="km.montant(groupe['tax_amount_currency'], doc.currency_id)"/><span class="ck-val-en" t-out="groupe['tax_amount_currency']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></td>
                 </tr>
             </t>
             <tr class="ck-grand-total">
                 <th><span class="km">សរុបរួម</span><span class="en">Grand total</span></th>
-                <td><span t-field="doc.amount_total"/></td>
+                <td><span class="ck-val-km" t-out="km.montant(doc.amount_total, doc.currency_id)"/><span class="ck-val-en" t-field="doc.amount_total"/></td>
             </tr>
 
             <t t-if="m and doc.currency_id == usd">
                 <tr t-if="avec_detail_tva" class="ck-riel">
                     <th><span class="km">សរុបមិនរួមអាករ ជាប្រាក់រៀល</span><span class="en">Sub-total in riels</span></th>
-                    <td><span t-out="m['ht_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
+                    <td><span class="ck-val-km" t-out="km.montant(m['ht_khr'], khr)"/><span class="ck-val-en" t-out="m['ht_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
                 </tr>
                 <tr t-if="avec_detail_tva" class="ck-riel">
                     <th><span class="km">អាករ ជាប្រាក់រៀល</span><span class="en">Tax in riels</span></th>
-                    <td><span t-out="m['tva_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
+                    <td><span class="ck-val-km" t-out="km.montant(m['tva_khr'], khr)"/><span class="ck-val-en" t-out="m['tva_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
                 </tr>
                 <tr class="ck-grand-total ck-riel">
                     <th><span class="km">សរុបរួមជាប្រាក់រៀល</span><span class="en">Grand total in riels</span></th>
-                    <td><span t-out="m['total_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
+                    <td><span class="ck-val-km" t-out="km.montant(m['total_khr'], khr)"/><span class="ck-val-en" t-out="m['total_khr']" t-options="{'widget': 'monetary', 'display_currency': khr}"/></td>
                 </tr>
             </t>
             <t t-if="m and doc.currency_id == khr">
                 <tr class="ck-grand-total ck-riel">
                     <th><span class="km">សរុបរួមជាប្រាក់ដុល្លារអាមេរិក</span><span class="en">Grand total in US dollars</span></th>
-                    <td><span t-out="m['total_usd']" t-options="{'widget': 'monetary', 'display_currency': usd}"/></td>
+                    <td><span class="ck-val-km" t-out="km.montant(m['total_usd'], usd)"/><span class="ck-val-en" t-out="m['total_usd']" t-options="{'widget': 'monetary', 'display_currency': usd}"/></td>
                 </tr>
             </t>
         </table>
 
         <div class="ck-taux" t-if="m" t-translation="off">
             <span class="km-inline">អត្រាប្តូរប្រាក់</span> / <span class="en-inline">Exchange rate</span> :
-            <strong>1 USD = <span t-out="v['taux']" t-options="{'widget': 'float', 'precision': 0 if v['taux'] == int(v['taux']) else 2}"/> KHR</strong>
-            — <t t-out="v['date'].strftime('%d/%m/%Y')"/>
+            <t t-set="decimales_taux" t-value="0 if v['taux'] == int(v['taux']) else 2"/>
+            <strong>១ USD = <t t-out="km.nombre(v['taux'], decimales_taux)"/> KHR</strong>
+            (1 USD = <span t-out="v['taux']" t-options="{'widget': 'float', 'precision': decimales_taux}"/> KHR)
+            — <span class="ck-insecable" t-out="km.date(v['date'])"/> (<t t-out="v['date'].strftime('%d/%m/%Y')"/>)
             <t t-if="v['source'] == 'gdt'">— <span class="km-inline">អគ្គនាយកដ្ឋានពន្ធដារ</span> (<span class="en-inline">GDT</span>)</t>
             <t t-elif="v['source'] == 'nbc'">— <span class="km-inline">ធនាគារជាតិនៃកម្ពុជា</span> (<span class="en-inline">NBC</span>)</t>
             <t t-else="">— <span class="km-inline">បញ្ចូលដោយដៃ</span> (<span class="en-inline">manual entry</span>)</t>

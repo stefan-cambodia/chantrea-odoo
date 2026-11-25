@@ -87,6 +87,10 @@ class TestInterventions(HttpCase):
         self.assertIn(locale, html)
         from datetime import timedelta
         self.assertEqual(locale, (self.intervention_a.signed_on + timedelta(hours=7)).strftime("%d/%m/%Y %H:%M"))
+        # Et en chiffres khmers, au-dessus.
+        from odoo.addons.chantrea_base.outils_km import date_heure
+        self.assertIn(date_heure(self.intervention_a.signed_on), html)
+        self.assertIn("ម៉ោង", html)
 
     # --- Espace client ------------------------------------------------------------------
     def test_instructions_illisibles_par_le_client(self):

@@ -43,11 +43,12 @@
                                 </tr>
                                 <tr>
                                     <th><span class="km">កាលបរិច្ឆេទ</span><span class="en">Date</span></th>
-                                    <td t-out="o.invoice_date.strftime('%d/%m/%Y') if o.invoice_date else '—'"/>
+                                    <td t-if="o.invoice_date"><span class="ck-val-km" t-out="km.date(o.invoice_date)"/><span class="ck-val-en" t-out="o.invoice_date.strftime('%d/%m/%Y')"/></td>
+                                    <td t-else="">—</td>
                                 </tr>
                                 <tr t-if="o.invoice_date_due and o.move_type == 'out_invoice'">
                                     <th><span class="km">ថ្ងៃផុតកំណត់ទូទាត់</span><span class="en">Due date</span></th>
-                                    <td t-out="o.invoice_date_due.strftime('%d/%m/%Y')"/>
+                                    <td><span class="ck-val-km" t-out="km.date(o.invoice_date_due)"/><span class="ck-val-en" t-out="o.invoice_date_due.strftime('%d/%m/%Y')"/></td>
                                 </tr>
                                 <tr t-if="o.reversed_entry_id">
                                     <th><span class="km">វិក្កយបត្រដើម</span><span class="en">Original invoice</span></th>

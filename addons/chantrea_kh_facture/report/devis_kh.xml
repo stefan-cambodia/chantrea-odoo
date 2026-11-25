@@ -40,11 +40,11 @@
                                 </tr>
                                 <tr>
                                     <th><span class="km">កាលបរិច្ឆេទ</span><span class="en">Date</span></th>
-                                    <td t-out="context_timestamp(doc.date_order).strftime('%d/%m/%Y')"/>
+                                    <td><span class="ck-val-km" t-out="km.date(context_timestamp(doc.date_order))"/><span class="ck-val-en" t-out="context_timestamp(doc.date_order).strftime('%d/%m/%Y')"/></td>
                                 </tr>
                                 <tr t-if="doc.validity_date and doc.state in ('draft', 'sent')">
                                     <th><span class="km">មានសុពលភាពរហូតដល់</span><span class="en">Valid until</span></th>
-                                    <td t-out="doc.validity_date.strftime('%d/%m/%Y')"/>
+                                    <td><span class="ck-val-km" t-out="km.date(doc.validity_date)"/><span class="ck-val-en" t-out="doc.validity_date.strftime('%d/%m/%Y')"/></td>
                                 </tr>
                                 <tr t-if="doc.client_order_ref">
                                     <th><span class="km">ឯកសារយោង</span><span class="en">Reference</span></th>

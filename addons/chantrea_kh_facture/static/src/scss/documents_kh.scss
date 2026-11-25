@@ -101,3 +101,11 @@ $ck-filet: #d6cdb9;
     .ck-pied td { border-top: 1px solid $ck-filet !important; }
     .ck-pied td { padding-top: 3px; }
 }
+
+// Valeurs (dates, montants) : chiffres khmers au-dessus, chiffres occidentaux en dessous.
+.o_chantrea_kh {
+    .ck-val-km { display: block; }
+    .ck-val-en { display: block; font-size: 0.85em; color: $ck-gris; line-height: 1.2; }
+    .ck-grand-total .ck-val-en { font-weight: normal; }
+    .ck-insecable { white-space: nowrap; }
+}

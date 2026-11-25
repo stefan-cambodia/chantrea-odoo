@@ -147,6 +147,10 @@ class TestFactureKh(TransactionCase):
                         "Sub-total in riels", f.name):
             self.assertTrue(attendu in html, f"absent du PDF : {attendu}")
         self.assertFalse("Provisional rate" in html, "taux définitif sur une facture validée")
+        # Dates et montants aussi en chiffres khmers, au-dessus des chiffres habituels.
+        for attendu in ("ថ្ងៃទី២១ ខែវិច្ឆិកា ឆ្នាំ២០២៦", "២,០១១,១៨៥", "៤៩៥.០០", "១ USD = ៤,០៦៣ KHR",
+                        "ថ្ងៃទី២០ ខែវិច្ឆិកា ឆ្នាំ២០២៦"):
+            self.assertTrue(attendu in html, f"absent du PDF : {attendu}")
 
     def test_impression_facture_commerciale(self):
         f = self.facture(self.client_sans_tva, prix=97.5)
@@ -164,5 +168,6 @@ class TestFactureKh(TransactionCase):
                                    "tax_ids": [(6, 0, self.taxe.ids)]})],
         })
         html = self.rendu("sale.action_report_saleorder", devis.ids)
-        for attendu in ("សម្រង់តម្លៃ", "QUOTATION", "2,011,185", "Provisional rate"):
+        for attendu in ("សម្រង់តម្លៃ", "QUOTATION", "2,011,185", "Provisional rate",
+                        "ថ្ងៃទី២១ ខែវិច្ឆិកា ឆ្នាំ២០២៦", "២,០១១,១៨៥"):
             self.assertTrue(attendu in html, f"absent du PDF : {attendu}")

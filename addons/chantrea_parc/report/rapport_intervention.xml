@@ -36,11 +36,11 @@
                                 </tr>
                                 <tr t-if="doc.date_start">
                                     <th><span class="km">មកដល់</span><span class="en">Arrival</span></th>
-                                    <td t-out="doc._chantrea_heure_locale(doc.date_start)"/>
+                                    <td><span class="ck-val-km" t-out="km.date_heure(doc.date_start, doc.location_id.tz)"/><span class="ck-val-en" t-out="doc._chantrea_heure_locale(doc.date_start)"/></td>
                                 </tr>
                                 <tr t-if="doc.date_end">
                                     <th><span class="km">បញ្ចប់</span><span class="en">End</span></th>
-                                    <td t-out="doc._chantrea_heure_locale(doc.date_end)"/>
+                                    <td><span class="ck-val-km" t-out="km.date_heure(doc.date_end, doc.location_id.tz)"/><span class="ck-val-en" t-out="doc._chantrea_heure_locale(doc.date_end)"/></td>
                                 </tr>
                                 <tr t-if="doc.person_id">
                                     <th><span class="km">អ្នកបច្ចេកទេស</span><span class="en">Technician</span></th>
@@ -94,7 +94,7 @@
                             <span class="km">ហត្ថលេខាអតិថិជន</span><span class="en">Customer's signature</span>
                             <div t-if="doc.signed_by" class="ck-ligne">
                                 <t t-out="doc.signed_by"/>
-                                <t t-if="doc.signed_on"> — <t t-out="doc._chantrea_heure_locale(doc.signed_on)"/></t>
+                                <t t-if="doc.signed_on"><span class="ck-val-km" t-out="km.date_heure(doc.signed_on, doc.location_id.tz)"/><span class="ck-val-en" t-out="doc._chantrea_heure_locale(doc.signed_on)"/></t>
                             </div>
                             <div t-if="not doc.signature" class="ck-ligne">
                                 <span class="km-inline">មិនទាន់ចុះហត្ថលេខា</span> / <span class="en-inline">Not signed yet</span>
