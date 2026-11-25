@@ -11,7 +11,8 @@ company = env.company
 
 
 def trouver_ou_creer(modele, domaine, valeurs):
-    existant = env[modele].search(domaine, limit=1)
+    # Recherche sur les noms français : certains ont aussi un nom anglais (ticket de caisse).
+    existant = env[modele].with_context(lang="fr_FR").search(domaine, limit=1).with_env(env)
     return existant or env[modele].create(valeurs)
 
 
@@ -204,8 +205,8 @@ if not caisse:
 if not caisse.current_session_id:
     caisse.write({"chantrea_taux_mode": "officiel", "chantrea_arrondi_khr": 100})
 especes = caisse.payment_method_ids.filtered("is_cash_count")[:1]
-if especes and especes.name != "Espèces":
-    especes.name = "Espèces"
+if especes and especes.with_context(lang="fr_FR").name != "Espèces" and not caisse.current_session_id:
+    especes.update_field_translations("name", {"fr_FR": "Espèces", "en_US": "Cash"})
 journal_khqr = trouver_ou_creer("account.journal", [("code", "=", "KHQRD"), ("company_id", "=", company.id)], {
     "name": "KHQR Bakong (DÉMO)", "type": "bank", "code": "KHQRD", "company_id": company.id})
 compte_bakong = trouver_ou_creer("res.partner.bank", [("acc_number", "=", "BAKONG-DEMO-0001")], {
@@ -227,6 +228,23 @@ if manquants:  # impossible pendant une session ouverte : seulement à la premi�
     caisse.payment_method_ids = [(4, m.id) for m in manquants]
 for nom, prix in (("Câble HDMI 2 m (DÉMO)", 3.25), ("Souris USB (DÉMO)", 7.5), ("Clé USB 32 Go (DÉMO)", 6.75)):
     produit(nom, prix, type_="consu").available_in_pos = True
+
+# Le ticket de caisse écrit les données en anglais : noms français ET anglais.
+NOMS_CAISSE = {
+    "pos.payment.method": [("Espèces", "Cash"), ("Carte", "Card"), ("Compte client", "Customer Account"),
+                           ("KHQR en dollars (DÉMO)", "KHQR in dollars (DEMO)"),
+                           ("KHQR en riels (DÉMO)", "KHQR in riels (DEMO)")],
+    "product.template": [("Câble HDMI 2 m (DÉMO)", "HDMI cable 2 m (DEMO)"), ("Souris USB (DÉMO)", "USB mouse (DEMO)"),
+                         ("Clé USB 32 Go (DÉMO)", "USB flash drive 32 GB (DEMO)")],
+}
+if caisse.current_session_id:  # Odoo refuse de modifier un mode de paiement pendant une session
+    del NOMS_CAISSE["pos.payment.method"]
+    print("Caisse de démonstration ouverte : noms anglais des modes de paiement donnés à la prochaine fois.")
+for modele, noms in NOMS_CAISSE.items():
+    for francais, anglais in noms:
+        domaine = [("name", "=", francais)] + ([("id", "in", caisse.payment_method_ids.ids)] if modele == "pos.payment.method" else [])
+        for enregistrement in env[modele].with_context(lang="fr_FR").search(domaine):
+            enregistrement.update_field_translations("name", {"fr_FR": francais, "en_US": anglais})
 env.cr.commit()
 
 # --- PDF -------------------------------------------------------------------

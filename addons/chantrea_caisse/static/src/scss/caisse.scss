@@ -18,3 +18,9 @@
     .chantrea-billet-usd, .chantrea-billet-khr { min-width: 4.5rem; }
     .chantrea-bilan { border-top: 1px solid #d6cdb9; padding-top: 0.5rem; }
 }
+
+// Ticket khmer/anglais : montant en chiffres khmers sous le montant en chiffres occidentaux.
+.pos-receipt .chantrea-ticket-km {
+    font-size: 85%;
+    line-height: 1.2;
+}

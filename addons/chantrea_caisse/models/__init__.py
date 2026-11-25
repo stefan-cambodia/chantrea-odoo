@@ -4,3 +4,4 @@ from . import pos_payment_method
 from . import pos_session
 from . import res_config_settings
 from . import res_currency
+from . import noms_anglais

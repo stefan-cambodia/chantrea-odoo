@@ -15,9 +15,19 @@ import { PaymentScreen } from "@point_of_sale/app/screens/payment_screen/payment
 import { PaymentScreenStatus } from "@point_of_sale/app/screens/payment_screen/payment_status/payment_status";
 import { QRPopup } from "@point_of_sale/app/components/popups/qr_code_popup/qr_code_popup";
 import { OrderReceipt } from "@point_of_sale/app/screens/receipt_screen/receipt/order_receipt";
+import { ReceiptHeader } from "@point_of_sale/app/screens/receipt_screen/receipt/receipt_header/receipt_header";
+import { Orderline } from "@point_of_sale/app/components/orderline/orderline";
 import { ClosePosPopup } from "@point_of_sale/app/components/popups/closing_popup/closing_popup";
 import { ask, makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
 import { aPayerEnRiels, montantRecu, renduMonnaie } from "@chantrea_caisse/js/riels";
+import {
+    chiffresKhmers,
+    dateHeureAnglaise,
+    dateHeureKhmere,
+    dateKhmere,
+    montantAnglais,
+    nombreAnglais,
+} from "@chantrea_caisse/js/khmer";
 
 /** Riels avec séparateur de milliers et symbole ៛, selon la langue de l'utilisateur. */
 export function formatRiels(montant, khr) {
@@ -362,14 +372,92 @@ patch(PaymentScreenStatus.prototype, {
 // ---------------------------------------------------------------------------
 // Ticket
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Ticket du client en khmer et en anglais, quelle que soit la langue de la caissière :
+// libellés « ខ្មែរ / English » (gabarits), données en anglais, montants écrits à
+// l'anglaise, date en khmer puis jj/mm/aaaa, comme les documents imprimés.
+// ---------------------------------------------------------------------------
+
+/** Moment luxon (heure de la caisse) → {jour, mois, annee, heure, minute}. */
+function momentDe(date) {
+    return date && { jour: date.day, mois: date.month, annee: date.year, heure: date.hour, minute: date.minute };
+}
+
+/** Nom anglais d'un enregistrement chargé dans la caisse (à défaut, son nom). */
+function nomAnglais(enregistrement) {
+    return enregistrement?.chantrea_nom_en || enregistrement?.name || "";
+}
+
+/** Nom anglais du produit d'une ligne ; les attributs ajoutés au nom sont gardés tels quels. */
+function nomProduitAnglais(ligne) {
+    const nom = ligne.full_product_name || "";
+    const produit = ligne.product_id;
+    const anglais = produit?.product_tmpl_id?.chantrea_nom_en;
+    if (anglais && produit.name && nom.startsWith(produit.name)) {
+        return anglais + nom.slice(produit.name.length);
+    }
+    return nom;
+}
+
 patch(OrderReceipt.prototype, {
+    formatCurrency(amount) {
+        return montantAnglais(amount, this.order.currency);
+    },
     chantreaFormatRiels(montant) {
-        const khr = this.order.models["res.currency"].find((c) => c.name === "KHR");
-        return formatRiels(montant, khr);
+        return montantAnglais(montant, { symbol: "៛", position: "after", decimal_places: 0 });
     },
     chantreaFormatTaux() {
         const taux = this.order.chantreaTaux;
-        return formatFloat(taux, { digits: [0, Number.isInteger(taux) ? 0 : 2] });
+        return nombreAnglais(taux, Number.isInteger(taux) ? 0 : 2);
+    },
+    chantreaMonnaie() {
+        return Math.abs(this.order.change);
+    },
+    chantreaKm(texte) {
+        return chiffresKhmers(texte);
+    },
+    chantreaNom(enregistrement) {
+        return nomAnglais(enregistrement);
+    },
+    chantreaGroupeTaxe(groupe) {
+        const enregistrement = this.order.models["account.tax.group"].get(groupe.id);
+        return enregistrement?.chantrea_nom_en || groupe.group_name;
+    },
+    chantreaDateLivraison() {
+        const moment = momentDe(this.order.shipping_date);
+        return moment ? { km: dateKhmere(moment), en: dateHeureAnglaise(moment).slice(0, 10) } : null;
+    },
+});
+
+patch(ReceiptHeader.prototype, {
+    get chantreaDate() {
+        const moment = momentDe(this.order.date_order);
+        return moment && { km: dateHeureKhmere(moment), en: dateHeureAnglaise(moment) };
+    },
+});
+
+patch(Orderline.prototype, {
+    get lineScreenValues() {
+        const valeurs = super.lineScreenValues;
+        const line = this.line;
+        if (this.props.mode !== "receipt" || !line.order_id) {
+            return valeurs;
+        }
+        const devise = line.currency;
+        const uniteAnglaise = nomAnglais(line.product_id?.uom_id);
+        let prix = valeurs.price;
+        if (prix) {
+            prix = line.getDiscount() === 100 ? "ឥតគិតថ្លៃ / Free" : montantAnglais(line.displayPrice, devise);
+        }
+        return {
+            ...valeurs,
+            name: nomProduitAnglais(line),
+            price: prix,
+            decimalPart: line.getQuantityStr().decimalPart && `.${line.getQuantityStr().decimalPart}`,
+            displayPriceUnit:
+                valeurs.displayPriceUnit && `${montantAnglais(line.displayPriceUnit, devise)} / ${uniteAnglaise}`,
+            noDiscountPrice: montantAnglais(line.displayPriceNoDiscount, devise),
+        };
     },
 });
 

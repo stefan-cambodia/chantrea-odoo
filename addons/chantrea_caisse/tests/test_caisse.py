@@ -95,6 +95,23 @@ class TestCaisse(TransactionCase):
         self.assertIn("chantrea_khqr_riels", donnees["pos.payment.method"][0])
         self.assertIn("qr_code_method", donnees["pos.payment.method"][0])
 
+    def test_noms_anglais_pour_le_ticket(self):
+        """Caissière francophone : la caisse a aussi les noms anglais, écrits sur le ticket."""
+        self.env["res.lang"]._activate_lang("fr_FR")
+        self.produit.product_tmpl_id.update_field_translations(
+            "name", {"fr_FR": "Câble HDMI (test)", "en_US": "HDMI cable (test)"})
+        self.especes.update_field_translations("name", {"fr_FR": "Espèces", "en_US": "Cash"})
+        self.config.open_ui()
+        donnees = self.config.current_session_id.with_context(lang="fr_FR").load_data([])
+        produit = next(p for p in donnees["product.template"] if p["id"] == self.produit.product_tmpl_id.id)
+        self.assertEqual((produit["name"], produit["chantrea_nom_en"]), ("Câble HDMI (test)", "HDMI cable (test)"))
+        methode = next(m for m in donnees["pos.payment.method"] if m["id"] == self.especes.id)
+        self.assertEqual((methode["name"], methode["chantrea_nom_en"]), ("Espèces", "Cash"))
+        unite = self.env.ref("uom.product_uom_unit")
+        self.assertEqual(unite.with_context(lang="fr_FR").chantrea_nom_en, unite.with_context(lang="en_US").name)
+        for modele in ("uom.uom", "account.tax.group"):
+            self.assertIn("chantrea_nom_en", self.env[modele]._load_pos_data_fields(self.config))
+
     # --- Commandes et clôture --------------------------------------------------------------
     def test_riels_du_tiroir_a_la_cloture(self):
         self.config.open_ui()

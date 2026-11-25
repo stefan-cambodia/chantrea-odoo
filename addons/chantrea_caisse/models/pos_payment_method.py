@@ -28,7 +28,7 @@ class PosPaymentMethod(models.Model):
 
     @api.model
     def _load_pos_data_fields(self, config):
-        return super()._load_pos_data_fields(config) + ["qr_code_method", "chantrea_khqr_riels"]
+        return super()._load_pos_data_fields(config) + ["qr_code_method", "chantrea_khqr_riels", "chantrea_nom_en"]
 
     @api.constrains("chantrea_khqr_riels", "payment_method_type", "qr_code_method")
     def _check_chantrea_khqr_riels(self):

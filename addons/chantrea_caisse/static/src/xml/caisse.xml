@@ -137,13 +137,112 @@
     </t>
 
     <!-- Ticket : total en riels, taux, espèces reçues, monnaie rendue. -->
+    <!--
+        Ticket du client en khmer et en anglais, quelle que soit la langue de la caissière.
+        Libellés « ខ្មែរ / English » non traduits (t-translation="off") ; mots khmers repris
+        des factures (libelles.xml). Données (produits, unités, modes de paiement, taxes) en anglais.
+    -->
+    <t t-name="chantrea_caisse.ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('ticket-name-prefix')]" position="replace">
+            <span class="ticket-name-prefix" t-translation="off"><span class="km-inline">បង្កាន់ដៃ</span> / Receipt </span>
+        </xpath>
+        <xpath expr="//div[@id='order-date']" position="replace">
+            <t t-set="chantrea_date" t-value="chantreaDate"/>
+            <div t-if="chantrea_date" id="order-date" t-translation="off">
+                <div class="km-inline" t-esc="chantrea_date.km"/>
+                <div t-esc="chantrea_date.en"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('cashier')]/div" position="replace">
+            <div t-translation="off"><span class="km-inline">អ្នកលក់</span> / Served by: <t t-esc="order.getCashierName()"/></div>
+        </xpath>
+    </t>
+
+    <t t-name="chantrea_caisse.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//li[@t-if='vals.discount']" position="attributes">
+            <attribute name="t-if">vals.discount and !vals.isReceipt</attribute>
+        </xpath>
+        <xpath expr="//li[@t-if='vals.discount and !vals.isReceipt']" position="after">
+            <li t-if="vals.discount and vals.isReceipt" class="price-per-unit" t-translation="off">
+                <i class="fa fa-tag pe-1"/><span class="km-inline">បញ្ចុះតម្លៃ</span> / Discount <t t-esc="vals.discount"/>% (<t t-esc="vals.noDiscountPrice"/>)
+            </li>
+        </xpath>
+    </t>
+
+    <t t-name="chantrea_caisse.OrderReceiptKhmer" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt-taxes')]//span[hasclass('text-nowrap')]" position="replace">
+            <span class="text-nowrap mw-100" t-translation="off"><span class="km-inline">សរុប</span> / Sub-total</span>
+        </xpath>
+        <xpath expr="//div[@t-foreach='subtotal.tax_groups']/span[1]" position="replace">
+            <span t-translation="off">
+                <span class="km-inline">អាករ</span> / <span class="en-inline" t-esc="chantreaGroupeTaxe(tax_group)"/>
+                <t t-if="showTaxGroupLabels and tax_group.group_label"> (<t t-out="tax_group.group_label"/>)</t>
+                <t t-if="!taxTotals.same_tax_base"> on <t t-esc="formatCurrency(tax_group.base_amount_currency)"/></t>
+            </span>
+        </xpath>
+        <xpath expr="//div[hasclass('receipt-total')]" position="replace">
+            <div class="pos-receipt-amount receipt-total fw-bolder" t-translation="off">
+                <span class="label-total"><span class="km-inline">សរុបរួម</span> / Total</span>
+                <span t-out="formatCurrency(order.priceIncl)" class="pos-receipt-right-align font-monospace"/>
+            </div>
+            <div class="chantrea-ticket-km chantrea-ticket-total-km text-end" t-esc="chantreaKm(formatCurrency(order.priceIncl))"/>
+        </xpath>
+        <xpath expr="//span[hasclass('label-rounding')]" position="replace">
+            <span class="label-rounding" t-translation="off"><span class="km-inline">ការបង្គត់</span> / Rounding</span>
+        </xpath>
+        <xpath expr="//div[hasclass('receipt-to-pay')]" position="replace">
+            <div class="pos-receipt-amount receipt-to-pay" t-translation="off">
+                <span class="km-inline">ត្រូវបង់</span> / To pay
+                <span t-out="formatCurrency(order.roundedPriceIncl)" class="pos-receipt-right-align font-monospace"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('paymentlines')]/t[@t-esc='line.payment_method_id.name']" position="replace">
+            <t t-esc="chantreaNom(line.payment_method_id)"/>
+        </xpath>
+        <xpath expr="//span[hasclass('label-change')]" position="replace">
+            <span class="label-change" t-translation="off"><span class="km-inline">ប្រាក់អាប់</span> / Change</span>
+        </xpath>
+        <!-- Odoo 19 compte la monnaie en négatif ; le client lit un montant positif. -->
+        <xpath expr="//div[hasclass('receipt-change')]/span[2]" position="attributes">
+            <attribute name="t-out">formatCurrency(chantreaMonnaie())</attribute>
+        </xpath>
+        <xpath expr="//span[hasclass('label-discount')]" position="replace">
+            <span class="label-discount" t-translation="off"><span class="km-inline">បញ្ចុះតម្លៃ</span> / Discounts</span>
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-qr')]//div[hasclass('fw-bolder')]" position="replace">
+            <div class="fw-bolder" t-translation="off"><span class="km-inline">ត្រូវការវិក្កយបត្រ?</span> / Need an invoice?</div>
+        </xpath>
+        <xpath expr="//div[hasclass('unique-code')]" position="replace">
+            <div class="unique-code" t-translation="off"><span class="km-inline">លេខកូដ</span> / Code: <t t-out="order.ticket_code"/></div>
+        </xpath>
+        <xpath expr="//div[hasclass('shipping-date')]/.." position="replace">
+            <t t-set="livraison" t-value="chantreaDateLivraison()"/>
+            <div t-if="livraison" class="pos-receipt-order-data pt-3" t-translation="off">
+                <span class="km-inline">ថ្ងៃដឹកជញ្ជូន</span> / Expected delivery:
+                <div class="shipping-date"><span class="km-inline" t-esc="livraison.km"/> (<t t-esc="livraison.en"/>)</div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-if='company.vat']" position="replace">
+            <div t-if="company.vat" t-translation="off"><span class="km-inline">លេខអត្តសញ្ញាណកម្ម អតប</span> / VATTIN: <t t-out="company.vat"/></div>
+        </xpath>
+        <xpath expr="//div[@t-if='company.phone']" position="replace">
+            <div t-if="company.phone" t-translation="off">
+                <span class="km-inline">ទូរស័ព្ទលេខ</span> / Tel.: <span dir="ltr"><t t-out="company.phone"/></span>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('footer-powered-by')]/span" position="replace">
+            <span t-translation="off">Powered by <b>Odoo</b></span>
+        </xpath>
+    </t>
+
     <t t-name="chantrea_caisse.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
-        <xpath expr="//div[hasclass('receipt-total')]" position="after">
+        <xpath expr="//div[hasclass('chantrea-ticket-total-km')]" position="after">
             <t t-if="order.chantreaTaux">
                 <div class="pos-receipt-amount chantrea-ticket-riels fw-bolder" t-translation="off">
                     <span><span class="km-inline">សរុបរួមជាប្រាក់រៀល</span> / <span class="en-inline">Total in riels</span></span>
                     <span class="pos-receipt-right-align font-monospace" t-esc="chantreaFormatRiels(order.chantreaTotalKhr)"/>
                 </div>
+                <div class="chantrea-ticket-km text-end" t-esc="chantreaKm(chantreaFormatRiels(order.chantreaTotalKhr))"/>
                 <div class="chantrea-ticket-taux text-start" style="font-size: 85%;" t-translation="off">
                     <span class="km-inline">អត្រាប្តូរប្រាក់</span> / <span class="en-inline">Exchange rate</span>
                     <span class="pos-receipt-right-align font-monospace">1 $ = <t t-esc="chantreaFormatTaux()"/> ៛</span>
