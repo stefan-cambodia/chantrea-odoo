@@ -361,3 +361,110 @@ msgstr "Taux de la caisse (riels pour 1 $)"
 #: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
 msgid "To pay"
 msgstr "À payer"
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid ""
+"A payment was found but does not match this QR code (%(amount)s %(currency)s"
+" to %(account)s)."
+msgstr ""
+"Un paiement a été trouvé, mais il ne correspond pas à ce QR code "
+"(%(amount)s %(currency)s vers %(account)s)."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__chantrea_bakong_url
+msgid "Bakong API address"
+msgstr "Adresse de l'API Bakong"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__chantrea_bakong_token
+msgid "Bakong API token"
+msgstr "Jeton de l'API Bakong"
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid ""
+"Bakong refuses the token (expired?): renew it in the Point of Sale settings."
+msgstr "Bakong refuse le jeton (expiré ?) : renouvelez-le dans les paramètres du Point de vente."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_res_config_settings__chantrea_bakong_url
+msgid ""
+"Empty: https://api-bakong.nbc.gov.kh. Test environment: https://sit-api-"
+"bakong.nbc.gov.kh."
+msgstr "Vide : https://api-bakong.nbc.gov.kh. Environnement de test : https://sit-api-bakong.nbc.gov.kh."
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid "Invalid QR code fingerprint."
+msgstr "Empreinte du QR code invalide."
+
+#. module: chantrea_caisse
+#: model_terms:ir.ui.view,arch_db:chantrea_caisse.res_config_settings_view_form
+msgid "KHQR payments checked with Bakong"
+msgstr "Paiements KHQR vérifiés auprès de Bakong"
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid "No KHQR code can be generated for the bank account of %s."
+msgstr "Aucun QR code KHQR ne peut être créé pour le compte bancaire de %s."
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/js/caisse.js:0
+msgid "No connection to the server: check the payment in the banking app."
+msgstr "Pas de connexion au serveur : vérifiez le paiement dans l'application bancaire."
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Payment received"
+msgstr "Paiement reçu"
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid ""
+"The Bakong service cannot be reached: check the payment in the banking app."
+msgstr "Le service Bakong est injoignable : vérifiez le paiement dans l'application bancaire."
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid "This payment method is not configured to generate QR codes."
+msgstr "Ce mode de paiement n'est pas configuré pour créer des QR codes."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_res_config_settings__chantrea_bakong_token
+msgid ""
+"Token of the Bakong API of the National Bank of Cambodia (valid 90 days). "
+"With it, the till sees by itself that a KHQR code has been paid."
+msgstr "Jeton de l'API Bakong de la Banque nationale du Cambodge (valable 90 jours). Avec lui, la caisse voit d'elle-même qu'un QR code KHQR a été payé."
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid "Unexpected answer from Bakong: check the payment in the banking app."
+msgstr "Réponse inattendue de Bakong : vérifiez le paiement dans l'application bancaire."
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Waiting for the payment, checked with Bakong…"
+msgstr "En attente du paiement, vérifié auprès de Bakong…"
+
+#. module: chantrea_caisse
+#: model_terms:ir.ui.view,arch_db:chantrea_caisse.res_config_settings_view_form
+msgid ""
+"With a Bakong API token, the till confirms a KHQR payment as soon as it "
+"arrives. Without it, the cashier confirms it."
+msgstr "Avec un jeton de l'API Bakong, la caisse confirme un paiement KHQR dès qu'il arrive. Sans jeton, la caissière le confirme."
+
+#. module: chantrea_caisse
+#: model_terms:ir.ui.view,arch_db:chantrea_caisse.res_config_settings_view_form
+msgid "https://api-bakong.nbc.gov.kh"
+msgstr ""

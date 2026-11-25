@@ -1,6 +1,6 @@
 // Caisse en dollars qui accepte les riels : total et reste en riels, espèces « $ + ៛ »,
 // monnaie rendue en dollars entiers + riels, KHQR en riels, ticket et clôture.
-import { Component, useState } from "@odoo/owl";
+import { Component, onMounted, onWillUnmount, useState } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { patch } from "@web/core/utils/patch";
 import { Dialog } from "@web/core/dialog/dialog";
@@ -74,16 +74,20 @@ patch(PosStore.prototype, {
         }
         const montant = enRiels ? aPayerEnRiels(payment.amount, taux, this.chantreaArrondi) : payment.amount;
         const reference = order.pos_reference || order.tracking_number || "";
+        const deviseId = enRiels ? khr.id : this.currency.id;
         let qr;
+        payment.chantreaKhqr = null;
         try {
-            qr = await this.data.call("pos.payment.method", "get_qr_code", [
+            // QR code et empreinte MD5 de son texte, pour retrouver le paiement chez Bakong.
+            const khqr = await this.data.call("pos.payment.method", "chantrea_qr_khqr", [
                 [methode.id],
                 montant,
                 reference,
-                "",
-                enRiels ? khr.id : this.currency.id,
-                order.partner_id?.id,
+                deviseId,
+                order.partner_id?.id || false,
             ]);
+            qr = khqr.qr;
+            payment.chantreaKhqr = { ...khqr, montant, deviseId };
         } catch (error) {
             qr = !enRiels && methode.default_qr;
             if (!qr) {
@@ -110,10 +114,15 @@ patch(PosStore.prototype, {
             QRPopup
         ).then((result) => {
             payment.qrPaymentData = null;
+            payment.chantreaKhqr = null;
             return result;
         });
     },
 });
+
+// Intervalle entre deux questions à Bakong, plus long après une erreur (ms).
+const KHQR_INTERVALLE = 3000;
+const KHQR_INTERVALLE_ERREUR = 10000;
 
 patch(QRPopup.prototype, {
     setup() {
@@ -123,6 +132,52 @@ patch(QRPopup.prototype, {
             const riels = this.env.services.pos.chantreaFormatRiels(line.chantrea_montant_khr);
             this.amount = `${riels} (${this.env.utils.formatCurrency(line.amount)})`;
         }
+        // Avec un jeton Bakong, la fenêtre demande régulièrement si le QR code a été payé
+        // et confirme d'elle-même ; la caissière peut toujours confirmer ou annuler.
+        const khqr = line.chantreaKhqr;
+        this.chantreaVerif = useState({ etat: khqr?.verification ? "attente" : "", message: "" });
+        if (!khqr?.verification) {
+            return;
+        }
+        const pos = this.env.services.pos;
+        let minuterie = null;
+        let ouverte = true;
+        const verifier = async () => {
+            let resultat;
+            try {
+                resultat = await pos.data.call("pos.payment.method", "chantrea_verifier_khqr", [
+                    [line.payment_method_id.id],
+                    khqr.md5,
+                    khqr.montant,
+                    khqr.deviseId,
+                ]);
+            } catch {
+                resultat = {
+                    etat: "erreur",
+                    message: _t("No connection to the server: check the payment in the banking app."),
+                };
+            }
+            if (!ouverte) {
+                return;
+            }
+            Object.assign(this.chantreaVerif, { message: "", ...resultat });
+            if (resultat.etat === "paye") {
+                line.transaction_id = resultat.hash;
+                this._confirm();
+            } else if (resultat.etat === "attente" || resultat.etat === "erreur") {
+                minuterie = setTimeout(
+                    verifier,
+                    resultat.etat === "erreur" ? KHQR_INTERVALLE_ERREUR : KHQR_INTERVALLE
+                );
+            }
+        };
+        onMounted(() => {
+            minuterie = setTimeout(verifier, KHQR_INTERVALLE);
+        });
+        onWillUnmount(() => {
+            ouverte = false;
+            clearTimeout(minuterie);
+        });
     },
 });
 

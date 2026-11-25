@@ -1,5 +1,10 @@
 """Caisse en dollars qui accepte les riels : taux, commandes, clôture, KHQR en riels."""
+import hashlib
+import json
 import uuid
+from unittest.mock import MagicMock, patch
+
+import requests
 
 from odoo import fields
 from odoo.exceptions import ValidationError
@@ -157,3 +162,113 @@ class TestCaisse(TransactionCase):
     def test_khqr_en_riels_reserve_aux_qr_codes(self):
         with self.assertRaises(ValidationError):
             self.especes.chantrea_khqr_riels = True
+
+
+@tagged("post_install", "-at_install", "chantrea")
+class TestVerificationBakong(TransactionCase):
+    """Paiement KHQR vérifié auprès de l'API Bakong (réponses simulées, aucun appel réel)."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.usd, cls.khr = cls.env.ref("base.USD"), cls.env.ref("base.KHR")
+        compte = cls.env["res.partner.bank"].create({
+            "acc_number": "KHQR-BAKONG-1", "partner_id": cls.env.company.partner_id.id,
+            "proxy_type": "bakong_id_solo", "proxy_value": "chantrea_test@aclb"})
+        journal = cls.env["account.journal"].create({
+            "name": "KHQR Bakong", "type": "bank", "code": "KHQB", "bank_account_id": compte.id})
+        cls.methode = cls.env["pos.payment.method"].create({
+            "name": "KHQR", "journal_id": journal.id, "payment_method_type": "qr_code",
+            "qr_code_method": "emv_qr"})
+        cls.md5 = "0123456789abcdef0123456789abcdef"
+
+    def activer(self):
+        parametres = self.env["ir.config_parameter"].sudo()
+        parametres.set_param("chantrea_caisse.bakong_token", "jeton-de-test")
+        parametres.set_param("chantrea_caisse.bakong_url", "https://sit-api-bakong.nbc.gov.kh/")
+
+    def bakong(self, statut=200, corps=None, exception=None):
+        """Remplace l'appel HTTP ; renvoie le simulacre pour vérifier la requête."""
+        reponse = MagicMock(status_code=statut, text=json.dumps(corps))
+        reponse.json.return_value = corps
+        simulacre = patch(
+            "odoo.addons.chantrea_caisse.models.pos_payment_method.requests.post",
+            side_effect=exception, return_value=reponse)
+        return simulacre
+
+    def transaction(self, **valeurs):
+        return {"responseCode": 0, "responseMessage": "Getting transaction successfully.", "errorCode": None,
+                "data": {"hash": "abc123", "fromAccountId": "client@aba", "toAccountId": "chantrea_test@aclb",
+                         "currency": "USD", "amount": 12.5, **valeurs}}
+
+    def test_qr_et_empreinte_du_meme_texte(self):
+        textes = []
+        rapport = type(self.env["ir.actions.report"])
+        origine = rapport.barcode
+
+        def espion(modele, *args, **kwargs):
+            textes.append(kwargs["value"])
+            return origine(modele, *args, **kwargs)
+
+        with patch.object(rapport, "barcode", espion):
+            khqr = self.methode.chantrea_qr_khqr(12.5, "Commande 00001", self.usd.id)
+        self.assertTrue(khqr["qr"].startswith("data:image/png;base64,"))
+        self.assertEqual(len(textes), 1)
+        self.assertEqual(khqr["md5"], hashlib.md5(textes[0].encode()).hexdigest())
+        self.assertIn("540512.50", textes[0])
+        self.assertFalse(khqr["verification"])
+        self.activer()
+        self.assertTrue(self.methode.chantrea_qr_khqr(12.5, "Commande 00001", self.usd.id)["verification"])
+
+    def test_sans_jeton_pas_d_appel(self):
+        with self.bakong() as post:
+            self.assertEqual(self.methode.chantrea_verifier_khqr(self.md5, 12.5, self.usd.id), {"etat": "inactif"})
+        post.assert_not_called()
+
+    def test_paiement_recu(self):
+        self.activer()
+        with self.bakong(corps=self.transaction()) as post:
+            resultat = self.methode.chantrea_verifier_khqr(self.md5, 12.5, self.usd.id)
+        self.assertEqual(resultat, {"etat": "paye", "hash": "abc123", "payeur": "client@aba"})
+        args, kwargs = post.call_args
+        self.assertEqual(args[0], "https://sit-api-bakong.nbc.gov.kh/v1/check_transaction_by_md5")
+        self.assertEqual(kwargs["json"], {"md5": self.md5})
+        self.assertEqual(kwargs["headers"]["Authorization"], "Bearer jeton-de-test")
+        self.assertTrue(kwargs["timeout"])
+
+    def test_paiement_en_riels(self):
+        self.activer()
+        with self.bakong(corps=self.transaction(currency="KHR", amount=50800)):
+            resultat = self.methode.chantrea_verifier_khqr(self.md5, 50800, self.khr.id)
+        self.assertEqual(resultat["etat"], "paye")
+
+    def test_pas_encore_paye(self):
+        self.activer()
+        corps = {"responseCode": 1, "responseMessage": "Transaction could not be found. Please check and try again.",
+                 "errorCode": 1, "data": None}
+        with self.bakong(corps=corps):
+            self.assertEqual(self.methode.chantrea_verifier_khqr(self.md5, 12.5, self.usd.id), {"etat": "attente"})
+
+    @mute_logger("odoo.addons.chantrea_caisse.models.pos_payment_method")
+    def test_paiement_qui_ne_correspond_pas(self):
+        self.activer()
+        for ecart in ({"amount": 12.0}, {"currency": "KHR"}, {"toAccountId": "autre@aclb"}, {"amount": None}):
+            with self.subTest(ecart=ecart), self.bakong(corps=self.transaction(**ecart)):
+                self.assertEqual(self.methode.chantrea_verifier_khqr(self.md5, 12.5, self.usd.id)["etat"], "ecart")
+
+    @mute_logger("odoo.addons.chantrea_caisse.models.pos_payment_method")
+    def test_erreurs(self):
+        self.activer()
+        cas = {
+            "jeton refusé": {"statut": 401, "corps": {"message": "Unauthorized"}},
+            "erreur serveur": {"statut": 500, "corps": None},
+            "injoignable": {"exception": requests.ConnectionError("pas de réseau")},
+        }
+        for nom, simulation in cas.items():
+            with self.subTest(nom), self.bakong(**simulation):
+                resultat = self.methode.chantrea_verifier_khqr(self.md5, 12.5, self.usd.id)
+            self.assertEqual(resultat["etat"], "erreur")
+            self.assertTrue(resultat["message"])
+        with self.bakong() as post:
+            self.assertEqual(self.methode.chantrea_verifier_khqr("pas-une-empreinte", 12.5, self.usd.id)["etat"], "erreur")
+        post.assert_not_called()

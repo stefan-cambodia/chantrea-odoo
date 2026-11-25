@@ -27,6 +27,19 @@
                         </div>
                     </div>
                 </setting>
+                <setting id="chantrea_bakong" string="KHQR payments checked with Bakong" groups="base.group_system"
+                         help="With a Bakong API token, the till confirms a KHQR payment as soon as it arrives. Without it, the cashier confirms it.">
+                    <div class="content-group">
+                        <div class="row mt-2">
+                            <label for="chantrea_bakong_token" class="col-lg-4 o_light_label"/>
+                            <field name="chantrea_bakong_token" password="True"/>
+                        </div>
+                        <div class="row">
+                            <label for="chantrea_bakong_url" class="col-lg-4 o_light_label"/>
+                            <field name="chantrea_bakong_url" placeholder="https://api-bakong.nbc.gov.kh"/>
+                        </div>
+                    </div>
+                </setting>
             </xpath>
         </field>
     </record>

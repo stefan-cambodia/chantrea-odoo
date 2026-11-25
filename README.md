@@ -205,8 +205,13 @@ Module `chantrea_caisse` (Point de vente d'Odoo). La caisse vend en dollars et a
 - **KHQR** (Bakong, Banque nationale du Cambodge) : mode de paiement « Application bancaire (code QR) »
   sur un journal de banque dont le compte porte votre identifiant Bakong. Case « QR code en riels » :
   le QR demande des riels au taux de la caisse, sinon des dollars. Le client scanne avec
-  l'application de sa banque ; la caissière confirme quand le paiement apparaît. La référence
-  du QR est le numéro du ticket. Le même compte sert au QR code des factures.
+  l'application de sa banque. Avec un jeton de l'API Bakong (Point de vente › Paramètres ›
+  « Paiements KHQR vérifiés auprès de Bakong »), la fenêtre du QR code demande toutes les 3 secondes
+  à Bakong si le QR a été payé (empreinte MD5 de son texte) et confirme d'elle-même ; un paiement
+  au mauvais compte, dans la mauvaise devise ou inférieur au montant n'est pas accepté. La
+  référence Bakong est gardée sur le paiement (« ID de transaction »). Sans jeton, ou si Bakong ne
+  répond pas, la caissière confirme quand le paiement apparaît. La référence du QR est le numéro
+  du ticket. Le même compte sert au QR code des factures (paiement des factures non vérifié).
   Réglage pas à pas : [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md), étape 6 bis.
 - Odoo 19 produit des QR codes KHQR que le SDK de la Banque nationale refuse dans certains cas ;
   corrigé dans `chantrea_base/models/res_partner_bank.py` (voir

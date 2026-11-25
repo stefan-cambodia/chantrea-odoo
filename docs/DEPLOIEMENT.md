@@ -315,10 +315,27 @@ d'entreprise, le **Merchant ID** donné par la banque.
    (« KHQR $ » et « KHQR ៛ ») si vous voulez laisser le choix au client.
 4. Ajoutez ces modes à la caisse (Paramètres de la caisse › Modes de paiement).
 
-À la caisse, le client scanne le QR code avec l'application de sa banque. **La caissière confirme
-le paiement quand elle le voit arriver** (notification de la banque ou de l'application Bakong) :
-Odoo ne vérifie pas lui-même que l'argent est arrivé. Une vérification automatique est possible
-avec l'API de la Banque nationale (jeton à demander à la BNC, à renouveler) ; elle n'est pas faite.
+À la caisse, le client scanne le QR code avec l'application de sa banque.
+
+**Sans jeton Bakong, la caissière confirme le paiement quand elle le voit arriver**
+(notification de la banque ou de l'application Bakong) : Odoo ne vérifie rien.
+
+**Avec un jeton Bakong, la caisse voit d'elle-même que le QR code a été payé** :
+
+1. Demandez un jeton pour l'API Bakong de la Banque nationale (https://api-bakong.nbc.gov.kh :
+   inscription avec une adresse électronique ; démarche à confirmer auprès de la BNC ou de votre
+   banque). Le jeton est valable **90 jours** : notez la date pour le renouveler.
+2. Point de vente › Configuration › Paramètres › « Paiements KHQR vérifiés auprès de Bakong » :
+   collez le jeton (réglage réservé aux administrateurs ; le jeton n'est jamais envoyé à la caisse).
+   Laissez l'adresse vide (service réel) ; `https://sit-api-bakong.nbc.gov.kh` est l'environnement
+   de test de la BNC.
+3. À la caisse, la fenêtre du QR code affiche « En attente du paiement, vérifié auprès de
+   Bakong… » et se ferme seule quand le paiement arrive. La caissière peut toujours confirmer ou
+   annuler elle-même (coupure d'Internet, Bakong injoignable : un message le dit).
+
+Un jeton expiré s'affiche ainsi : « Bakong refuse le jeton (expiré ?) » ; la caissière confirme
+alors à la main jusqu'au renouvellement. Les factures ne sont pas vérifiées : un paiement KHQR de
+facture s'enregistre comme un virement.
 
 Essai sans risque : un paiement de 100 ៛ avec votre propre téléphone, puis le remboursement.
 
@@ -564,6 +581,8 @@ EOF
 - [ ] Le taux USD/KHR du jour est présent (Facturation › Configuration › Taux USD/KHR).
 - [ ] Si la caisse sert : un paiement KHQR d'essai (100 ៛) est arrivé sur votre compte, et la
       caisse affiche le bon taux (Point de vente › Paramètres › « Riels à la caisse »).
+- [ ] Si un jeton Bakong est réglé : la fenêtre du QR code de ce paiement d'essai s'est fermée
+      seule, et la date de fin du jeton (90 jours) est notée.
 
 ## Ce qui a été essayé
 

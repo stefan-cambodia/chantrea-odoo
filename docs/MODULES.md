@@ -68,4 +68,4 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 | chantrea_kh_facture | LGPL-3 | 2 | installé, testé |
 | chantrea_parc | AGPL-3 (dépend de fieldservice) | 5 et 6 | parc et interventions signées installés, testés |
 | chantrea_portail | AGPL-3 (dépend de modules OCA) | 3, 4 et 7 | assistance, règles d'accès client, contrats, page d'accueil de l'espace client, traductions khmères et françaises des textes Odoo/OCA : installés et testés |
-| chantrea_caisse | LGPL-3 | après l'étape 8 | caisse en dollars et en riels, KHQR : installé et testé |
+| chantrea_caisse | LGPL-3 | après l'étape 8 | caisse en dollars et en riels, KHQR vérifié auprès de Bakong : installé et testé |

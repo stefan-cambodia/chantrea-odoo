@@ -6,6 +6,19 @@
 -->
 <templates id="template" xml:space="preserve">
 
+    <!-- Fenêtre du QR code : état de la vérification auprès de Bakong. -->
+    <t t-name="chantrea_caisse.QRConfirmationDialog" t-inherit="point_of_sale.QRConfirmationDialog" t-inherit-mode="extension">
+        <xpath expr="//img" position="after">
+            <t t-set="verif" t-value="chantreaVerif"/>
+            <div t-if="verif and verif.etat" class="chantrea-khqr-verif mt-2 text-center"
+                 t-att-class="{'text-muted': verif.etat === 'attente', 'text-success': verif.etat === 'paye', 'text-danger': verif.etat === 'ecart' or verif.etat === 'erreur'}">
+                <t t-if="verif.etat === 'attente'"><i class="fa fa-circle-o-notch fa-spin me-1"/>Waiting for the payment, checked with Bakong…</t>
+                <t t-elif="verif.etat === 'paye'"><i class="fa fa-check me-1"/>Payment received</t>
+                <t t-elif="verif.message" t-esc="verif.message"/>
+            </div>
+        </xpath>
+    </t>
+
     <!-- Total en riels sous le grand total, avec le taux de la caisse. -->
     <t t-name="chantrea_caisse.PaymentScreenDue" t-inherit="point_of_sale.PaymentScreenDue" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('total')]" position="after">
