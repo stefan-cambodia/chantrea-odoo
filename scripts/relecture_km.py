@@ -30,7 +30,7 @@ SPAN_KM = re.compile(r'<span class="km(?:-inline)?"[^>]*>(?P<km>[^<]+)</span>')
 # Ce qui suit un libellé khmer : la traduction anglaise (texte, ou valeur dynamique),
 # ou à défaut le texte qui suit directement (ex. « ទំព័រ / Page »).
 SUITE_EN = re.compile(
-    r'^[\s/(]*<span class="en(?:-inline)?"(?:[^>]*t-out="(?P<dyn>[^"]*)"[^>]*/>|[^>]*>(?P<en>[^<]*)</span>)'
+    r'^[\s/(]*<span class="en(?:-inline)?"(?:[^>]*t-(?:out|esc)="(?P<dyn>[^"]*)"[^>]*/>|[^>]*>(?P<en>[^<]*)</span>)'
     r'|^[\s/]*(?P<texte>[^<]+)')
 KHMER = re.compile(r"[ក-៿]")
 
@@ -66,6 +66,15 @@ def textes_des_gabarits():
 
 
 CHAMP_DONNEES = re.compile(r'<field name="[^"]+">([^<]+)</field>')
+
+# Libellé « ខ្មែរ / English » écrit dans le JavaScript (ex. « ឥតគិតថ្លៃ / Free » du ticket de caisse).
+CHAINE_JS = re.compile(r'"([^"/]*[ក-៿][^"/]*) / ([^"]+)"')
+
+
+def textes_du_javascript():
+    for fichier in sorted(RACINE.glob("addons/*/static/src/**/*.js")):
+        for m in CHAINE_JS.finditer(fichier.read_text(encoding="utf-8")):
+            yield nettoyer(m.group(1)), nettoyer(m.group(2)), fichier.parts[len(RACINE.parts) + 1]
 
 MOIS_EN = ("January", "February", "March", "April", "May", "June", "July", "August",
            "September", "October", "November", "December")
@@ -108,9 +117,10 @@ PARTIES = (
     ("1. Documents imprimés et pages Chantrea",
      "Libellés des devis, factures, rapports d'intervention, tickets de caisse et pages du parc matériel ; "
      "mois et format des dates écrites en khmer. "
-     "À corriger dans le gabarit XML du module indiqué (les mois : `chantrea_base/outils_km.py`).",
+     "À corriger dans le gabarit XML du module indiqué (les mois : `chantrea_base/outils_km.py` ; « Free » du ticket de caisse : `chantrea_caisse/static/src/js/caisse.js`).",
      lambda: itertools.chain(
          ((km, en, fichier.parts[1]) for km, en, fichier in textes_des_gabarits()),
+         textes_du_javascript(),
          textes_des_dates())),
     ("2. Modules Chantrea",
      "Catégories de tickets, courriels, accueil de l'espace client… "

@@ -13,16 +13,31 @@ Les noms de pays ne sont pas listés : ils viennent du référentiel Unicode CLD
 Ordre conseillé : parties 1 et 2 d'abord (ce que chaque client voit sur ses documents
 et sur l'accueil), puis la partie 3.
 
-**0 / 718 textes relus.**
+**0 / 732 textes relus.**
 
 ## 1. Documents imprimés et pages Chantrea
 
-Libellés des devis, factures, rapports d'intervention, tickets de caisse et pages du parc matériel ; mois et format des dates écrites en khmer. À corriger dans le gabarit XML du module indiqué (les mois : `chantrea_base/outils_km.py`).
+Libellés des devis, factures, rapports d'intervention, tickets de caisse et pages du parc matériel ; mois et format des dates écrites en khmer. À corriger dans le gabarit XML du module indiqué (les mois : `chantrea_base/outils_km.py` ; « Free » du ticket de caisse : `chantrea_caisse/static/src/js/caisse.js`).
 
-0 / 83 textes relus.
+0 / 97 textes relus.
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
+| ⏳ à relire | បង្កាន់ដៃ | Receipt | chantrea_caisse |
+| ⏳ à relire | អ្នកលក់ | Served by | chantrea_caisse |
+| ⏳ à relire | បញ្ចុះតម្លៃ | Discount | chantrea_caisse |
+| ⏳ à relire | សរុប | Sub-total | chantrea_caisse, chantrea_kh_facture |
+| ⏳ à relire | អាករ | (valeur variable : chantreaGroupeTaxe(tax_group)) | chantrea_caisse |
+| ⏳ à relire | សរុបរួម | Total | chantrea_caisse |
+| ⏳ à relire | ការបង្គត់ | Rounding | chantrea_caisse |
+| ⏳ à relire | ត្រូវបង់ | To pay | chantrea_caisse |
+| ⏳ à relire | ប្រាក់អាប់ | Change | chantrea_caisse |
+| ⏳ à relire | បញ្ចុះតម្លៃ | Discounts | chantrea_caisse |
+| ⏳ à relire | ត្រូវការវិក្កយបត្រ? | Need an invoice? | chantrea_caisse |
+| ⏳ à relire | លេខកូដ | Code | chantrea_caisse |
+| ⏳ à relire | ថ្ងៃដឹកជញ្ជូន | Expected delivery | chantrea_caisse |
+| ⏳ à relire | លេខអត្តសញ្ញាណកម្ម អតប | VATTIN | chantrea_caisse, chantrea_kh_facture |
+| ⏳ à relire | ទូរស័ព្ទលេខ | Tel. | chantrea_caisse |
 | ⏳ à relire | សរុបរួមជាប្រាក់រៀល | Total in riels | chantrea_caisse |
 | ⏳ à relire | អត្រាប្តូរប្រាក់ | Exchange rate | chantrea_caisse, chantrea_kh_facture |
 | ⏳ à relire | ប្រាក់ទទួល | Received | chantrea_caisse |
@@ -57,12 +72,10 @@ Libellés des devis, factures, rapports d'intervention, tickets de caisse et pag
 | ⏳ à relire | ស្កេនដើម្បីទូទាត់ជាមួយ KHQR | Scan to pay with KHQR | chantrea_kh_facture |
 | ⏳ à relire | ហត្ថលេខា និងឈ្មោះអ្នកទិញ | Customer's signature and name | chantrea_kh_facture |
 | ⏳ à relire | ចំណាំ៖ ច្បាប់ដើមសម្រាប់អ្នកទិញ ច្បាប់ចម្លងសម្រាប់អ្នកលក់ | Note: original for the customer, copy for the seller | chantrea_kh_facture |
-| ⏳ à relire | លេខអត្តសញ្ញាណកម្ម អតប | VATTIN | chantrea_kh_facture |
 | ⏳ à relire | ទំព័រ | Page | chantrea_kh_facture |
 | ⏳ à relire | ឈ្មោះក្រុមហ៊ុន ឬ អតិថិជន | Company or customer name | chantrea_kh_facture |
 | ⏳ à relire | អាសយដ្ឋាន | Address | chantrea_kh_facture |
 | ⏳ à relire | ទូរស័ព្ទលេខ | Telephone No. | chantrea_kh_facture |
-| ⏳ à relire | សរុប | Sub-total | chantrea_kh_facture |
 | ⏳ à relire | អាករ | (valeur variable : groupe['group_name']) | chantrea_kh_facture |
 | ⏳ à relire | សរុបរួម | Grand total | chantrea_kh_facture |
 | ⏳ à relire | សរុបមិនរួមអាករ ជាប្រាក់រៀល | Sub-total in riels | chantrea_kh_facture |
@@ -92,6 +105,7 @@ Libellés des devis, factures, rapports d'intervention, tickets de caisse et pag
 | ⏳ à relire | មិនទាន់ចុះហត្ថលេខា | Not signed yet | chantrea_parc |
 | ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
 | ⏳ à relire | អាសយដ្ឋាននេះទទួលតែអ៊ីមែលពីអ្នកទំនាក់ទំនងដែលបានចុះឈ្មោះជាមួយ Chantrea Systems ប៉ុណ្ណោះ ដូច្នេះសាររបស់លោកអ្នកមិនត្រូវបានបញ្ជូនទៅដល់យើងទេ។ ប្រសិនបើលោកអ្នកជាអតិថិជន សូមសរសេរពីអាសយដ្ឋានអ៊ីមែលដែលលោកអ្នកបានផ្តល់ឱ្យយើង ឬផ្ញើសំណើរបស់លោកអ្នកពីតំបន់អតិថិជនរបស់លោកអ្នក។ | This address only accepts emails from contacts registered with Chantrea Systems, so your message was not delivered. If you are a customer, please write from the email address you gave us, or send your request from your customer area. | chantrea_portail |
+| ⏳ à relire | ឥតគិតថ្លៃ | Free | chantrea_caisse |
 | ⏳ à relire | ខែមករា | (month of) January | chantrea_base |
 | ⏳ à relire | ខែកុម្ភៈ | (month of) February | chantrea_base |
 | ⏳ à relire | ខែមីនា | (month of) March | chantrea_base |
