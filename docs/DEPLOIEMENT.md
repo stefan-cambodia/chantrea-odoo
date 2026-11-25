@@ -18,6 +18,7 @@ listé [à la fin](#ce-qui-a-été-essayé).
 4. [Régler `.env`](#4-régler-env)
 5. [Créer la base](#5-créer-la-base)
 6. [Courriels](#6-courriels)
+6 bis. [Caisse et paiement KHQR](#6-bis-caisse-et-paiement-khqr)
 7. [Sauvegardes](#7-sauvegardes)
 8. [Restaurer](#8-restaurer)
 9. [Mettre à jour](#9-mettre-à-jour)
@@ -278,6 +279,49 @@ Ce parcours a été essayé en local avec une boîte aux lettres IMAP provisoire
 [à la fin](#ce-qui-a-été-essayé)). Faites tout de même un essai avec votre propre adresse avant
 de communiquer l'adresse d'assistance à vos clients.
 
+## 6 bis. Caisse et paiement KHQR
+
+La caisse (Point de vente) est installée avec le reste. Sur une installation antérieure à la caisse :
+`docker compose run --rm odoo odoo -d chantrea -i chantrea_caisse --stop-after-init`, puis
+`docker compose up -d`.
+
+**Créer la caisse.** Point de vente › Configuration › Points de vente › Nouveau, puis dans les
+Paramètres de cette caisse :
+
+1. « Riels à la caisse » : taux officiel du jour (conseillé, c'est celui des factures) ou taux fixe
+   de la boutique ; arrondi en riels (100 ៛ : le plus petit billet rendu).
+2. Le mode « Espèces » est créé avec la caisse : c'est le tiroir, compté en dollars.
+
+**Recevoir des paiements KHQR.** Il vous faut votre **identifiant Bakong** (de la forme
+`nom@banque`, donné par votre banque ou l'application Bakong) et, pour un compte marchand
+d'entreprise, le **Merchant ID** donné par la banque.
+
+1. Facturation › Configuration › Paramètres : cochez « Codes QR ».
+2. Facturation › Configuration › Journaux : créez un journal de type Banque « KHQR », avec pour
+   compte bancaire un compte de la société dont :
+   - Type de proxy : « Bakong Account ID (Solo Merchant) » (compte individuel) ou
+     « (Corporate Merchant) » (compte d'entreprise, Merchant ID et banque obligatoires) ;
+   - Valeur de proxy : votre identifiant Bakong ;
+   - « Inclure la référence » coché : le numéro du ticket ou de la facture apparaît sur votre relevé ;
+   - puis bouton « Envoyer de l'argent » sur le compte : Odoo le marque « de confiance ». Sans cela,
+     il le retire des factures à la validation (protection contre les faux numéros de compte), et
+     les factures n'ont pas de QR code.
+   La ville de la société doit être renseignée (elle figure dans le QR code).
+   Pour le QR code des factures, choisissez ce compte comme compte bancaire de la société par
+   défaut (premier de la liste), ou sur chaque facture (onglet « Autres informations »).
+3. Point de vente › Configuration › Modes de paiement › Nouveau : journal « KHQR »,
+   Intégration « Application bancaire (code QR) », méthode « Code QR EMV présenté par le commerçant ».
+   Cochez « QR code en riels » pour un mode qui demande des riels ; créez-en deux
+   (« KHQR $ » et « KHQR ៛ ») si vous voulez laisser le choix au client.
+4. Ajoutez ces modes à la caisse (Paramètres de la caisse › Modes de paiement).
+
+À la caisse, le client scanne le QR code avec l'application de sa banque. **La caissière confirme
+le paiement quand elle le voit arriver** (notification de la banque ou de l'application Bakong) :
+Odoo ne vérifie pas lui-même que l'argent est arrivé. Une vérification automatique est possible
+avec l'API de la Banque nationale (jeton à demander à la BNC, à renouveler) ; elle n'est pas faite.
+
+Essai sans risque : un paiement de 100 ៛ avec votre propre téléphone, puis le remboursement.
+
 ## 7. Sauvegardes
 
 Chaque nuit, `scripts/sauvegarde.sh` :
@@ -518,6 +562,8 @@ EOF
       `SAUVEGARDE_SFTP_PORT`, lancez `scripts/sauvegarde.sh`, puis remettez le bon).
 - [ ] Les textes khmers ont été relus (`docs/RELECTURE_KM.md`).
 - [ ] Le taux USD/KHR du jour est présent (Facturation › Configuration › Taux USD/KHR).
+- [ ] Si la caisse sert : un paiement KHQR d'essai (100 ៛) est arrivé sur votre compte, et la
+      caisse affiche le bon taux (Point de vente › Paramètres › « Riels à la caisse »).
 
 ## Ce qui a été essayé
 

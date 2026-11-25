@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_pos_form" model="ir.ui.view">
+        <field name="name">pos.order.form.chantrea_caisse</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='payments']//field[@name='payment_ids']/list/field[@name='amount']" position="after">
+                <field name="chantrea_especes_usd" optional="show" invisible="not chantrea_montant_khr"/>
+                <field name="chantrea_montant_khr" optional="show" invisible="not chantrea_montant_khr"/>
+            </xpath>
+            <xpath expr="//page[@name='payments']/group[@name='order_total']" position="before">
+                <group name="chantrea_riels" string="Dollars and riels" colspan="2" invisible="not chantrea_taux">
+                    <field name="chantrea_taux"/>
+                    <field name="chantrea_mode_rendu" invisible="not chantrea_rendu_usd and not chantrea_rendu_khr"/>
+                    <field name="chantrea_rendu_usd" invisible="not chantrea_rendu_usd"/>
+                    <field name="chantrea_rendu_khr" invisible="not chantrea_rendu_khr"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

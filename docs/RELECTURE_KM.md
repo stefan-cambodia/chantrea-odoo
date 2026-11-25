@@ -13,16 +13,20 @@ Les noms de pays ne sont pas listés : ils viennent du référentiel Unicode CLD
 Ordre conseillé : parties 1 et 2 d'abord (ce que chaque client voit sur ses documents
 et sur l'accueil), puis la partie 3.
 
-**0 / 700 textes relus.**
+**0 / 718 textes relus.**
 
 ## 1. Documents imprimés et pages Chantrea
 
-Libellés des devis, factures, rapports d'intervention et pages du parc matériel. À corriger dans le gabarit XML du module indiqué.
+Libellés des devis, factures, rapports d'intervention, tickets de caisse et pages du parc matériel ; mois et format des dates écrites en khmer. À corriger dans le gabarit XML du module indiqué (les mois : `chantrea_base/outils_km.py`).
 
-0 / 65 textes relus.
+0 / 83 textes relus.
 
 | Statut | Khmer | Anglais | Module(s) |
 |---|---|---|---|
+| ⏳ à relire | សរុបរួមជាប្រាក់រៀល | Total in riels | chantrea_caisse |
+| ⏳ à relire | អត្រាប្តូរប្រាក់ | Exchange rate | chantrea_caisse, chantrea_kh_facture |
+| ⏳ à relire | ប្រាក់ទទួល | Received | chantrea_caisse |
+| ⏳ à relire | ប្រាក់អាប់ | Change given | chantrea_caisse |
 | ⏳ à relire | វិក្កយបត្របណ្ដោះអាសន្ន | PRO-FORMA INVOICE | chantrea_kh_facture |
 | ⏳ à relire | ប័ណ្ណបញ្ជាទិញ | SALES ORDER | chantrea_kh_facture |
 | ⏳ à relire | សម្រង់តម្លៃ | QUOTATION | chantrea_kh_facture |
@@ -50,6 +54,7 @@ Libellés des devis, factures, rapports d'intervention et pages du parc matérie
 | ⏳ à relire | វិក្កយបត្រដើម | Original invoice | chantrea_kh_facture |
 | ⏳ à relire | សេចក្តីយោងការទូទាត់ | Payment reference | chantrea_kh_facture |
 | ⏳ à relire | គណនីធនាគារ | Bank account | chantrea_kh_facture |
+| ⏳ à relire | ស្កេនដើម្បីទូទាត់ជាមួយ KHQR | Scan to pay with KHQR | chantrea_kh_facture |
 | ⏳ à relire | ហត្ថលេខា និងឈ្មោះអ្នកទិញ | Customer's signature and name | chantrea_kh_facture |
 | ⏳ à relire | ចំណាំ៖ ច្បាប់ដើមសម្រាប់អ្នកទិញ ច្បាប់ចម្លងសម្រាប់អ្នកលក់ | Note: original for the customer, copy for the seller | chantrea_kh_facture |
 | ⏳ à relire | លេខអត្តសញ្ញាណកម្ម អតប | VATTIN | chantrea_kh_facture |
@@ -64,7 +69,6 @@ Libellés des devis, factures, rapports d'intervention et pages du parc matérie
 | ⏳ à relire | អាករ ជាប្រាក់រៀល | Tax in riels | chantrea_kh_facture |
 | ⏳ à relire | សរុបរួមជាប្រាក់រៀល | Grand total in riels | chantrea_kh_facture |
 | ⏳ à relire | សរុបរួមជាប្រាក់ដុល្លារអាមេរិក | Grand total in US dollars | chantrea_kh_facture |
-| ⏳ à relire | អត្រាប្តូរប្រាក់ | Exchange rate | chantrea_kh_facture |
 | ⏳ à relire | អគ្គនាយកដ្ឋានពន្ធដារ | GDT | chantrea_kh_facture |
 | ⏳ à relire | ធនាគារជាតិនៃកម្ពុជា | NBC | chantrea_kh_facture |
 | ⏳ à relire | បញ្ចូលដោយដៃ | manual entry | chantrea_kh_facture |
@@ -88,6 +92,20 @@ Libellés des devis, factures, rapports d'intervention et pages du parc matérie
 | ⏳ à relire | មិនទាន់ចុះហត្ថលេខា | Not signed yet | chantrea_parc |
 | ⏳ à relire | កញ្ចប់ថែទាំព័ត៌មានវិទ្យាប្រចាំខែ (#START# – #END#) | Monthly IT maintenance plan | chantrea_portail |
 | ⏳ à relire | អាសយដ្ឋាននេះទទួលតែអ៊ីមែលពីអ្នកទំនាក់ទំនងដែលបានចុះឈ្មោះជាមួយ Chantrea Systems ប៉ុណ្ណោះ ដូច្នេះសាររបស់លោកអ្នកមិនត្រូវបានបញ្ជូនទៅដល់យើងទេ។ ប្រសិនបើលោកអ្នកជាអតិថិជន សូមសរសេរពីអាសយដ្ឋានអ៊ីមែលដែលលោកអ្នកបានផ្តល់ឱ្យយើង ឬផ្ញើសំណើរបស់លោកអ្នកពីតំបន់អតិថិជនរបស់លោកអ្នក។ | This address only accepts emails from contacts registered with Chantrea Systems, so your message was not delivered. If you are a customer, please write from the email address you gave us, or send your request from your customer area. | chantrea_portail |
+| ⏳ à relire | ខែមករា | (month of) January | chantrea_base |
+| ⏳ à relire | ខែកុម្ភៈ | (month of) February | chantrea_base |
+| ⏳ à relire | ខែមីនា | (month of) March | chantrea_base |
+| ⏳ à relire | ខែមេសា | (month of) April | chantrea_base |
+| ⏳ à relire | ខែឧសភា | (month of) May | chantrea_base |
+| ⏳ à relire | ខែមិថុនា | (month of) June | chantrea_base |
+| ⏳ à relire | ខែកក្កដា | (month of) July | chantrea_base |
+| ⏳ à relire | ខែសីហា | (month of) August | chantrea_base |
+| ⏳ à relire | ខែកញ្ញា | (month of) September | chantrea_base |
+| ⏳ à relire | ខែតុលា | (month of) October | chantrea_base |
+| ⏳ à relire | ខែវិច្ឆិកា | (month of) November | chantrea_base |
+| ⏳ à relire | ខែធ្នូ | (month of) December | chantrea_base |
+| ⏳ à relire | ថ្ងៃទី២៦ ខែវិច្ឆិកា ឆ្នាំ២០២៦ | 26 November 2026 (date format) | chantrea_base |
+| ⏳ à relire | ម៉ោង ១៤:៣០ | at 14:30 (time format) | chantrea_base |
 
 ## 2. Modules Chantrea
 

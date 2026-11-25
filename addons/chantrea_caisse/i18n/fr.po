@@ -1,0 +1,363 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* chantrea_caisse
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261112\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-25 19:41+0000\n"
+"PO-Revision-Date: 2026-11-25 19:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+#: model:ir.model.fields.selection,name:chantrea_caisse.selection__pos_order__chantrea_mode_rendu__dollars
+msgid "All in dollars"
+msgstr "Tout en dollars"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+#: model:ir.model.fields.selection,name:chantrea_caisse.selection__pos_order__chantrea_mode_rendu__riels
+msgid "All in riels"
+msgstr "Tout en riels"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Cash in dollars and riels"
+msgstr "Espèces en dollars et en riels"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_payment__chantrea_especes_usd
+msgid "Cash: dollar notes handed over by the customer."
+msgstr "Espèces : billets en dollars remis par le client."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_payment__chantrea_montant_khr
+msgid ""
+"Cash: riel notes handed over by the customer. KHQR in riels: amount of the "
+"QR code."
+msgstr "Espèces : billets en riels remis par le client. KHQR en riels : montant du QR code."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_order__chantrea_mode_rendu
+msgid "Change given in"
+msgstr "Monnaie rendue en"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_order__chantrea_rendu_usd
+msgid "Change in dollars"
+msgstr "Monnaie rendue en dollars"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_order__chantrea_rendu_khr
+msgid "Change in riels"
+msgstr "Monnaie rendue en riels"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Clear"
+msgstr "Effacer"
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/js/caisse.js:0
+msgid ""
+"Connection to the server has been lost. Please check your internet "
+"connection."
+msgstr "La connexion au serveur est perdue. Vérifiez la connexion Internet."
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_res_currency
+msgid "Currency"
+msgstr "Devise"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Discard"
+msgstr "Annuler"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_config__display_name
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_order__display_name
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment__display_name
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment_method__display_name
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_session__display_name
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_currency__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Dollars"
+msgstr "Dollars"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields.selection,name:chantrea_caisse.selection__pos_order__chantrea_mode_rendu__mixte
+msgid "Dollars + riels"
+msgstr "Dollars + riels"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_order__chantrea_mode_rendu
+msgid ""
+"Dollars + riels: whole dollars in notes, the cents in riels (US coins do not"
+" circulate)."
+msgstr "Dollars + riels : les dollars entiers en billets, les centimes en riels (les pièces de dollar ne circulent pas)."
+
+#. module: chantrea_caisse
+#: model_terms:ir.ui.view,arch_db:chantrea_caisse.view_pos_pos_form
+msgid "Dollars and riels"
+msgstr "Dollars et riels"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Dollars counted"
+msgstr "Dollars comptés"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Dollars expected (with the opening float)"
+msgstr "Dollars attendus (fond de caisse compris)"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment__chantrea_especes_usd
+msgid "Dollars received"
+msgstr "Dollars reçus"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/js/caisse.js:0
+msgid "Failure to generate Payment QR Code"
+msgstr "Impossible de créer le QR code de paiement"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_config__chantrea_taux_fixe
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__pos_chantrea_taux_fixe
+#: model:ir.model.fields.selection,name:chantrea_caisse.selection__pos_config__chantrea_taux_mode__fixe
+msgid "Fixed till rate"
+msgstr "Taux fixe de la caisse"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Give back"
+msgstr "À rendre"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_config__id
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_order__id
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment__id
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment_method__id
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_session__id
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__id
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_currency__id
+msgid "ID"
+msgstr "ID"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "No riel rate available: the till cannot take riels."
+msgstr "Aucun taux du riel : la caisse ne peut pas encaisser de riels."
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/js/caisse.js:0
+msgid ""
+"No riel rate is available for the till: the QR code cannot ask for riels."
+msgstr "Aucun taux du riel pour la caisse : le QR code ne peut pas demander de riels."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields.selection,name:chantrea_caisse.selection__pos_config__chantrea_taux_mode__officiel
+msgid "Official rate of the day"
+msgstr "Taux officiel du jour"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_config__chantrea_taux_mode
+#: model:ir.model.fields,help:chantrea_caisse.field_res_config_settings__pos_chantrea_taux_mode
+msgid ""
+"Official rate: the last USD/KHR rate published by the GDT (or NBC), as on "
+"invoices. Fixed rate: the rate posted in the shop, for example 4,000 riels "
+"per dollar."
+msgstr "Taux officiel : le dernier taux USD/KHR publié par le GDT (ou la BNC), comme sur les factures. Taux fixe : le taux affiché dans la boutique, par exemple 4 000 riels pour un dollar."
+
+#. module: chantrea_caisse
+#. odoo-python
+#: code:addons/chantrea_caisse/models/pos_payment_method.py:0
+msgid "Only a QR code payment method (EMV / KHQR) can ask for riels: %s."
+msgstr "Seul un mode de paiement par QR code (EMV / KHQR) peut demander des riels : %s."
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configuration du point de vente"
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Commandes du point de vente"
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "Modes de paiement du point de vente"
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_pos_payment
+msgid "Point of Sale Payments"
+msgstr "Paiements du point de vente"
+
+#. module: chantrea_caisse
+#: model:ir.model,name:chantrea_caisse.model_pos_session
+msgid "Point of Sale Session"
+msgstr "Session du point de vente"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment_method__chantrea_khqr_riels
+msgid "QR code in riels"
+msgstr "QR code en riels"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_config__chantrea_taux_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_res_config_settings__pos_chantrea_taux_caisse
+msgid "Rate the till uses today. Read again each time the till is opened."
+msgstr "Taux utilisé aujourd'hui par la caisse. Relu à chaque ouverture de la caisse."
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Received"
+msgstr "Reçu"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Remaining"
+msgstr "Reste à payer"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Remaining in riels"
+msgstr "Reste en riels"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_config__chantrea_taux_mode
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__pos_chantrea_taux_mode
+msgid "Riel rate"
+msgstr "Taux du riel"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_config__chantrea_arrondi_khr
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__pos_chantrea_arrondi_khr
+msgid "Riel rounding"
+msgstr "Arrondi en riels"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_payment__chantrea_montant_khr
+msgid "Riels"
+msgstr "Riels"
+
+#. module: chantrea_caisse
+#: model_terms:ir.ui.view,arch_db:chantrea_caisse.res_config_settings_view_form
+msgid "Riels at the till"
+msgstr "Riels à la caisse"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Riels counted"
+msgstr "Riels comptés"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "Riels received − given back"
+msgstr "Riels reçus − rendus"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_order__chantrea_taux
+msgid "Riels for 1 US dollar, used by the till for this order."
+msgstr "Riels pour 1 dollar, utilisé par la caisse pour cette commande."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_config__chantrea_taux_fixe
+#: model:ir.model.fields,help:chantrea_caisse.field_res_config_settings__pos_chantrea_taux_fixe
+msgid "Riels for 1 US dollar, used when the till rate is fixed."
+msgstr "Riels pour 1 dollar, quand le taux de la caisse est fixe."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_config__chantrea_arrondi_khr
+#: model:ir.model.fields,help:chantrea_caisse.field_res_config_settings__pos_chantrea_arrondi_khr
+msgid ""
+"Smallest riel note given back. Amounts to pay in riels are rounded up to it,"
+" change in riels to the nearest."
+msgstr "Plus petit billet en riels rendu. Les montants à payer en riels sont arrondis au-dessus, la monnaie en riels au plus proche."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,help:chantrea_caisse.field_pos_payment_method__chantrea_khqr_riels
+msgid ""
+"The KHQR code asks for the amount in riels, converted at the till rate and "
+"rounded up to the riel rounding. Otherwise it asks for dollars."
+msgstr "Le QR code KHQR demande le montant en riels, converti au taux de la caisse et arrondi au billet supérieur. Sinon, il demande des dollars."
+
+#. module: chantrea_caisse
+#: model:ir.model.constraint,message:chantrea_caisse.constraint_pos_config_check_taux_fixe
+msgid "The fixed till rate must be greater than zero."
+msgstr "Le taux fixe de la caisse doit être supérieur à zéro."
+
+#. module: chantrea_caisse
+#: model:ir.model.constraint,message:chantrea_caisse.constraint_pos_config_check_arrondi_khr
+msgid "The riel rounding must be greater than zero."
+msgstr "L'arrondi en riels doit être supérieur à zéro."
+
+#. module: chantrea_caisse
+#: model_terms:ir.ui.view,arch_db:chantrea_caisse.res_config_settings_view_form
+msgid ""
+"The till sells in dollars and also accepts riels. Change: whole dollars in "
+"notes, the cents in riels."
+msgstr "La caisse vend en dollars et accepte aussi les riels. Monnaie : les dollars entiers en billets, les centimes en riels."
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_order__chantrea_taux
+msgid "Till rate"
+msgstr "Taux de la caisse"
+
+#. module: chantrea_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_pos_config__chantrea_taux_caisse
+#: model:ir.model.fields,field_description:chantrea_caisse.field_res_config_settings__pos_chantrea_taux_caisse
+msgid "Till rate (riels per dollar)"
+msgstr "Taux de la caisse (riels pour 1 $)"
+
+#. module: chantrea_caisse
+#. odoo-javascript
+#: code:addons/chantrea_caisse/static/src/xml/caisse.xml:0
+msgid "To pay"
+msgstr "À payer"

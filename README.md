@@ -183,6 +183,38 @@ Les tests tournent dans une base séparée, jamais dans la base de travail.
 - Le client suit ses interventions dans son espace (`/my/fsm_orders`) et télécharge le rapport.
 - Les textes d'une intervention refusent aussi adresses IP, mots de passe et identifiants.
 
+## Caisse en dollars et en riels, paiement KHQR
+
+Module `chantrea_caisse` (Point de vente d'Odoo). La caisse vend en dollars et accepte les riels.
+
+- **Taux de la caisse** : par défaut le taux officiel du jour, le même que sur les factures ;
+  ou un taux fixe affiché en boutique (par exemple 4 000). Point de vente › Configuration ›
+  Paramètres › « Riels à la caisse ». Sans taux disponible, la caisse le dit et n'accepte pas de riels.
+- L'écran de paiement donne le total aussi en riels (arrondi aux 100 ៛ supérieurs), puis le reste
+  à payer en riels.
+- Bouton **« Espèces en dollars et en riels »** : la caissière saisit les billets reçus dans les
+  deux monnaies (touches +1 $… +100 000 ៛). Monnaie à rendre : les dollars entiers en billets,
+  les centimes en riels arrondis aux 100 ៛ (les pièces de dollar ne circulent pas) ; ou tout en
+  riels, ou tout en dollars.
+- Ticket : total en riels, taux, espèces reçues ($ + ៛), monnaie rendue ; ces lignes sont en khmer
+  et en anglais quelle que soit la langue de la caissière.
+- Comptabilité : un seul tiroir, compté en dollars par Odoo. Les riels reçus et rendus sont
+  enregistrés sur chaque vente. À la clôture : riels reçus − rendus, dollars attendus, et deux
+  cases « $ » et « ៛ » qui remplissent le comptage (compter exactement les billets attendus ne
+  crée aucun écart). Le fond de caisse est compté avec les dollars.
+- **KHQR** (Bakong, Banque nationale du Cambodge) : mode de paiement « Application bancaire (code QR) »
+  sur un journal de banque dont le compte porte votre identifiant Bakong. Case « QR code en riels » :
+  le QR demande des riels au taux de la caisse, sinon des dollars. Le client scanne avec
+  l'application de sa banque ; la caissière confirme quand le paiement apparaît. La référence
+  du QR est le numéro du ticket. Le même compte sert au QR code des factures.
+  Réglage pas à pas : [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md), étape 6 bis.
+- Odoo 19 produit des QR codes KHQR que le SDK de la Banque nationale refuse dans certains cas ;
+  corrigé dans `chantrea_base/models/res_partner_bank.py` (voir
+  [docs/CORRECTIFS_OCA.md](docs/CORRECTIFS_OCA.md)).
+- Calculs en riels de la caisse : `static/src/js/riels.js`, testés avec Node par `scripts/tests.sh`.
+- Démonstration (poste local) : `scripts/donnees_demo.sh` crée « Boutique Kampot (DÉMO) », trois
+  articles et deux modes KHQR avec un identifiant Bakong **fictif** (aucun paiement réel possible).
+
 ## Langues et traductions
 
 L'interface interne est en français. L'espace client existe en khmer, en anglais et en

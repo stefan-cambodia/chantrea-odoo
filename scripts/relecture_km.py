@@ -17,6 +17,7 @@ Si un texte est corrigé, il redevient « à relire ».
 Usage : python3 scripts/relecture_km.py
 """
 import html
+import itertools
 import json
 import re
 from pathlib import Path
@@ -66,6 +67,19 @@ def textes_des_gabarits():
 
 CHAMP_DONNEES = re.compile(r'<field name="[^"]+">([^<]+)</field>')
 
+MOIS_EN = ("January", "February", "March", "April", "May", "June", "July", "August",
+           "September", "October", "November", "December")
+
+
+def textes_des_dates():
+    """Mots des dates et des heures écrites en khmer sur les documents (chantrea_base/outils_km.py)."""
+    source = (RACINE / "addons/chantrea_base/outils_km.py").read_text(encoding="utf-8")
+    mois = re.search(r"MOIS = \(([^)]*)\)", source).group(1)
+    for km, en in zip(re.findall(r'"([^"]+)"', mois), MOIS_EN):
+        yield f"ខែ{km}", f"(month of) {en}", "chantrea_base"
+    yield "ថ្ងៃទី២៦ ខែវិច្ឆិកា ឆ្នាំ២០២៦", "26 November 2026 (date format)", "chantrea_base"
+    yield "ម៉ោង ១៤:៣០", "at 14:30 (time format)", "chantrea_base"
+
 
 def textes_des_po(motif):
     """Textes d'un ensemble de fichiers .po : (khmer, anglais, origine)."""
@@ -92,9 +106,12 @@ def texte_po(valeur):
 
 PARTIES = (
     ("1. Documents imprimés et pages Chantrea",
-     "Libellés des devis, factures, rapports d'intervention et pages du parc matériel. "
-     "À corriger dans le gabarit XML du module indiqué.",
-     lambda: ((km, en, fichier.parts[1]) for km, en, fichier in textes_des_gabarits())),
+     "Libellés des devis, factures, rapports d'intervention, tickets de caisse et pages du parc matériel ; "
+     "mois et format des dates écrites en khmer. "
+     "À corriger dans le gabarit XML du module indiqué (les mois : `chantrea_base/outils_km.py`).",
+     lambda: itertools.chain(
+         ((km, en, fichier.parts[1]) for km, en, fichier in textes_des_gabarits()),
+         textes_des_dates())),
     ("2. Modules Chantrea",
      "Catégories de tickets, courriels, accueil de l'espace client… "
      "À corriger dans `addons/<module>/i18n/km.po`.",

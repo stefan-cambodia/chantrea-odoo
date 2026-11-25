@@ -195,6 +195,40 @@ if not intervention:
 
 env.cr.commit()
 
+# --- Caisse en dollars et en riels, avec KHQR ----------------------------------
+# Identifiant Bakong FICTIF : les QR codes de démonstration ne permettent aucun paiement réel.
+caisse = env["pos.config"].search([("name", "=", "Boutique Kampot (DÉMO)")], limit=1)
+if not caisse:
+    caisse = env["pos.config"].create({"name": "Boutique Kampot (DÉMO)"})
+    caisse._create_journal_and_payment_methods(cash_journal_vals={"name": "Caisse boutique (DÉMO)"})
+if not caisse.current_session_id:
+    caisse.write({"chantrea_taux_mode": "officiel", "chantrea_arrondi_khr": 100})
+especes = caisse.payment_method_ids.filtered("is_cash_count")[:1]
+if especes and especes.name != "Espèces":
+    especes.name = "Espèces"
+journal_khqr = trouver_ou_creer("account.journal", [("code", "=", "KHQRD"), ("company_id", "=", company.id)], {
+    "name": "KHQR Bakong (DÉMO)", "type": "bank", "code": "KHQRD", "company_id": company.id})
+compte_bakong = trouver_ou_creer("res.partner.bank", [("acc_number", "=", "BAKONG-DEMO-0001")], {
+    "acc_number": "BAKONG-DEMO-0001", "partner_id": company.partner_id.id, "allow_out_payment": True,
+    "proxy_type": "bakong_id_solo", "proxy_value": "chantrea_demo@demo", "include_reference": True})
+if not compte_bakong.allow_out_payment:
+    # Compte « de confiance », accordé par l'administrateur (Odoo le refuse à OdooBot).
+    compte_bakong.with_user(env.ref("base.user_admin")).allow_out_payment = True
+journal_khqr.bank_account_id = compte_bakong
+company.qr_code = True
+methodes_khqr = env["pos.payment.method"]
+for nom, riels in (("KHQR en dollars (DÉMO)", False), ("KHQR en riels (DÉMO)", True)):
+    methode = trouver_ou_creer("pos.payment.method", [("name", "=", nom)], {
+        "name": nom, "journal_id": journal_khqr.id, "payment_method_type": "qr_code",
+        "qr_code_method": "emv_qr", "chantrea_khqr_riels": riels})
+    methodes_khqr |= methode
+manquants = methodes_khqr - caisse.payment_method_ids
+if manquants:  # impossible pendant une session ouverte : seulement à la première fois
+    caisse.payment_method_ids = [(4, m.id) for m in manquants]
+for nom, prix in (("Câble HDMI 2 m (DÉMO)", 3.25), ("Souris USB (DÉMO)", 7.5), ("Clé USB 32 Go (DÉMO)", 6.75)):
+    produit(nom, prix, type_="consu").available_in_pos = True
+env.cr.commit()
+
 # --- PDF -------------------------------------------------------------------
 Rapport = env["ir.actions.report"]
 for nom, rapport, docs in [
@@ -219,5 +253,7 @@ print(f"Contrat « {contrat.name} » : facture {facture_contrat.state} du {factu
       f"{facture_contrat.amount_total:.2f} USD, activité : {facture_contrat.activity_ids.summary}")
 print("PDF écrits dans", SORTIE)
 print(f"Intervention {intervention.name} : {intervention.stage_id.name}, signée par {intervention.signed_by}")
+print(f"Caisse « {caisse.name} » : {', '.join(caisse.payment_method_ids.mapped('name'))} ; "
+      f"taux de la caisse {caisse.chantrea_taux_caisse:g} riels pour 1 $")
 for courriel, langue, societe in acces:
     print(f"Accès client : {courriel} ({langue}, {societe}) — mot de passe : DEMO_CLIENT_PASSWORD de .env")

@@ -12,6 +12,7 @@ hr_timesheet
 purchase
 stock
 portal
+point_of_sale
 
 # OCA helpdesk (19.0)
 helpdesk_mgmt
@@ -35,3 +36,4 @@ chantrea_base
 chantrea_kh_facture
 chantrea_portail
 chantrea_parc
+chantrea_caisse

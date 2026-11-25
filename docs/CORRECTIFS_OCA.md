@@ -32,6 +32,19 @@ qu'il apporte manquent à l'espace client ; ils sont rétablis par héritage.
 | La page de connexion `/web/login` n'est pas servie comme une page de l'espace client. | Elle est toujours en anglais, même à l'adresse `/km/web/login` ou pour un client déjà venu ; un mot de passe erroné ramène aussi à l'anglais. | Mêmes réglages de route que le module `website` (`website=True`, `auth="public"`) dans `chantrea_portail/controllers/connexion.py`. | `test_page_de_connexion_dans_la_langue_de_l_adresse`, `test_mot_de_passe_errone_reste_dans_la_langue_du_client` |
 | Les traductions JavaScript du module `mail` ne sont envoyées à l'espace client que par `website_mail`. | La messagerie d'un ticket, d'un devis ou d'une facture (« Write a message… », « Send ») reste en anglais. | `mail`, `auth_totp_portal`, `auth_passkey_portal` et `account_payment` ajoutés aux modules traduits côté client (`chantrea_portail/models/ir_http.py`). | même test |
 
+## Défauts du QR code KHQR d'Odoo 19 (`l10n_kh`)
+
+Comparés aux règles du SDK officiel de la Banque nationale du Cambodge (`bakong-khqr`,
+version 1.0.20 : longueurs maximales, format du montant, champs obligatoires).
+Corrigés par héritage dans `chantrea_base/models/res_partner_bank.py`, pour les comptes cambodgiens seulement.
+
+| Défaut | Conséquence | Correctif | Test |
+|---|---|---|---|
+| Le montant est écrit tel que Python l'affiche : `12.5`, ou `0.30000000000000004` pour un montant calculé. | Un montant de plus de 13 caractères ou à plus de 2 décimales est refusé par les applications bancaires. | Riels : nombre entier ; dollars : deux décimales s'il y en a (`12.50`). | `test_qr_en_dollars`, `test_montant_calcule_en_virgule_flottante` |
+| Un QR code sans montant (QR de secours de la caisse) est marqué « dynamique » (12). | Le SDK refuse un QR dynamique sans montant. | « Statique » (11), sans horodatage. | `test_qr_sans_montant_statique` |
+| La référence (numéro de facture) n'est pas limitée. | Au-delà de 25 caractères, le QR est refusé. | Coupée à 25 caractères. | `test_reference_limitee_a_25_caracteres` |
+| À la caisse, la référence est le nom de la commande, qui vaut « / » tant qu'elle n'est pas enregistrée. | Référence inutilisable sur le relevé bancaire. | Numéro du ticket (`chantrea_caisse/static/src/js/caisse.js`). | vérifié dans un navigateur (QR décodé) |
+
 ## Comportements d'Odoo pris en compte (pas des défauts)
 
 - Sans réglage, Odoo met en expéditeur d'un courriel l'adresse personnelle de son auteur

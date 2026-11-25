@@ -32,6 +32,15 @@ else
   ACTION=(-i "$MODULES")
 fi
 
+# Calculs JavaScript de la caisse (riels), avec le Node de l'image Odoo.
+echo "Tests JavaScript (Node) :"
+if ! SORTIE_JS=$(docker compose run --rm -T --entrypoint node odoo --test /opt/chantrea/addons/chantrea_caisse/tests/ 2>&1); then
+  echo "$SORTIE_JS"
+  echo "ÉCHEC : tests JavaScript de la caisse"
+  exit 1
+fi
+echo "$SORTIE_JS" | grep -E "^# (tests|pass|fail)"
+
 JOURNAL=$(mktemp)
 # Serveur web actif (tests des pages de l'espace client), un seul processus,
 # et filtre de base adapté à la base de test.

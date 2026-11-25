@@ -36,6 +36,7 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 | purchase | Odoo | LGPL-3 | 19.0.1.2 |
 | stock (Inventaire) | Odoo | LGPL-3 | 19.0.1.1 |
 | portal | Odoo | LGPL-3 | 19.0.1.0 |
+| point_of_sale (Point de vente) | Odoo | LGPL-3 | 19.0.1.0.2 |
 | helpdesk_mgmt | OCA/helpdesk | AGPL-3 | 19.0.1.4.0 |
 | helpdesk_mgmt_timesheet | OCA/helpdesk | AGPL-3 | 19.0.1.0.0 |
 | helpdesk_mgmt_sale | OCA/helpdesk | AGPL-3 | 19.0.1.0.0 |
@@ -67,3 +68,4 @@ Vérifié le 22/11/2026 avec `scripts/verifier_modules.sh` : tous à l'état *in
 | chantrea_kh_facture | LGPL-3 | 2 | installé, testé |
 | chantrea_parc | AGPL-3 (dépend de fieldservice) | 5 et 6 | parc et interventions signées installés, testés |
 | chantrea_portail | AGPL-3 (dépend de modules OCA) | 3, 4 et 7 | assistance, règles d'accès client, contrats, page d'accueil de l'espace client, traductions khmères et françaises des textes Odoo/OCA : installés et testés |
+| chantrea_caisse | LGPL-3 | après l'étape 8 | caisse en dollars et en riels, KHQR : installé et testé |

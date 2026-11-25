@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Caisse en dollars qui accepte les riels.
+    Textes du caissier : anglais dans le code, traduits en français (i18n/fr.po).
+    Textes du client (ticket) : khmer puis anglais, comme sur les documents imprimés.
+-->
+<templates id="template" xml:space="preserve">
+
+    <!-- Total en riels sous le grand total, avec le taux de la caisse. -->
+    <t t-name="chantrea_caisse.PaymentScreenDue" t-inherit="point_of_sale.PaymentScreenDue" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('total')]" position="after">
+            <div t-if="pos.chantreaTaux" class="chantrea-total-riels text-center text-dark">
+                <span class="chantrea-montant-riels" t-esc="pos.chantreaFormatRiels(currentOrder.chantreaTotalKhr)"/>
+                <span class="chantrea-taux text-muted ms-2">1 $ = <t t-esc="pos.chantreaFormatTaux()"/> ៛</span>
+            </div>
+            <div t-else="" class="chantrea-sans-taux text-center text-danger fs-5">
+                No riel rate available: the till cannot take riels.
+            </div>
+        </xpath>
+    </t>
+
+    <!-- Bouton « Espèces $ + ៛ » sous les modes de paiement. -->
+    <t t-name="chantrea_caisse.PaymentScreenMethods" t-inherit="point_of_sale.PaymentScreenMethods" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('paymentmethods')]" position="inside">
+            <div t-if="chantreaMethodeEspeces and pos.chantreaTaux"
+                class="button paymentmethod chantrea-especes-riels btn btn-secondary btn-lg lh-lg flex-fill d-flex justify-content-between align-items-center"
+                role="button"
+                t-on-click="() => this.chantreaSaisirEspeces()">
+                <div class="payment-method-display d-flex align-items-center gap-2 text-wrap text-start lh-sm">
+                    <span class="chantrea-pastille">$ + ៛</span>
+                    <span class="payment-name">Cash in dollars and riels</span>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+    <!-- Reste à payer en riels ; monnaie à rendre en dollars + riels. -->
+    <t t-name="chantrea_caisse.PaymentScreenStatus" t-inherit="point_of_sale.PaymentScreenStatus" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('payment-status-container')]" position="after">
+            <t t-if="pos.chantreaTaux">
+                <div t-if="isRemaining and order.chantreaResteKhr > 0" class="chantrea-reste-riels d-flex justify-content-between fs-4 text-danger">
+                    <span>Remaining in riels</span>
+                    <span class="me-5 pe-5 fw-bolder" t-esc="pos.chantreaFormatRiels(order.chantreaResteKhr)"/>
+                </div>
+                <div t-elif="order.chantreaMonnaieUsd > 0" class="chantrea-rendu mt-2">
+                    <t t-set="rendu" t-value="order.chantreaRendu"/>
+                    <div class="d-flex justify-content-between fs-3 text-success">
+                        <span>Give back</span>
+                        <span class="chantrea-rendu-montant me-5 pe-5 fw-bolder">
+                            <t t-if="rendu.usd" t-esc="env.utils.formatCurrency(rendu.usd)"/>
+                            <t t-if="rendu.usd and rendu.khr"> + </t>
+                            <t t-if="rendu.khr" t-esc="pos.chantreaFormatRiels(rendu.khr)"/>
+                            <t t-if="!rendu.usd and !rendu.khr" t-esc="pos.chantreaFormatRiels(0)"/>
+                        </span>
+                    </div>
+                    <div class="chantrea-modes-rendu btn-group mt-1" role="group">
+                        <button class="btn btn-sm" t-att-class="order.chantrea_mode_rendu === 'mixte' ? 'btn-primary' : 'btn-secondary'"
+                            t-on-click="() => this.chantreaChoisirRendu('mixte')">$ + ៛</button>
+                        <button class="btn btn-sm" t-att-class="order.chantrea_mode_rendu === 'riels' ? 'btn-primary' : 'btn-secondary'"
+                            t-on-click="() => this.chantreaChoisirRendu('riels')">All in riels</button>
+                        <button class="btn btn-sm" t-att-class="order.chantrea_mode_rendu === 'dollars' ? 'btn-primary' : 'btn-secondary'"
+                            t-on-click="() => this.chantreaChoisirRendu('dollars')">All in dollars</button>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+    <!-- Fenêtre de saisie des espèces. -->
+    <t t-name="chantrea_caisse.EspecesPopup">
+        <Dialog title.translate="Cash in dollars and riels" contentClass="'chantrea-especes-popup'">
+            <div class="chantrea-du d-flex justify-content-between fs-4 mb-3">
+                <span>To pay</span>
+                <span class="fw-bold">
+                    <t t-esc="formatUsd(props.du)"/> = <t t-esc="formatKhr(duKhr)"/>
+                </span>
+            </div>
+            <div class="row g-3">
+                <div class="col-6">
+                    <label class="form-label fw-bold" for="chantrea_usd">Dollars</label>
+                    <input id="chantrea_usd" type="text" inputmode="decimal" class="form-control form-control-lg text-end"
+                        t-model="state.usd" placeholder="0"/>
+                    <div class="d-flex flex-wrap gap-1 mt-2">
+                        <t t-foreach="billetsUsd" t-as="billet" t-key="billet">
+                            <button class="btn btn-secondary chantrea-billet-usd" t-on-click="() => this.ajouterUsd(billet)">+<t t-esc="billet"/> $</button>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold" for="chantrea_khr">Riels</label>
+                    <input id="chantrea_khr" type="text" inputmode="numeric" class="form-control form-control-lg text-end"
+                        t-model="state.khr" placeholder="0"/>
+                    <div class="d-flex flex-wrap gap-1 mt-2">
+                        <t t-foreach="billetsKhr" t-as="billet" t-key="billet">
+                            <button class="btn btn-secondary chantrea-billet-khr" t-on-click="() => this.ajouterKhr(billet)">+<t t-esc="formatKhr(billet)"/></button>
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <div class="chantrea-bilan mt-3 fs-5">
+                <div class="d-flex justify-content-between">
+                    <span>Received</span>
+                    <span><t t-esc="formatUsd(recu)"/></span>
+                </div>
+                <div t-if="resteUsd > 0" class="d-flex justify-content-between text-danger fw-bold">
+                    <span>Remaining</span>
+                    <span><t t-esc="formatUsd(resteUsd)"/> = <t t-esc="formatKhr(resteKhr)"/></span>
+                </div>
+                <div t-elif="recu > props.du" class="d-flex justify-content-between text-success fw-bold">
+                    <span>Give back</span>
+                    <span>
+                        <t t-if="rendu.usd" t-esc="formatUsd(rendu.usd)"/>
+                        <t t-if="rendu.usd and rendu.khr"> + </t>
+                        <t t-if="rendu.khr" t-esc="formatKhr(rendu.khr)"/>
+                    </span>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary btn-lg chantrea-confirmer" t-att-disabled="recu &lt;= 0" t-on-click="confirmer">Confirm</button>
+                <button class="btn btn-secondary btn-lg" t-on-click="effacer">Clear</button>
+                <button class="btn btn-secondary btn-lg" t-on-click="props.close">Discard</button>
+            </t>
+        </Dialog>
+    </t>
+
+    <!-- Ticket : total en riels, taux, espèces reçues, monnaie rendue. -->
+    <t t-name="chantrea_caisse.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('receipt-total')]" position="after">
+            <t t-if="order.chantreaTaux">
+                <div class="pos-receipt-amount chantrea-ticket-riels fw-bolder" t-translation="off">
+                    <span><span class="km-inline">សរុបរួមជាប្រាក់រៀល</span> / <span class="en-inline">Total in riels</span></span>
+                    <span class="pos-receipt-right-align font-monospace" t-esc="chantreaFormatRiels(order.chantreaTotalKhr)"/>
+                </div>
+                <div class="chantrea-ticket-taux text-start" style="font-size: 85%;" t-translation="off">
+                    <span class="km-inline">អត្រាប្តូរប្រាក់</span> / <span class="en-inline">Exchange rate</span>
+                    <span class="pos-receipt-right-align font-monospace">1 $ = <t t-esc="chantreaFormatTaux()"/> ៛</span>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('paymentlines')]" position="inside">
+            <div t-if="line.chantrea_montant_khr" class="chantrea-ticket-recu ps-3" style="font-size: 85%;" t-translation="off">
+                <t t-if="line.payment_method_id.is_cash_count">
+                    <span class="km-inline">ប្រាក់ទទួល</span> / <span class="en-inline">Received</span>
+                    <span class="pos-receipt-right-align font-monospace">
+                        <t t-if="line.chantrea_especes_usd"><t t-esc="formatCurrency(line.chantrea_especes_usd)"/> + </t>
+                        <t t-esc="chantreaFormatRiels(line.chantrea_montant_khr)"/>
+                    </span>
+                </t>
+                <t t-else="">
+                    <span class="pos-receipt-right-align font-monospace" t-esc="chantreaFormatRiels(line.chantrea_montant_khr)"/>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('receipt-change')]" position="after">
+            <t t-set="rendu" t-value="order.chantreaRendu"/>
+            <div t-if="order.showChange and order.chantreaTaux and rendu.khr" class="pos-receipt-amount chantrea-ticket-rendu" t-translation="off">
+                <span><span class="km-inline">ប្រាក់អាប់</span> / <span class="en-inline">Change given</span></span>
+                <span class="pos-receipt-right-align font-monospace">
+                    <t t-if="rendu.usd"><t t-esc="formatCurrency(rendu.usd)"/> + </t>
+                    <t t-esc="chantreaFormatRiels(rendu.khr)"/>
+                </span>
+            </div>
+        </xpath>
+    </t>
+
+    <!-- Clôture : riels attendus, dollars attendus, comptage des deux. -->
+    <t t-name="chantrea_caisse.ClosePosPopup" t-inherit="point_of_sale.ClosePosPopup" t-inherit-mode="extension">
+        <xpath expr="//PaymentMethodBreakdown" position="after">
+            <t t-if="chantreaRiels and chantreaRiels.net">
+                <div class="chantrea-cloture-riels d-flex align-items-center justify-content-between text-muted border-start ps-2">
+                    <span>Riels received − given back</span>
+                    <span t-esc="chantreaFormatRiels(chantreaRiels.net)"/>
+                </div>
+                <div class="chantrea-cloture-dollars d-flex align-items-center justify-content-between text-muted border-start ps-2">
+                    <span>Dollars expected (with the opening float)</span>
+                    <span t-esc="env.utils.formatCurrency(chantreaRiels.dollars_attendus)"/>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//button[hasclass('fa-clone')]/.." position="after">
+            <div t-if="chantreaRiels and chantreaRiels.net" class="chantrea-comptage d-flex w-100 gap-2 mt-2 align-items-center">
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="text" inputmode="decimal" class="form-control chantrea-compte-usd" placeholder="Dollars counted"
+                        t-model="chantreaComptage.usd" t-on-change="() => this.chantreaCompter()"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">៛</span>
+                    <input type="text" inputmode="numeric" class="form-control chantrea-compte-khr" placeholder="Riels counted"
+                        t-model="chantreaComptage.khr" t-on-change="() => this.chantreaCompter()"/>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>
