@@ -42,3 +42,19 @@ class TestOutilsKm(TransactionCase):
         self.assertIn("២,០១១,១៨៥", km.montant(2011185, khr))
         self.assertEqual(km.nombre(4063), "៤,០៦៣")
         self.assertEqual(km.nombre(4063.25, 2), "៤,០៦៣.២៥")
+
+    def test_cellule_de_tableau_comme_la_ligne_anglaise(self):
+        """km.champ reprend le rendu anglais de t-field (décimales, symbole), chiffres khmers."""
+        km = OutilsKm(self.env(context={"lang": "fr_FR"}))
+        usd = self.env.ref("base.USD")
+        self.env["res.lang"]._activate_lang("fr_FR")
+        societe = self.env.company
+        self.assertEqual(societe.currency_id, usd)
+        partenaire = self.env["res.partner"].create({"name": "Client km.champ"})
+        ligne = self.env["account.move"].create({
+            "move_type": "out_invoice", "partner_id": partenaire.id,
+            "invoice_line_ids": [(0, 0, {"name": "Maintenance", "quantity": 1234.5, "price_unit": 25, "tax_ids": []})],
+        }).invoice_line_ids
+        self.assertEqual(km.champ(ligne, "quantity"), "១,២៣៤.៥០")
+        self.assertEqual(km.champ(ligne, "price_unit"), "២៥.០០")
+        self.assertEqual(km.champ(ligne, "price_subtotal").replace("\xa0", " "), "$ ៣០,៨៦២.៥០")

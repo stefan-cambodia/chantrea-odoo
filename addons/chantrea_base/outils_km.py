@@ -7,9 +7,12 @@
   (១.២៣៤,៥០) : les deux lignes d'un document se lisent ainsi chiffre pour chiffre.
 
 Dans les gabarits de rapport, ces fonctions sont disponibles sous le nom « km »
-(voir models/ir_actions_report.py) : km.date(d), km.date_heure(dt, fuseau), km.montant(v, devise).
+(voir models/ir_actions_report.py) : km.date(d), km.date_heure(dt, fuseau), km.montant(v, devise),
+km.champ(enregistrement, "champ") pour les cellules des tableaux.
 """
 import datetime
+import html
+import re
 
 import pytz
 
@@ -81,3 +84,12 @@ class OutilsKm:
     def montant(self, valeur, devise):
         """Montant avec symbole, formaté comme la ligne anglaise, chiffres khmers."""
         return chiffres(formatLang(self.env, valeur, currency_obj=devise))
+
+    def champ(self, enregistrement, nom):
+        """Valeur d'un champ telle que t-field l'imprime en anglais (mêmes décimales, symbole
+        de la devise), chiffres khmers : « ៦.០០ », « $ ១៥០.០០ ». Pour les tableaux de lignes."""
+        enregistrement = enregistrement.with_env(self.env)
+        modele = f"ir.qweb.field.{enregistrement._fields[nom].type}"
+        convertisseur = self.env[modele] if modele in self.env else self.env["ir.qweb.field"]
+        rendu = convertisseur.record_to_html(enregistrement, nom, {})
+        return chiffres(html.unescape(re.sub(r"<[^>]+>", "", str(rendu or ""))))

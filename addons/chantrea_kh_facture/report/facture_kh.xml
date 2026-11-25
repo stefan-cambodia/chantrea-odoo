@@ -80,12 +80,13 @@
                     <tbody>
                         <t t-foreach="lignes" t-as="l">
                             <tr t-if="l.display_type == 'product'">
-                                <td class="ck-no" t-out="produits.ids.index(l.id) + 1"/>
+                                <t t-set="numero" t-value="produits.ids.index(l.id) + 1"/>
+                                <td class="ck-no"><span class="ck-val-km" t-out="km.chiffres(numero)"/><span class="ck-val-en" t-out="numero"/></td>
                                 <td t-out="l.name"/>
-                                <td class="ck-num"><span t-field="l.quantity"/> <span t-field="l.product_uom_id"/></td>
-                                <td class="ck-num"><span t-field="l.price_unit"/></td>
-                                <td t-if="avec_remise" class="ck-num"><span t-if="l.discount" t-field="l.discount"/></td>
-                                <td class="ck-num"><span t-field="l.price_subtotal"/></td>
+                                <td class="ck-num"><span class="ck-val-km" t-out="km.champ(l, 'quantity')"/><span class="ck-val-en"><span t-field="l.quantity"/> <span t-field="l.product_uom_id"/></span></td>
+                                <td class="ck-num"><span class="ck-val-km" t-out="km.champ(l, 'price_unit')"/><span class="ck-val-en" t-field="l.price_unit"/></td>
+                                <td t-if="avec_remise" class="ck-num"><t t-if="l.discount"><span class="ck-val-km" t-out="km.champ(l, 'discount')"/><span class="ck-val-en" t-field="l.discount"/></t></td>
+                                <td class="ck-num"><span class="ck-val-km" t-out="km.champ(l, 'price_subtotal')"/><span class="ck-val-en" t-field="l.price_subtotal"/></td>
                             </tr>
                             <tr t-elif="l.display_type in ('line_section', 'line_subsection')" class="ck-section">
                                 <td t-att-colspan="6 if avec_remise else 5" t-out="l.name"/>

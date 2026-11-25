@@ -151,6 +151,10 @@ class TestFactureKh(TransactionCase):
         for attendu in ("ថ្ងៃទី២១ ខែវិច្ឆិកា ឆ្នាំ២០២៦", "២,០១១,១៨៥", "៤៩៥.០០", "១ USD = ៤,០៦៣ KHR",
                         "ថ្ងៃទី២០ ខែវិច្ឆិកា ឆ្នាំ២០២៦"):
             self.assertTrue(attendu in html, f"absent du PDF : {attendu}")
+        # Tableau des lignes : numéro, quantité, prix unitaire, montant, en khmer au-dessus.
+        for attendu in ('<span class="ck-val-km">១</span>', '<span class="ck-val-km">១.០០</span>',
+                        '<span class="ck-val-km">៤៥០.០០</span>', '<span class="ck-val-km">$\xa0៤៥០.០០</span>'):
+            self.assertIn(attendu, html)
 
     def test_impression_qr_code_khqr(self):
         """QR code de paiement KHQR sur la facture, avec le reste à payer."""
@@ -189,3 +193,5 @@ class TestFactureKh(TransactionCase):
         for attendu in ("សម្រង់តម្លៃ", "QUOTATION", "2,011,185", "Provisional rate",
                         "ថ្ងៃទី២១ ខែវិច្ឆិកា ឆ្នាំ២០២៦", "២,០១១,១៨៥"):
             self.assertTrue(attendu in html, f"absent du PDF : {attendu}")
+        for attendu in ('<span class="ck-val-km">១.០០</span>', '<span class="ck-val-km">$\xa0៤៥០.០០</span>'):
+            self.assertIn(attendu, html)
