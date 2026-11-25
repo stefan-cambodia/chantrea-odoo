@@ -152,6 +152,24 @@ class TestFactureKh(TransactionCase):
                         "ថ្ងៃទី២០ ខែវិច្ឆិកា ឆ្នាំ២០២៦"):
             self.assertTrue(attendu in html, f"absent du PDF : {attendu}")
 
+    def test_impression_qr_code_khqr(self):
+        """QR code de paiement KHQR sur la facture, avec le reste à payer."""
+        compte = self.env["res.partner.bank"].create({
+            "acc_number": "KHQR-FACTURE-1", "partner_id": self.company.partner_id.id,
+            "proxy_type": "bakong_id_solo", "proxy_value": "chantrea_test@aclb", "include_reference": True})
+        # Compte « de confiance » (sinon Odoo le retire de la facture à la validation) ;
+        # Odoo refuse qu'OdooBot le fasse : c'est l'administrateur qui l'accorde.
+        compte.with_user(self.env.ref("base.user_admin")).allow_out_payment = True
+        self.company.qr_code = True
+        f = self.facture(self.client_tva, partner_bank_id=compte.id)
+        f.action_post()
+        html = self.rendu("account.account_invoices", f.ids)
+        for attendu in ("ស្កេនដើម្បីទូទាត់ជាមួយ KHQR", "Scan to pay with KHQR", "data:image/png;base64", "៤៩៥.០០"):
+            self.assertTrue(attendu in html, f"absent du PDF : {attendu}")
+        self.company.qr_code = False
+        f.invalidate_recordset(["display_qr_code"])
+        self.assertNotIn("Scan to pay with KHQR", self.rendu("account.account_invoices", f.ids))
+
     def test_impression_facture_commerciale(self):
         f = self.facture(self.client_sans_tva, prix=97.5)
         f.action_post()

@@ -109,6 +109,22 @@
                         <span t-out="o.partner_bank_id.bank_id.name"/> <span t-out="o.partner_bank_id.acc_number"/>
                     </t>
                 </div>
+                <!-- QR code de paiement (KHQR) : Facturation › Paramètres › Codes QR, et compte bancaire
+                     de la facture avec un identifiant Bakong. -->
+                <t t-set="avec_qr" t-value="o.move_type == 'out_invoice' and o.display_qr_code and o.amount_residual"/>
+                <t t-set="qr_paiement" t-value="avec_qr and o._generate_qr_code(silent_errors=True)"/>
+                <table t-if="qr_paiement" class="ck-khqr">
+                    <tr>
+                        <td class="ck-khqr-image"><img t-att-src="qr_paiement" alt="KHQR"/></td>
+                        <td class="ck-khqr-texte">
+                            <span class="km">ស្កេនដើម្បីទូទាត់ជាមួយ KHQR</span><span class="en">Scan to pay with KHQR</span>
+                            <div class="ck-khqr-montant">
+                                <span class="ck-val-km" t-out="km.montant(o.amount_residual, o.currency_id)"/>
+                                <span class="ck-val-en" t-out="o.amount_residual" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <div t-if="not is_html_empty(o.narration)" class="ck-conditions" t-field="o.narration"/>
 
                 <table class="ck-signatures">
