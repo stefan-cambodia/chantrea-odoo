@@ -192,8 +192,11 @@ for i in range(1, NOMBRE + 1):
                                          "name": f"{texte(langues, 'maint')} {marque}",
                                          "tax_ids": [(6, 0, taxe.ids)]})]})
         avoir.action_post()
-        (avoir.line_ids | origine.line_ids).filtered(
-            lambda l: l.account_id.account_type == "asset_receivable").reconcile()
+        # Odoo lettre parfois l'avoir d'office avec sa facture : seulement ce qui reste à lettrer.
+        a_lettrer = (avoir.line_ids | origine.line_ids).filtered(
+            lambda l: l.account_id.account_type == "asset_receivable" and not l.reconciled)
+        if len(a_lettrer) > 1:
+            a_lettrer.reconcile()
         avoirs |= avoir
     # Un brouillon de temps en temps : il ne doit apparaître nulle part dans l'espace client.
     brouillon = env["account.move"]
