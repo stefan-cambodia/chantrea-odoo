@@ -156,6 +156,17 @@ class TestFactureKh(TransactionCase):
                         '<span class="ck-val-km">៤៥០.០០</span>', '<span class="ck-val-km">$\xa0៤៥០.០០</span>'):
             self.assertIn(attendu, html)
 
+    def test_impression_pays_en_anglais(self):
+        """Le pays reste en anglais même quand l'utilisateur qui imprime est en français."""
+        self.env["res.lang"]._activate_lang("fr_FR")
+        self.client_tva.write({"city": "Kampot", "country_id": self.env.ref("base.kh").id})
+        f = self.facture(self.client_tva)
+        f.action_post()
+        html = self.env["ir.actions.report"].with_context(lang="fr_FR")._render_qweb_html(
+            "account.account_invoices", f.ids)[0].decode()
+        self.assertIn("Kampot, Cambodia", html)
+        self.assertNotIn("Cambodge", html)
+
     def test_impression_qr_code_khqr(self):
         """QR code de paiement KHQR sur la facture, avec le reste à payer."""
         compte = self.env["res.partner.bank"].create({
