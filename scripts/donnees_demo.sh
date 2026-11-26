@@ -11,6 +11,8 @@ if [ "${DOMAINE:-}" != "localhost" ]; then
 fi
 
 mkdir -p demo-pdf && chmod 777 demo-pdf
-docker compose run --rm -T -v "$PWD/demo-pdf:/sortie" odoo \
-  odoo shell -d "${ODOO_DB_NAME:-chantrea}" --no-http --log-level=warn \
-  < scripts/lib/donnees_demo.py
+# Les deux scripts s'exécutent dans le même « odoo shell » : le second reprend les produits,
+# taxes et réglages du premier (clients par combinaison de langues, PDF dans demo-pdf/langues/).
+cat scripts/lib/donnees_demo.py scripts/lib/donnees_demo_langues.py | \
+  docker compose run --rm -T -v "$PWD/demo-pdf:/sortie" odoo \
+  odoo shell -d "${ODOO_DB_NAME:-chantrea}" --no-http --log-level=warn
